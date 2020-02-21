@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+###########
+# ALIASES #
+###########
+alias ls="exa --group-directories-first"
+alias la="ls -lah"
+alias cat="bat"
+alias ping="prettyping --nolegend"
+alias top="sudo htop"
+alias fd="fdfind"
+alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
+alias help="tldr"
+alias apt="sudo apt"
+alias aptitude="sudo aptitude"
+alias mkd="mkdir -pv"
+alias yt="youtube-dl --add-metadata -ic"
+alias yta="youtube-dl --add-metadata -xic"
+alias snap="sudo snap"
+alias unp="unp -U"
+
+alias refr="source ~/.zshrc"
+alias vim=nvim

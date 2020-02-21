@@ -1,0 +1,24 @@
+1581608005615	Sync.SyncScheduler	DEBUG	Next sync in 600000 ms. (why=schedule)
+1581608395012	Sync.RemoteTabs	INFO	Generating tab list with filter
+1581608395012	Sync.RemoteTabs	DEBUG	Processing client: {"id":"JYd5T_Is60_W","type":"client","name":"A40","clientType":"phone","lastModified":1581603399510,"tabs":[]}
+1581608395014	Sync.RemoteTabs	DEBUG	Processing client: {"id":"HUHmwjk9EnEf","type":"client","name":"Nightly on SM-T295","clientType":"tablet","lastModified":1581221349080,"tabs":[]}
+1581608395014	Sync.RemoteTabs	DEBUG	Processing client: {"id":"pYw9AgZy6ULB","type":"client","name":"jay’s Firefox on parrot","clientType":"desktop","lastModified":1580823111580,"tabs":[]}
+1581608395015	Sync.RemoteTabs	INFO	Final tab list has 3 clients with 31 tabs.
+1581608605617	Sync.Service	DEBUG	User-Agent: Firefox/74.0 (Linux x86_64) FxSync/1.76.0.20200211200559.desktop
+1581608605617	Sync.Service	INFO	Starting sync at 2020-02-13 15:43:25 in browser session efIh9I5DWg0G
+1581608605617	Sync.SyncScheduler	DEBUG	Clearing sync triggers and the global score.
+1581608605623	Sync.Status	INFO	Resetting Status.
+1581608605623	Sync.Status	DEBUG	Status.service: success.status_ok => success.status_ok
+1581608605625	FirefoxAccounts	DEBUG	FxAccountsProfileClient: Requested profile
+1581608605626	FirefoxAccounts	DEBUG	getOAuthToken enter
+1581608605629	FirefoxAccounts	TRACE	getCachedToken returning cached token
+1581608605629	FirefoxAccounts	DEBUG	getOAuthToken returning a cached token
+1581608605630	Services.Common.RESTRequest	DEBUG	GET request to https://profile.accounts.firefox.com/v1/profile
+1581608767980	Services.Common.RESTRequest	DEBUG	GET https://profile.accounts.firefox.com/v1/profile failed: 2152398878 - NS_ERROR_UNKNOWN_HOST
+1581608767981	FirefoxAccounts	ERROR	Background refresh of profile failed: {"name":"FxAccountsProfileClientError","code":null,"errno":998,"error":"NETWORK_ERROR","message":"[Exception... \"NS_ERROR_UNKNOWN_HOST\"  nsresult: \"0x804b001e (NS_ERROR_UNKNOWN_HOST)\"  location: \"JS frame :: resource://services-common/rest.js :: onStopRequest :: line 488\"  data: no]"}
+1581608768847	Sync.Resource	WARN	GET request to https://sync-698-us-west-2.sync.services.mozilla.com/1.5/113134021/info/collections failed: [Exception... "The lookup of the hostname failed"  nsresult: "0x804b001e (NS_ERROR_UNKNOWN_HOST)"  location: "<unknown>"  data: no] No traceback available
+1581608768847	Sync.Status	DEBUG	Status.sync: success.sync => error.login.reason.network
+1581608768847	Sync.Status	DEBUG	Status.service: success.status_ok => error.sync.failed
+1581608768848	Sync.ErrorHandler	ERROR	Sync encountered an error: [Exception... "The lookup of the hostname failed"  nsresult: "0x804b001e (NS_ERROR_UNKNOWN_HOST)"  location: "<unknown>"  data: no] No traceback available
+1581608768849	Sync.SyncScheduler	DEBUG	Next sync in 600000 ms. (why=reschedule)
+1581608768853	Sync.Service	DEBUG	Exception calling anonymous function: [Exception... "The lookup of the hostname failed"  nsresult: "0x804b001e (NS_ERROR_UNKNOWN_HOST)"  location: "<unknown>"  data: no] No traceback available
