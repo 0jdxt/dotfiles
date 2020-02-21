@@ -1,0 +1,44 @@
+#! /bin/sh
+
+###
+# MONITORS
+#
+
+xrandr --output HDMI1 --auto --above eDP1
+
+n_monitors=$(xrandr --listactivemonitors | wc -l)
+if [ "$n_monitors" = "3" ]; then
+    bspc monitor eDP1  -d I II III IV V
+    bspc monitor HDMI1 -d VI VII VIII IX X
+else
+    bspc monitor -d I II III IV V VI VII VIII IX X
+fi
+
+###
+# BSPC
+#  
+bspc config border_width         0
+bspc config window_gap          20
+
+bspc config split_ratio          0.52
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+bspc config automatic_scheme     spiral
+
+bspc rule -a Gimp desktop='^8' state=floating follow=on
+bspc rule -a Chromium desktop='^2'
+bspc rule -a mplayer2 state=floating
+bspc rule -a Kupfer.py focus=on
+bspc rule -a Screenkey manage=off
+
+
+###
+# INIT programs
+#
+sxhkd &
+/home/jay/.config/polybar/launch.sh &
+ulauncher --hide-window &
+compton -b
+feh --auto-reload --bg-scale /home/jay/pix/current_wall.jpg
+ckb-next -b &
+
