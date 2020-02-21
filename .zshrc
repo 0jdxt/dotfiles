@@ -67,7 +67,7 @@ zle -N history-beginning-search-forward-end history-search-end
 bindkey "^[[A" history-beginning-search-backward-end
 bindkey "^[[B" history-beginning-search-forward-end
 
-export KEYTIMEOUT=1
+export KEYTIMEOUT=0
 
 # Change cursor shape for different vi modes.
 function zle-keymap-select {
