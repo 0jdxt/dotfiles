@@ -1,0 +1,311 @@
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+
+[colors]
+# INFO: E9 transparency
+nord0 = #2e3440
+nord6 = #e9d8dee9
+nord7 = #e98fbcbb
+nord8 = #e988c0d0
+nord9 = #e981a1c1
+nord10 = #e95e81ac
+
+black = #e93b4253
+red = #e9bf616a
+green = #e98fbcbb
+yellow = #e9ebcb8b
+blue = #e95e81ac
+magenta = #e9b48ead
+cyan = #e988c0d0
+white = #e9e5e9f0
+alert = ${colors.red}
+background = ${colors.nord0}
+foreground = ${colors.nord6}
+background-alt = ${colors.black}
+foreground-alt = ${colors.white}
+
+[bar/main]
+monitor = ${env:MONITOR:eDP1}
+width = 100%
+height = 30
+radius-top = 4.0
+fixed-center = true
+bottom = true
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+border-size = 0
+line-size = 2
+padding = 1
+module-margin = 1
+
+font-0 = "Fira Sans:size=10;1"
+font-1 = "FontAwesome:size=10;1"
+font-2 = "Noto Sans Symbols:size=10;1"
+font-3 = "Noto Sans Symbols2:size=10;1"
+
+modules-left = date i3 bspwm xwindow
+modules-center = spotify
+modules-right = filesystem pulseaudio-control eth0 wlan0 cpu memory battery
+
+border-left-size = 10
+border-right-size = 10
+
+tray-position = right
+tray-padding = 0
+tray-maxsize = 20
+tray-scale = 1
+
+[bar/top_screen]
+inherit = bar/main
+monitor = ${env:MONITOR:HDMI1}
+monitor-strict = true
+
+modules-left = 
+modules-center = i3 bspwm
+modules-right =
+
+tray-position = none
+
+width = 30%
+offset-x = 35%
+
+[global/wm]
+margin-top = 0
+
+[module/spotify]
+type = custom/script
+interval = 1
+format-prefix = " "
+format = <label>
+exec = python /home/jay/repos/polybar-spotify/spotify_status.py -f '{play_pause} {artist}: {song}'
+format-underline = ${colors.green}
+
+click-left =        dbus-send --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
+double-click-left = dbus-send --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
+click-right =       dbus-send --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
+
+[module/xwindow]
+type = internal/xwindow
+label = %title:0:100:...%
+label-maxlen = 100
+
+[module/pulseaudio-control]
+type = custom/script
+tail = true
+label=%output%
+format-underline = ${colors.cyan}
+
+exec = ~/repos/polybar-pulseaudio-control/pulseaudio-control.bash --listen
+click-right = exec pavucontrol &
+click-left = ~/repos/polybar-pulseaudio-control/pulseaudio-control.bash --togmute
+click-middle = ~/repos/polybar-pulseaudio-control/pulseaudio-control.bash --change
+scroll-up = ~/repos/polybar-pulseaudio-control/pulseaudio-control.bash --up
+scroll-down = ~/repos/polybar-pulseaudio-control/pulseaudio-control.bash --down
+label-padding = 2
+label-foreground = ${colors.foreground}
+
+[module/ewmh]
+type = internal/xworkspaces
+pin-workspaces = false
+enable-click = false
+enable-scroll = false
+
+label-active = " %name% "
+label-active-underline = ${colors.nord9}
+
+label-occupied = " %name% "
+label-occupied-foreground = ${colors.nord9}
+
+label-urgent = " %name% "
+label-urgent-underline = #bf616a
+
+label-empty = " %name% "
+label-empty-foreground = #555555
+
+[module/bspwm]
+type = internal/bspwm
+enable-click = true
+pin-workspaces = true
+strip-wsnumbers = true
+index-sort = true
+enable-scroll = false
+wrapping-scroll = false
+reverse-scroll = false
+fuzzy-match = true
+
+format = <label-state> <label-mode>
+
+label-mode = %mode%
+label-mode-padding = 2
+label-mode-background = #e60053
+
+label-focused-foreground = ${colors.foreground-alt}
+label-focused-background = ${colors.background-alt}
+label-focused-underline = ${colors.foreground-alt}
+label-focused-padding = 2
+
+label-unfocused-padding = 2
+
+label-visible-underline = #555555
+label-visible-padding = 2
+
+;label-urgent = %index%
+label-urgent-foreground = ${colors.black}
+label-urgent-background = ${colors.red}
+label-urgent-padding = 2
+
+[module/i3]
+type = internal/i3
+pin-workspaces = true
+strip-wsnumbers = true
+index-sort = true
+enable-click = true
+enable-scroll = false
+wrapping-scroll = false
+reverse-scroll = false
+fuzzy-match = true
+
+format = <label-state> <label-mode>
+
+label-mode = %mode%
+label-mode-padding = 2
+label-mode-background = #e60053
+
+label-focused-foreground = ${colors.foreground-alt}
+label-focused-background = ${colors.background-alt}
+label-focused-underline = ${colors.foreground-alt}
+label-focused-padding = 2
+
+label-unfocused-padding = 2
+
+label-visible-underline = #555555
+label-visible-padding = 2
+
+;label-urgent = %index%
+label-urgent-foreground = ${colors.black}
+label-urgent-background = ${colors.red}
+label-urgent-padding = 2
+
+; label-separator = |
+; label-separator-padding = 0
+; label-separator-foreground = #ffb52a
+
+[module/kdeconnect]  
+type = custom/script  
+exec = ~/repos/polybar-kdeconnect/polybar-kdeconnect.sh -d
+tail = true
+click-left = ~/repos/polybar-kdeconnect/polybar-kdeconnect.sh -p
+click-right = ~/repos/polybar-kdeconnect/polybar-kdeconnect.sh -m
+
+[module/filesystem]
+type = internal/fs
+; Mountpoints to display
+mount-0 = /
+; Seconds to sleep between updates
+; Default: 30
+interval = 10
+; Display fixed precision values
+; Default: false
+fixed-values = true
+; Spacing between entries
+; Default: 2
+spacing = 4
+
+[module/cpu]
+type = internal/cpu
+interval = 2
+format-prefix = "💻 "
+format-prefix-foreground = ${colors.foreground-alt}
+format-underline = ${colors.cyan}
+label = %percentage: 2%%
+
+[module/memory]
+type = internal/memory
+interval = 2
+format-prefix = "RAM "
+format-prefix-foreground = ${colors.foreground-alt}
+label = %percentage_used:2%% %gb_used%
+format-underline = ${colors.green}
+
+[module/wlan0]
+type = internal/network
+interface = wlan0
+interval = 5.0
+
+format-connected = <ramp-signal> <label-connected>
+format-connected-underline = ${colors.cyan}
+label-connected = %essid%
+
+label-disconnected =
+
+ramp-signal-0 = 🌧
+ramp-signal-1 = 🌦
+ramp-signal-2 = 🌥
+ramp-signal-3 = 🌤
+ramp-signal-4 = 🌣
+
+[module/eth0]
+type = internal/network
+interface = eth0
+interval = 3.0
+
+format-connected-underline = ${colors.cyan}
+format-connected-prefix = "🖧 "
+format-connected-prefix-foreground = ${colors.foreground-alt}
+label-connected = %local_ip%
+
+format-disconnected =
+
+[module/date]
+type = internal/date
+interval = 5
+
+date = "%a %d %b"
+date-alt = "%a %d %b"
+
+time = %H:%M
+time-alt = %I:%M%p
+
+format-prefix =
+format-prefix-foreground = ${colors.foreground}
+format-underline = ${colors.foreground}
+
+label = %date% %time%
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = AC
+full-at = 98
+
+format-charging = <label-charging>
+format-charging-underline = ${colors.nord9}
+
+format-discharging = <ramp-capacity> <label-discharging>
+format-discharging-underline = ${self.format-charging-underline}
+
+format-full = <label-full>
+format-full-underline = ${self.format-charging-underline}
+
+ramp-capacity-0 = ⚋
+ramp-capacity-1 = ⚊
+ramp-capacity-2 = ⚍
+ramp-capacity-3 = ⚌
+ramp-capacity-foreground = ${colors.foreground-alt}
+
+label-charging = ⚡ %percentage%%
+label-discharging = %percentage%%
+label-full = " ☀ "
+
+[settings]
+screenchange-reload = true
+
+; vim:ft=dosini
