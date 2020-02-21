@@ -16,7 +16,7 @@ assets.gradle.com:HSTS	0	18312	1584810800874,1,1,2
 appsitemsuggest-pa.clients6.google.com:HSTS	0	18300	1592056355273,1,1,2
 snippets.cdn.mozilla.net:HSTS	7	18311	1613669219580,1,0,2
 siteintercept.qualtrics.com:HSTS	0	18312	1613760743253,1,1,2
-api.accounts.firefox.com:HSTS	17	18313	1613837174107,1,1,2
+api.accounts.firefox.com:HSTS	17	18313	1613841722364,1,1,2
 my.minecraft.net:HSTS	0	18307	1613337274802,1,0,2
 launchpad.net:HSTS	0	18312	1597787661513,1,0,2
 www.airbnb.com:HSTS	0	18307	1592688978526,1,1,2
@@ -64,9 +64,9 @@ payments.google.com:HSTS	1	18307	1613325807103,1,1,2
 riot.im:HSTS	0	18300	1612706457447,1,1,2
 proxy.joinmastodon.org:HSTS	0	18298	1596526682636,1,1,2
 d35v9wsdymy32b.cloudfront.net:HSTS	0	18312	1613752024749,1,0,2
-external-content.duckduckgo.com:HSTS	16	18313	1613839425026,1,0,2
+external-content.duckduckgo.com:HSTS	16	18313	1613841626037,1,0,2
 directline.botframework.com:HSTS	0	18312	1613752029187,1,0,2
-gitlab.com:HSTS	6	18313	1613841266727,1,0,2
+gitlab.com:HSTS	6	18313	1613841915621,1,0,2
 www.tutorialspoint.com:HSTS	1	18302	1644429856459,1,1,2
 docs.python.org:HSTS	0	18300	1896530474652,1,1,2
 config.edge.skype.com:HSTS	0	18306	1613236007795,1,1,2
@@ -133,7 +133,7 @@ accounts.spotify.com:HSTS	0	18301	1612810749081,1,0,2
 d3nmt5vlzunoa1.cloudfront.net:HSTS	0	18300	1612729633822,1,0,2
 geo.yahoo.com:HSTS	0	18300	1612705238319,1,0,2
 js-cdn.music.apple.com:HSTS	0	18301	1612810540148,1,1,2
-incoming.telemetry.mozilla.org:HSTS	17	18313	1598072233605,1,0,2
+incoming.telemetry.mozilla.org:HSTS	17	18313	1598073624818,1,0,2
 keyrock.freshteam.com:HSTS	0	18298	1596569658453,1,0,2
 this-week-in-rust.org:HSTS	0	18298	1612573106820,1,0,2
 handbrake.fr:HSTS	0	18312	1613771656248,1,1,2
@@ -148,7 +148,7 @@ blog.codefx.org:HSTS	0	18301	1612810960214,1,0,2
 www.geeksforgeeks.org:HSTS	0	18302	1581361102124,1,1,2
 www.npmjs.com:HSTS	0	18303	1612976673400,1,0,2
 webpooldb50e31.infra.lync.com:HSTS	0	18298	1612525086339,1,1,2
-sync-698-us-west-2.sync.services.mozilla.com:HSTS	17	18313	1598073119318,1,1,2
+sync-698-us-west-2.sync.services.mozilla.com:HSTS	17	18313	1598073723304,1,1,2
 download.nextcloud.com:HSTS	0	18307	1644863281109,1,1,2
 wakatime.com:HSTS	1	18303	1612527115629,1,1,2
 sleguidance.atlassian.net:HSTS	0	18298	1896384536200,1,1,2
@@ -221,7 +221,7 @@ js.stripe.com:HSTS	9	18312	1613780146372,1,1,2
 urbandictionary.store:HSTS	0	18297	1588812429124,1,0,2
 jobs.lever.co:HSTS	0	18298	1596569551238,1,0,2
 gew-spclient.spotify.com:HSTS	0	18309	1613506321410,1,0,2
-duckduckgo.com:HSTS	0	18313	1613839424926,1,0,2
+duckduckgo.com:HSTS	0	18313	1613841625591,1,0,2
 communities.vmware.com:HSTS	0	18302	1612901516017,1,0,2
 cdn03.gitter.im:HSTS	0	18310	1613583086370,1,0,2
 mastodon.social:HSTS	0	18300	1612707547728,1,0,2
@@ -271,7 +271,7 @@ docs.emmet.io:HSTS	0	18309	1597709975207,1,0,2
 www.joinhoney.com:HSTS	1	18307	1597340390465,1,1,2
 goo.gl:HSTS	0	18307	1613338395656,1,0,2
 modular.im:HSTS	0	18300	1612705687266,1,1,2
-trello.com:HSTS	3	18313	1597857057037,1,0,2
+trello.com:HSTS	3	18313	1597857658699,1,0,2
 people-pa.clients6.google.com:HSTS	1	18307	1592688915042,1,1,2
 addons.cdn.mozilla.net:HSTS	9	18313	1613838083670,1,1,2
 addons.mozilla.org:HSTS	2	18313	1613836984843,1,0,2
@@ -289,7 +289,7 @@ account.mojang.com:HSTS	0	18307	1613338317708,1,0,2
 apis.google.com:HSTS	11	18313	1613836845807,1,0,2
 js.braintreegateway.com:HSTS	1	18307	1613337286623,1,0,2
 spritedatabase.disqus.com:HSTS	0	18301	1581256770079,1,1,2
-wiki.archlinux.org:HSTS	6	18311	1613669229400,1,1,2
+wiki.archlinux.org:HSTS	7	18313	1613841627940,1,1,2
 splice-res.cloudinary.com:HSTS	0	18309	1582575192513,1,0,2
 linuxuprising.disqus.com:HSTS	0	18307	1581784788936,1,1,2
 api.joinmastodon.org:HSTS	0	18298	1596526675319,1,1,2
@@ -391,7 +391,7 @@ nextcloud.com:HSTS	1	18307	1613327238920,1,1,2
 cdn02.gitter.im:HSTS	0	18310	1613583085889,1,0,2
 api.trello.com:HSTS	2	18313	1597854127252,1,0,2
 www.freecodecamp.org:HSTS	0	18300	1612713442837,1,1,2
-webextensions.settings.services.mozilla.com:HSTS	17	18313	1613841120827,1,0,2
+webextensions.settings.services.mozilla.com:HSTS	17	18313	1613841724372,1,0,2
 discord.gg:HSTS	0	18309	1613501726972,1,1,2
 epoch.com:HSTS	0	18300	1612704667073,1,0,2
 trello.teamgantt.com:HSTS	0	18307	1613327700563,1,0,2
@@ -459,12 +459,12 @@ cdn.rawgit.com:HSTS	3	18307	1613320458534,1,0,2
 myactivity.google.com:HSTS	0	18300	1612705865778,1,0,2
 www.fastly.com:HSTS	0	18312	1613756110526,1,0,2
 ec-hls-media.sndcdn.com:HSTS	0	18309	1645044006961,1,0,2
-profile.accounts.firefox.com:HSTS	17	18313	1613841118959,1,1,2
+profile.accounts.firefox.com:HSTS	17	18313	1613841722362,1,1,2
 emgoto.github.io:HSTS	0	18307	1613348670556,1,0,2
 www.rosehosting.com:HSTS	0	18307	1644864200340,1,1,2
 code.visualstudio.com:HSTS	0	18300	1612729524173,1,0,2
 ofcncog2cu-dsn.algolia.net:HSTS	0	18298	1612527044809,1,1,2
-www.youtube.com:HSTS	15	18313	1613840033353,1,0,2
+www.youtube.com:HSTS	15	18313	1613841835217,1,0,2
 async.rs:HSTS	0	18298	1612553462256,1,0,2
 marketplace-cdn.atlassian.com:HSTS	0	18307	1613327700562,1,0,2
 widgets.stripst.com:HSTS	0	18297	1596697754903,1,0,2
