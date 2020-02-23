@@ -7,7 +7,7 @@ super + Return
 	alacritty
 
 # program launcher
-super + @space
+super + d
 	ulauncher-toggle
 
 # make sxhkd reload its configuration files:
@@ -19,12 +19,16 @@ super + Escape
 #
 
 # quit/restart bspwm
-super + alt + {q,r}
+super + shift + {e,r}
 	bspc {quit,wm -r}
 
 # close and kill
-super + {_,shift + }w
+super + {_,shift + }q
 	bspc node -{c,k}
+
+# lockscreen
+super + shift + x
+	betterlockscreen -l dimblur
 
 # alternate between the tiled and monocle layout
 super + m
@@ -45,6 +49,8 @@ super + g
 # set the window state
 # super + {t,shift + t,s,f}
 # 	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+super + f
+	bspc node focused -t \~fullscreen
 
 # floating toggle
 super + shift + space
@@ -60,6 +66,8 @@ super + ctrl + {m,x,y,z}
 
 # focus the node in the given direction
 super + {_,shift + }{h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+super + {_,shift + }{Left,Down,Up,Right}
 	bspc node -{f,s} {west,south,north,east}
 
 # focus the node for the given path jump

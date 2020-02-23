@@ -37,6 +37,7 @@ height = 30
 radius-top = 4.0
 fixed-center = true
 bottom = true
+wm-restack = bspwm
 
 background = ${colors.background}
 foreground = ${colors.foreground}
@@ -111,24 +112,6 @@ scroll-up = ~/repos/polybar-pulseaudio-control/pulseaudio-control.bash --up
 scroll-down = ~/repos/polybar-pulseaudio-control/pulseaudio-control.bash --down
 label-padding = 2
 label-foreground = ${colors.foreground}
-
-[module/ewmh]
-type = internal/xworkspaces
-pin-workspaces = false
-enable-click = false
-enable-scroll = false
-
-label-active = " %name% "
-label-active-underline = ${colors.nord9}
-
-label-occupied = " %name% "
-label-occupied-foreground = ${colors.nord9}
-
-label-urgent = " %name% "
-label-urgent-underline = #bf616a
-
-label-empty = " %name% "
-label-empty-foreground = #555555
 
 [module/bspwm]
 type = internal/bspwm
