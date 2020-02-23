@@ -155,11 +155,11 @@ bindkey -s '^o' 'lfcd\n'
 export SDKMAN_DIR="/home/jay/.sdkman"
 [[ -s "/home/jay/.sdkman/bin/sdkman-init.sh" ]] && source "/home/jay/.sdkman/bin/sdkman-init.sh"
 
-export PATH="/home/jay/perl5/bin${PATH:+:${PATH}}"
-export PERL5LIB="/home/jay/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
-export PERL_LOCAL_LIB_ROOT="/home/jay/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
-export PERL_MB_OPT="--install_base \"/home/jay/perl5\""
-export PERL_MM_OPT="INSTALL_BASE=/home/jay/perl5"
+export PATH="/usr/local/lib/perl5/bin${PATH:+:${PATH}}"
+export PERL5LIB="/usr/local/lib/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
+export PERL_LOCAL_LIB_ROOT="/usr/local/lib/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
+export PERL_MB_OPT="--install_base \"/usr/local/lib/perl5\""
+export PERL_MM_OPT="INSTALL_BASE=/usr/local/lib/perl5"
 
 
 wttr() {
