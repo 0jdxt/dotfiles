@@ -3,13 +3,11 @@
 ########
 # TMUX #
 ########
-[ -z "$TMUX"  ] && { tmux -u new-session && exit; }
-# case "$TERM" in
-#     *256color)
-#         TERM=screen-256color ;;
-#     *)
-#         TERM=screen ;;
-# esac
+if [ -z "$TMUX"  ]; then
+    unatt=$(tmux ls | grep -v attached)
+    ([ -n "$unatt" ] && tmux attach) || tmux new
+    exit
+fi
 
 #############
 # dircolors #
