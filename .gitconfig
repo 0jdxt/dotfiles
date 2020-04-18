@@ -1,31 +1,6 @@
+# This is Git's per-user configuration file.
 [user]
-	name = 0jdxt
+	name = Jay
 	email = jytrn@protonmail.com
-	signingkey = 457C948BD7A23608882CF88E9A18A5D554714EA5
 [cola]
 	spellcheck = false
-	theme = flat-dark-blue
-	icontheme = dark
-[commit]
-	gpgsign = true
-[color]
-	ui = true
-[core]
-	show = --unset
-	pager = diff-so-fancy | less --tabs=4 -RFX
-[color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
-[color "diff"]
-	meta = yellow
-	frag = magenta bold
-	commit = yellow bold
-	old = red bold
-	new = green bold
-	whitespace = red reverse
-[diff-so-fancy]
-	first-run = false
-[merge]
-    tool = nvim -d

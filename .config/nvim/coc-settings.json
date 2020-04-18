@@ -1,4 +1,5 @@
 {
     "eslint.autoFixOnSave": true,
-    "rust-analyzer.cargo-watch.command": "clippy"
+    "rust-analyzer.cargo-watch.command": "clippy",
+    "yaml.format.enable":true
 }

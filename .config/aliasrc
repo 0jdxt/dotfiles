@@ -3,21 +3,25 @@
 ###########
 # ALIASES #
 ###########
-alias ls="exa --group-directories-first"
-alias la="ls -lah"
+alias ls="lsd --group-dirs first"
+alias la="ls -a"
+alias la="ls -l"
 alias cat="bat"
 alias ping="prettyping --nolegend"
-alias top="sudo htop"
+alias top="doas -- htop"
 alias fd="fdfind"
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 alias help="tldr"
-alias apt="sudo apt"
-alias aptitude="sudo aptitude"
+alias apt="doas -- apt"
+alias aptitude="doas -- aptitude"
 alias mkd="mkdir -pv"
 alias yt="youtube-dl --add-metadata -ic"
 alias yta="youtube-dl --add-metadata -xic"
-alias snap="sudo snap"
+alias snap="doas -- snap"
 alias unp="unp -U"
+alias netbeans="netbeans --user-dir=$HOME/.config/netbeans"
 
-alias refr="source ~/.zshrc"
+alias refr="source ~/.config/zsh/.zshrc"
 alias vim=nvim
+alias dotfiles='git --git-dir=/home/jay/dotfiles --work-tree=/home/jay'
+

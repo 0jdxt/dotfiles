@@ -1,7 +1,0 @@
-system:
-  env:
-    ? ''
-    : ''
-  game_path: /media/data0/Games
-  optimus: optirun
-  terminal_app: /usr/local/bin/st

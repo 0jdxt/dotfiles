@@ -1,3 +1,4 @@
+; vim:ft=dosini
 ;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
 ;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
 ;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
@@ -8,12 +9,12 @@
 ;
 
 [colors]
-# INFO: E9 transparency
-nord0 = #2e3440
-nord6 = #e9d8dee9
-nord7 = #e98fbcbb
-nord8 = #e988c0d0
-nord9 = #e981a1c1
+# INFO: E9 transparency aarrggbb
+nord0  = #e92e3440
+nord6  = #e9d8dee9
+nord7  = #e98fbcbb
+nord8  = #e988c0d0
+nord9  = #e981a1c1
 nord10 = #e95e81ac
 
 black = #e93b4253
@@ -26,6 +27,7 @@ cyan = #e988c0d0
 white = #e9e5e9f0
 alert = ${colors.red}
 background = ${colors.nord0}
+# background = #00ffffff
 foreground = ${colors.nord6}
 background-alt = ${colors.black}
 foreground-alt = ${colors.white}
@@ -34,35 +36,32 @@ foreground-alt = ${colors.white}
 monitor = ${env:MONITOR:eDP1}
 width = 100%
 height = 30
-radius-top = 4.0
+radius-top = 5.0
 fixed-center = true
 bottom = true
-wm-restack = bspwm
+enable-ipc = true
 
 background = ${colors.background}
 foreground = ${colors.foreground}
 
 border-size = 0
-line-size = 2
+line-size = 1
 padding = 1
 module-margin = 1
 
-font-0 = "Fira Sans:size=10;1"
-font-1 = "FontAwesome:size=10;1"
-font-2 = "Noto Sans Symbols:size=10;1"
-font-3 = "Noto Sans Symbols2:size=10;1"
-
-modules-left = date i3 bspwm xwindow
+font-0 = "Bitstream Vera Sans Mono Nerd Font:size=9;1"
+font-1 = "Noto Color Emoji:scale=10;1"
+ 
+modules-left = powermenu date eth0 wlan0 i3 bspwm xwindow
 modules-center = spotify
-modules-right = filesystem pulseaudio-control eth0 wlan0 cpu memory battery
-
-border-left-size = 10
-border-right-size = 10
+modules-right = updates filesystem kdeconnect pulseaudio-control cpu memory battery picom
 
 tray-position = right
 tray-padding = 0
-tray-maxsize = 20
+tray-maxsize = 16
 tray-scale = 1
+wm-restack = i3
+override-direct = true
 
 [bar/top_screen]
 inherit = bar/main
@@ -75,34 +74,93 @@ modules-right =
 
 tray-position = none
 
-width = 30%
-offset-x = 35%
+# width = 30%
+# offset-x = 35%
 
 [global/wm]
 margin-top = 0
+margin-bottom = 0
+
+[module/powermenu]
+type = custom/menu
+
+label-open = " 拉 "
+label-open-foreground = ${colors.red}
+label-open-background = ${colors.background}
+label-close = "  cancel "
+label-close-foreground = ${colors.red}
+label-close-background = ${colors.background}
+label-separator = "  "
+label-separator-foreground = #55
+
+menu-0-0 = 鈴 suspend
+menu-0-0-exec = menu-open-3
+menu-0-1 =  reboot
+menu-0-1-exec = menu-open-1
+menu-0-2 =  power off
+menu-0-2-exec = menu-open-2
+
+menu-1-0 = "   back "
+menu-1-0-exec = menu-open-0
+menu-1-1 =  reboot
+menu-1-1-exec = systemctl reboot
+
+menu-2-0 = "  back "
+menu-2-0-exec = menu-open-0
+menu-2-1 =  power off
+menu-2-1-exec = shutdown now
+
+menu-3-0 = "  back "
+menu-3-0-exec = menu-open-0
+menu-3-1 = 鈴 suspend
+menu-3-1-exec = systemctl suspend
+
+[module/weather]
+type = custom/script
+interval = 60
+exec = ~/repos/weather/weather
 
 [module/spotify]
-type = custom/script
-interval = 1
-format-prefix = " "
-format = <label>
-exec = python /home/jay/repos/polybar-spotify/spotify_status.py -f '{play_pause} {artist}: {song}'
+type = custom/ipc
+format = <output>
 format-underline = ${colors.green}
 
-click-left =        dbus-send --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
-double-click-left = dbus-send --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
-click-right =       dbus-send --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
+hook-0 = ~/.bin/spotifyctl polybar
+hook-1 = ~/.bin/spotifyctl playpause
+hook-2 = ~/.bin/spotifyctl next
+hook-3 = ~/.bin/spotifyctl prev
+
+# hooks are 1-based
+initial = 1
+click-left = polybar-msg -p %pid% hook spotify 2
+double-click-left = polybar-msg -p %pid% hook spotify 3
+click-right = polybar-msg -p %pid% hook spotify 4
+
+[module/picom]
+type = custom/ipc
+hook-0 = ~/.bin/polybar-picom
+hook-1 = ~/.bin/polybar-picom --toggle
+initial = 1
+click-left = polybar-msg -p %pid% hook picom 2
 
 [module/xwindow]
 type = internal/xwindow
 label = %title:0:100:...%
-label-maxlen = 100
+label-maxlen = 50
+
+[module/updates]
+type = custom/script
+# updates every 30 mins
+interval = 1800
+format = <label>
+exec = ~/.bin/polybar-apt-updates
+format-underline = ${colors.red}
 
 [module/pulseaudio-control]
 type = custom/script
 tail = true
 label=%output%
-format-underline = ${colors.cyan}
+# format-underline = ${colors.cyan}
 
 exec = ~/repos/polybar-pulseaudio-control/pulseaudio-control.bash --listen
 click-right = exec pavucontrol &
@@ -162,14 +220,16 @@ label-mode = %mode%
 label-mode-padding = 2
 label-mode-background = #e60053
 
-label-focused-foreground = ${colors.foreground-alt}
-label-focused-background = ${colors.background-alt}
-label-focused-underline = ${colors.foreground-alt}
+label-focused-foreground = #ECEFF4
+# label-focused-background = ${colors.background-alt}
+# label-focused-underline = ${colors.foreground-alt}
 label-focused-padding = 2
 
 label-unfocused-padding = 2
+label-unfocused-foreground = #4C566A
+label-unfocused-background = ${colors.background}
 
-label-visible-underline = #555555
+label-visible-underline = #4C566A
 label-visible-padding = 2
 
 ;label-urgent = %index%
@@ -205,29 +265,26 @@ spacing = 4
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix = "💻 "
-format-prefix-foreground = ${colors.foreground-alt}
-format-underline = ${colors.cyan}
-label = %percentage: 2%%
+label = 💻 %percentage: 2%%
 
 [module/memory]
 type = internal/memory
 interval = 2
-format-prefix = "RAM "
-format-prefix-foreground = ${colors.foreground-alt}
-label = %percentage_used:2%% %gb_used%
-format-underline = ${colors.green}
+label =   %percentage_used:2%%
 
 [module/wlan0]
 type = internal/network
 interface = wlan0
 interval = 5.0
 
-format-connected = <ramp-signal> <label-connected>
-format-connected-underline = ${colors.cyan}
+format-connected = " 直  <label-connected>"
 label-connected = %essid%
+format-connected-underline = ${colors.green}
+format-connected-foreground = ${colors.green}
 
-label-disconnected =
+label-disconnected = " 睊 "
+format-disconnected-foreground = ${colors.red}
+format-disconnected-underline = ${colors.red}
 
 ramp-signal-0 = 🌧
 ramp-signal-1 = 🌦
@@ -240,28 +297,24 @@ type = internal/network
 interface = eth0
 interval = 3.0
 
-format-connected-underline = ${colors.cyan}
-format-connected-prefix = "🖧 "
-format-connected-prefix-foreground = ${colors.foreground-alt}
-label-connected = %local_ip%
+format-connected = "  "
+format-connected-underline = ${colors.green}
+format-connected-foreground = ${colors.green}
 
-format-disconnected =
+format-disconnected = "  "
+format-disconnected-foreground = ${colors.red}
+format-disconnected-underline = ${colors.red}
 
 [module/date]
-type = internal/date
-interval = 5
+type = custom/script
+exec = ~/.bin/time.sh
+interval = 1
 
-date = "%a %d %b"
-date-alt = "%a %d %b"
-
-time = %H:%M
-time-alt = %I:%M%p
-
-format-prefix =
+format = <label>
 format-prefix-foreground = ${colors.foreground}
 format-underline = ${colors.foreground}
 
-label = %date% %time%
+click-left = gsimplecal &
 
 [module/battery]
 type = internal/battery
@@ -278,17 +331,38 @@ format-discharging-underline = ${self.format-charging-underline}
 format-full = <label-full>
 format-full-underline = ${self.format-charging-underline}
 
-ramp-capacity-0 = ⚋
-ramp-capacity-1 = ⚊
-ramp-capacity-2 = ⚍
-ramp-capacity-3 = ⚌
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+ramp-capacity-5 = 
+ramp-capacity-6 = 
+ramp-capacity-7 = 
+ramp-capacity-8 = 
+ramp-capacity-9 = 
+ramp-capacity-10 = 
+# ramp-capacity-0 = 
+# ramp-capacity-1 = 
+# ramp-capacity-2 = 
+# ramp-capacity-3 = 
+# ramp-capacity-4 = 
 ramp-capacity-foreground = ${colors.foreground-alt}
 
 label-charging = ⚡ %percentage%%
-label-discharging = %percentage%%
+label-discharging =  %percentage%%
 label-full = " ☀ "
+
+[module/hackspeed]
+type = custom/script
+exec = ~/repos/polybar-scripts/polybar-scripts/info-hackspeed/info-hackspeed.sh
+tail = true
+
+[module/softwarecounter]
+type = custom/script
+exec = ~/repos/polybar-scripts/polybar-scripts/info-softwarecounter/info-softwarecounter.py
+interval = 10
 
 [settings]
 screenchange-reload = true
 
-; vim:ft=dosini

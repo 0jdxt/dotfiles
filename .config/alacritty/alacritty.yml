@@ -74,15 +74,6 @@ scrolling:
   # scrollback is enabled (history > 0).
   multiplier: 3
 
-# Spaces per Tab (changes require restart)
-#
-# This setting defines the width of a tab in cells.
-#
-# Some applications, like Emacs, rely on knowing about the width of a tab.
-# To prevent unexpected behavior in these applications, it's also required to
-# change the `it` value in terminfo when altering this setting.
-tabspaces: 4
-
 # Font configuration (changes require restart)
 font:
   # Normal (roman) font face
@@ -93,8 +84,7 @@ font:
     #   - (macOS) Menlo
     #   - (Linux) monospace
     #   - (Windows) Consolas
-    # family: monospace
-    family: Fira Code iScript
+    family: Fira Code Nerd Font
 
     # The `style` can be specified to pick a specific face.
     style: Regular
@@ -105,7 +95,7 @@ font:
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    #family: monospace
+    # family: monospace
 
     # The `style` can be specified to pick a specific face.
     style: Bold
@@ -116,18 +106,18 @@ font:
     #
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: monospace
+    # family: monospace
 
     # The `style` can be specified to pick a specific face.
     style: Italic
 
-  # Point size
+  # Point sizet
   size: 7
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
   offset:
-    x: 0
+    x: -1
     y: 0
 
   # Glyph offset determines the locations of the glyphs within their cells with
@@ -135,7 +125,7 @@ font:
   # increasing `y` moves the glyph upwards.
   glyph_offset:
     x: 0
-    y: 0
+    y: -1
 
   # Thin stroke font rendering (macOS only)
   #
@@ -213,7 +203,7 @@ visual_bell:
 #
 # Window opacity as a floating point number from `0.0` to `1.0`.
 # The value `0.0` is completely transparent and `1.0` is opaque.
-background_opacity: 0.85
+background_opacity: 1.0
 
 # Mouse bindings
 #
@@ -237,7 +227,7 @@ mouse:
   # Click settings
   #
   # The `double_click` and `triple_click` settings control the time
-  # alacritty should wait for accepting multiple clicks as one double
+  # alacritty should wait for accepteing multiple clicks as one double
   # or triple click.
   double_click: { threshold: 300 }
   triple_click: { threshold: 300 }
@@ -265,7 +255,7 @@ mouse:
     #
     # These are the modifiers that need to be held down for opening URLs when clicking
     # on them. The available modifiers are documented in the key binding section.
-    modifiers: Control
+    modifiers: Alt
 
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>"
@@ -283,11 +273,11 @@ cursor:
   #   - ▇ Block
   #   - _ Underline
   #   - | Beam
-  style: Underline # zsh should handle Block/Beam
+  style: Underline # to know when inezsh/tmux should handle Block/Beam
 
   # If this is `true`, the cursor will be rendered as a hollow box when the
   # window is not focused.
-  unfocused_hollow: true
+  unfocused_hollow: false
 
 # Live config reload (changes require restart)
 live_config_reload: true
@@ -363,7 +353,7 @@ debug:
 # mapped to the `None` action.
 #
 # Example:
-#   `- { key: V, mods: Control|Shift, action: Paste }`
+#   `- { key: V, mods: Alt|Shift, action: Paste }`
 #
 # Available fields:
 #   - key
@@ -387,13 +377,13 @@ debug:
 #
 # Values for `mods`:
 #   - Command
-#   - Control
+#   - Alt
 #   - Option
 #   - Super
 #   - Shift
 #   - Alt
 #
-#   Multiple `mods` can be combined using `|` like this: `mods: Control|Shift`.
+#   Multiple `mods` can be combined using `|` like this: `mods: Alt|Shift`.
 #   Whitespace and capitalization is relevant and must match the example.
 #
 # Values for `chars`:
@@ -442,11 +432,24 @@ debug:
 #   - ~AppKeypad
 #   - AppKeypad
 key_bindings:
-  - { key: V,        mods: Control|Shift, action: Paste            }
-  - { key: C,        mods: Control|Shift, action: Copy             }
-  - { key: Key0,     mods: Control,       action: ResetFontSize    }
-  - { key: Equals,   mods: Control,       action: IncreaseFontSize }
-  - { key: Add,      mods: Control,       action: IncreaseFontSize }
-  - { key: Subtract, mods: Control,       action: DecreaseFontSize }
-  - { key: Minus,    mods: Control,       action: DecreaseFontSize }
+  - { key: V,        mods: Alt|Shift, action: Paste            }
+  - { key: C,        mods: Alt|Shift, action: Copy             }
+  - { key: Key0,     mods: Alt,       action: ResetFontSize    }
+  - { key: Equals,   mods: Alt,       action: IncreaseFontSize }
+  - { key: Add,      mods: Alt,       action: IncreaseFontSize }
+  - { key: Subtract, mods: Alt,       action: DecreaseFontSize }
+  - { key: Minus,    mods: Alt,       action: DecreaseFontSize }
+
+  # tmux stuff
+  - { key: T,        mods: Alt,       chars: "\x02\x63"        } # new tab
+  - { key: W,        mods: Alt,       chars: "\x02\x26"        } # close tab
+  - { key: N,        mods: Alt,       chars: "\x02\x6e"        } # next tab
+  - { key: B,        mods: Alt,       chars: "\x02\x70"        } # prev tab
+  - { key: H,        mods: Alt,       chars: "\x02\x68"        } # move to pane left
+  - { key: L,        mods: Alt,       chars: "\x02\x6c"        } # move to pane right
+  - { key: P,        mods: Alt,       chars: "\x02\x25"        } # new v pane
+  - { key: P,        mods: Alt|Shift, chars: "\x02\x22"        } # new h pane
+  # tmux move panes
+  - { key: Left,     mods: Alt, chars: "\x02\x7b" }
+  - { key: Right,    mods: Alt, chars: "\x02\x7d" }
 

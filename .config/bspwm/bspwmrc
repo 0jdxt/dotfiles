@@ -42,7 +42,7 @@ bspc rule -a caja state=floating
 sxhkd &
 /home/jay/.config/polybar/launch.sh &
 ulauncher --hide-window &
-compton -b &
+picom -b &
 feh --auto-reload --bg-scale /home/jay/pix/current_wall.jpg &
 ckb-next -b &
 

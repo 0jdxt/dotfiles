@@ -6,11 +6,17 @@ call plug#begin(stdpath('data') . '/plugged')
 " Load plugins
 " VIM enhancements
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'ciaranm/securemodelines'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'justinmk/vim-sneak'
 Plug 'wakatime/vim-wakatime'
-Plug 'https://gitlab.com/code-stats/code-stats-vim.git'
+" Plug 'https://gitlab.com/code-stats/code-stats-vim.git'
+Plug 'airblade/vim-gitgutter'
+Plug 'ryanoasis/vim-devicons'
+Plug 'mhinz/vim-startify'
+Plug 'alvan/vim-closetag'
+Plug 'aurieh/discord.nvim', { 'do': ':UpdateRemotePlugins' }
 
 " GUI enhancements
 Plug 'itchyny/lightline.vim'
@@ -31,6 +37,14 @@ Plug 'plasticboy/vim-markdown'
 Plug 'mboughaba/i3config.vim'
 Plug 'leafgarland/typescript-vim'
 Plug 'dense-analysis/ale'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'sheerun/vim-polyglot'
+
+" useful things
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'StanAngeloff/php.vim'
+Plug 'vifm/vifm.vim'
 
 Plug 'mattn/emmet-vim'
 Plug 'kovetskiy/sxhkd-vim'
@@ -211,16 +225,10 @@ set inccommand=nosplit
 noremap <C-q> :confirm qall<CR>
 
 autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
 map <C-n> :NERDTreeToggle<CR>
 
-let g:NERDTreeDirArrowExpandable = ''
-let g:NERDTreeDirArrowCollapsible = ''
-
-aug i3config_ft_detection
-  au!
-  au BufNewFile,BufRead ~/.config/i3/config set filetype=i3config
-aug end
+let g:NERDTreeDirArrowExpandable = ''
+let g:NERDTreeDirArrowCollapsible = ''
 
 autocmd FileType typescript setlocal formatprg=prettier\ --parser\ typescript
 
@@ -231,3 +239,35 @@ set nofoldenable
 set foldlevel=1
 
 set wrap
+
+let g:neovide_cursor_vfx_mode = "sonicboom"
+
+set noshowmode
+
+autocmd BufWritePost *.php silent! call PhpCsFixerFixFile()
+
+" Vim-DevIcons
+let g:webdevicons_enable = 1
+let g:webdevicons_enable_nerdtree = 1
+let g:webdevicons_enable_airline_tabline = 1
+let g:webdevicons_enable_airline_statusline = 1
+let g:webdevicons_enable_startify = 1
+let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
+let g:WebDevIconsOS = 'Darwin'
+
+" startify
+let g:startify_session_persistence = 1
+let g:startify_session_before_save = [
+    \ 'echo "Cleaning up before saving.."',
+    \ 'silent! NERDTreeTabsClose'
+    \ ]
+let g:startify_change_to_vcs_root = 1
+
+
+function! StartifyEntryFormat()
+    return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
+endfunction
+
+nnoremap <leader>l :ls<CR>:b<space>
+
+let g:closetag_filetypes = "html,php"

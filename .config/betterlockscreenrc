@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 export insidecolor=00000000
 export ringcolor=3b425200
 export keyhlcolor=5e81acff
@@ -11,6 +12,7 @@ export ringwrongcolor=bf616aff
 export verifcolor=ffffffff
 export timecolor=eceff4ff
 export datecolor=e5e9f0ff
-export loginbox=2e3440ff
+export loginbox=2e344033
 export font="Fira Sans"
-export locktext='Type password to unlock...'
+export locktext="hello."
+export lock_timeout=5
