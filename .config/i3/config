@@ -3,7 +3,8 @@
 
 set $mod Mod4
 
-# font pango:Fira Sans, JoyPixels, FontAwesome 10
+## FONT: disabled since borders arent used
+font pango:FiraCode Nerd Font, JoyPixels, FontAwesome 10
 
 # drag floating windows
 floating_modifier $mod
@@ -14,32 +15,32 @@ set $text-color          #f3f4f5
 set $inactive-text-color #676E7D
 set $urgent-bg-color     #bf616a
 
+## key binds
+
 # program launcher
 bindsym $mod+space exec dmenu_run
-# start terminal
-bindsym $mod+Return exec st
-bindsym $mod+Shift+Return exec tabbed -c -r 2 st -w ''
+# terminal
+bindsym $mod+Return exec tabbed -kc -p -1 -r 2 alacritty --embed ''
 # browser
-bindsym $mod+b exec brave-browser
+bindsym $mod+b exec brave
 # cycle workspaces
 bindsym $mod+c workspace next 
 # kill focused window
 bindsym $mod+q kill
 # lock
 bindsym $mod+Shift+x exec dm-tool switch-to-greeter
-# caja
-bindsym $mod+n exec --release caja
-# drill
-bindsym $mod+g exec drill-search-gtk
+# file explorer
+bindsym $mod+n exec pcmanfm
 # discord
 bindsym $mod+d exec discord
 # mail
-bindsym $mod+m exec electron-mail
+# bindsym $mod+m exec electron-mail
+
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
@@ -50,23 +51,20 @@ bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
-# split in horizontal orientation
-bindsym $mod+h split h
-# split in vertical orientation
+# vertical/horizontal split
 bindsym $mod+v split v
-# enter fullscreen mode for the focused container
+bindsym $mod+Shift+v split h
+# toggle fullscreen mode
 bindsym $mod+f fullscreen toggle
-# screenshot full
+# screenshot full / selection
 bindsym $mod+s exec scrot -e 'mv $f /home/jay/pix/screens/'
-# screenshot select
 bindsym --release $mod+Shift+s exec scrot -se 'mv $f ~/pix/screens/'
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
 # change focus between tiling / floating windows
 bindsym $mod+t focus mode_toggle
 
-# Define names for default workspaces for which we configure key bindings later on.
-# We use variables to avoid repeating the names in multiple places.
+# workspace names
 # set $ws1 "1"
 set $ws2 "2:"
 set $ws3 "3:"
@@ -102,6 +100,10 @@ bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
+# scratchpad
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -109,6 +111,8 @@ bindsym $mod+Shift+r restart
 
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+## modes
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -129,39 +133,42 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
+set $mode_display Ext Screen (h) HDMI ON, (y) HDMI OFF
+mode "$mode_display" {
+    bindsym h exec --no-startup-id xrandr --output HDMI1 --auto --above eDP1, mode "default"
+    bindsym y exec --no-startup-id xrandr --output HDMI1 --auto --off, mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+# Declare here the shortcut to bring the display selection menu
+bindsym $mod+x mode "$mode_display"
+
 # Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec pulsemixer --change-volume +5
-bindsym XF86AudioLowerVolume exec pulsemixer --change-volume -5
+bindsym XF86AudioRaiseVolume exec ~/.bin/volumectl up
+bindsym XF86AudioLowerVolume exec ~/.bin/volumectl down
 bindsym XF86AudioMute        exec pulsemixer --toggle-mute
 # Sreen brightness controls
-bindsym XF86MonBrightnessUp   exec xbacklight -inc 10
-bindsym XF86MonBrightnessDown exec xbacklight -dec 10
+bindsym XF86MonBrightnessUp   exec xbacklight -inc 5
+bindsym XF86MonBrightnessDown exec xbacklight -dec 5
 
-# Num_Lock
-bindsym --release Num_Lock exec pkill -SIGRTMIN+11 i3blocks
-exec pkill +SIGRTMIN+10 i3blocks
-
+## decorations
 for_window [class="^.*"] border pixel 0
 gaps inner 10
 gaps outer 0
 
 focus_follows_mouse no
 
-bindsym $mod+Shift+greater move container to output top
-bindsym $mod+Shift+less move container to output bottom
-
 floating_maximum_size 1200 x 800
 
-bindsym $mod+Shift+minus move scratchpad
-bindsym $mod+minus scratchpad show
-
-# screen handling
-set $screen0 eDP1
-set $screen1 HDMI1
+## screen handling
+set $screen0 eDP-1
+set $screen1 HDMI-1
 workspace $ws3 output $screen1
 exec xrandr --output $screen1 --auto --above $screen0
 
-# workspace assign
+## workspace assign
 assign [class="Brave-browser"] $ws3
 assign [class="^St$"] $ws2
 assign [class="Thunderbird"] $ws4
@@ -170,7 +177,7 @@ assign [class="Astroid"] $ws4
 assign [class="^(?i)spotify$"] $ws6
 assign [class="Steam"] $ws7
 
-#  set floating and sticky windows
+## set floating and sticky windows
 for_window [class="Steam" title="Friends List"] floating enable
 for_window [title="Drill"] floating enable
 for_window [class="ProtonMail Bridge"] floating enable
@@ -190,7 +197,6 @@ for_window [title="JetBrains Toolbox"] sticky enable floating enable
 for_window [class="Caja"] floating enable
 for_window [title="Picture-in-Picture"] sticky enable
 for_window [title="Monitor Manager"] sticky enable
-for_window [title="^Sign in - Google"] floating enable
 for_window [title="About Firefox"] floating enable
 for_window [title="Friends List"] floating enable
 for_window [class="Brave-browser" window_role="app"] floating enable
@@ -198,33 +204,25 @@ for_window [window_role="pop-up"] floating enable
 for_window [class="megasync"] floating enable
 for_window [class="zoom"] floating enable
 for_window [class="Gsimplecal"] sticky enable
+for_window [class="stacer"] floating enable
 
-# auto start processes
-exec_always --no-startup-id ~/.fehbg &
+## auto start processes
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-exec_always --no-startup-id picom -b
+exec --no-startup-id picom -bc
 exec --no-startup-id xbanish
 exec --no-startup-id $HOME/.bin/discord_rpc
-# tray applets
+exec --no-startup-id lxpolkit
+exec --no-startup-id nitrogen --restore
+
+## tray applets
 exec --no-startup-id ckb-next -b
 exec --no-startup-id blueman-applet
 exec --no-startup-id nm-applet
 exec --no-startup-id protonmail-bridge --no-window
 exec --no-startup-id electron-mail
-# programs
-exec st
-exec bluetooth off
+exec --no-startup-id optimus-manager-qt
 
-## Manual management of external displays
-# Set the shortcuts and what they do
-set $mode_display Ext Screen (h) HDMI ON, (y) HDMI OFF
-mode "$mode_display" {
-    bindsym h exec --no-startup-id xrandr --output HDMI1 --auto --above eDP1, mode "default"
-    bindsym y exec --no-startup-id xrandr --output HDMI1 --auto --off, mode "default"
+## programs
+exec --no-startup-id bluetooth off
+exec --no-startup-id alacritty
 
-    # back to normal: Enter or Escape
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
-# Declare here the shortcut to bring the display selection menu
-bindsym $mod+x mode "$mode_display"

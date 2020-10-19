@@ -1,2 +1,5 @@
+--color=always
+--pager="less -RF"
 --italic-text=always
 --tabs=2
+--theme=Nord

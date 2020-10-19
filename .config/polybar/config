@@ -9,7 +9,7 @@
 ;
 
 [colors]
-# INFO: E9 transparency aarrggbb
+; INFO: E9 transparency aarrggbb
 nord0  = #e92e3440
 nord6  = #e9d8dee9
 nord7  = #e98fbcbb
@@ -27,14 +27,14 @@ cyan = #e988c0d0
 white = #e9e5e9f0
 alert = ${colors.red}
 background = ${colors.nord0}
-# background = #00ffffff
+; background = #00ffffff
 foreground = ${colors.nord6}
 background-alt = ${colors.black}
 foreground-alt = ${colors.white}
 
 [bar/main]
-monitor = ${env:MONITOR:eDP1}
-width = 100%
+monitor = ${env:MONITOR:eDP-1-1}
+width = 90%
 height = 30
 radius-top = 5.0
 fixed-center = true
@@ -46,74 +46,91 @@ foreground = ${colors.foreground}
 
 border-size = 0
 line-size = 1
-padding = 1
+padding = 2
 module-margin = 1
 
-font-0 = "Bitstream Vera Sans Mono Nerd Font:size=9;1"
-font-1 = "Noto Color Emoji:scale=10;1"
+font-0 = "Caskaydia Cove Nerd Font:size=10;1"
+# font-0 = "Code New Roman Nerd Font:size=10;1"
+font-1 = "Noto Color Emoji:scale=11;1"
  
-modules-left = powermenu date eth0 wlan0 i3 bspwm xwindow
-modules-center = spotify
-modules-right = updates filesystem kdeconnect pulseaudio-control cpu memory battery picom
+modules-left = powermenu workspaces xwindow spotify 
+modules-center = date 
+modules-right = updates eth0 wlan0 optimus filesystem kde brightness pulseaudio-control cpu memory battery picom
 
-tray-position = right
+tray-position = none
 tray-padding = 0
 tray-maxsize = 16
 tray-scale = 1
-wm-restack = i3
-override-direct = true
+override-direct = false
+wm-restack = bspwm
+offset-x = 5%
+offset-y = 0px
 
 [bar/top_screen]
 inherit = bar/main
-monitor = ${env:MONITOR:HDMI1}
+monitor = ${env:MONITOR:HDMI-1-1}
 monitor-strict = true
 
 modules-left = 
-modules-center = i3 bspwm
+modules-center = workspaces
 modules-right =
 
 tray-position = none
 
-# width = 30%
-# offset-x = 35%
+width = 20%
+offset-x = 40%
 
 [global/wm]
 margin-top = 0
 margin-bottom = 0
 
+[module/kde]  
+type = custom/script  
+exec = ~/.bin/polybar-kdeconnect -d
+tail = true
+click-left = ~/.bin/polybar-kdeconnect -p
+click-right = ~/.bin/polybar-kdeconnect -m
+
 [module/powermenu]
 type = custom/menu
 
-label-open = " 拉 "
+label-open = " ⏻ "
 label-open-foreground = ${colors.red}
 label-open-background = ${colors.background}
-label-close = "  cancel "
+label-close = "  "
 label-close-foreground = ${colors.red}
 label-close-background = ${colors.background}
 label-separator = "  "
 label-separator-foreground = #55
 
-menu-0-0 = 鈴 suspend
+menu-0-0 = ⏾
 menu-0-0-exec = menu-open-3
-menu-0-1 =  reboot
-menu-0-1-exec = menu-open-1
-menu-0-2 =  power off
-menu-0-2-exec = menu-open-2
+menu-0-1 = 鈴
+menu-0-1-exec = menu-open-4
+menu-0-2 = 
+menu-0-2-exec = menu-open-1
+menu-0-3 = 
+menu-0-3-exec = menu-open-2
 
-menu-1-0 = "   back "
+menu-1-0 = "  back"
 menu-1-0-exec = menu-open-0
 menu-1-1 =  reboot
 menu-1-1-exec = systemctl reboot
 
-menu-2-0 = "  back "
+menu-2-0 = " back"
 menu-2-0-exec = menu-open-0
 menu-2-1 =  power off
 menu-2-1-exec = shutdown now
 
-menu-3-0 = "  back "
+menu-3-0 = " back"
 menu-3-0-exec = menu-open-0
-menu-3-1 = 鈴 suspend
+menu-3-1 = ⏾ suspend
 menu-3-1-exec = systemctl suspend
+
+menu-4-0 = " back"
+menu-4-0-exec = menu-open-0
+menu-4-1 = 鈴 hibernate
+menu-4-1-exec = systemctl hibernate
 
 [module/weather]
 type = custom/script
@@ -130,7 +147,7 @@ hook-1 = ~/.bin/spotifyctl playpause
 hook-2 = ~/.bin/spotifyctl next
 hook-3 = ~/.bin/spotifyctl prev
 
-# hooks are 1-based
+; hooks are 1-based
 initial = 1
 click-left = polybar-msg -p %pid% hook spotify 2
 double-click-left = polybar-msg -p %pid% hook spotify 3
@@ -150,17 +167,18 @@ label-maxlen = 50
 
 [module/updates]
 type = custom/script
-# updates every 30 mins
+; updates every 30 mins
 interval = 1800
 format = <label>
-exec = ~/.bin/polybar-apt-updates
+exec = ~/.bin/polybar-updates
 format-underline = ${colors.red}
+click-left = exec alacritty -e zsh -c "yay -Syu --devel"
 
 [module/pulseaudio-control]
 type = custom/script
 tail = true
 label=%output%
-# format-underline = ${colors.cyan}
+; format-underline = ${colors.cyan}
 
 exec = ~/repos/polybar-pulseaudio-control/pulseaudio-control.bash --listen
 click-right = exec pavucontrol &
@@ -173,38 +191,6 @@ label-foreground = ${colors.foreground}
 
 [module/bspwm]
 type = internal/bspwm
-enable-click = true
-pin-workspaces = true
-strip-wsnumbers = true
-index-sort = true
-enable-scroll = false
-wrapping-scroll = false
-reverse-scroll = false
-fuzzy-match = true
-
-format = <label-state> <label-mode>
-
-label-mode = %mode%
-label-mode-padding = 2
-label-mode-background = #e60053
-
-label-focused-foreground = ${colors.foreground-alt}
-label-focused-background = ${colors.background-alt}
-label-focused-underline = ${colors.foreground-alt}
-label-focused-padding = 2
-
-label-unfocused-padding = 2
-
-label-visible-underline = #555555
-label-visible-padding = 2
-
-;label-urgent = %index%
-label-urgent-foreground = ${colors.black}
-label-urgent-background = ${colors.red}
-label-urgent-padding = 2
-
-[module/i3]
-type = internal/i3
 pin-workspaces = true
 strip-wsnumbers = true
 index-sort = true
@@ -221,8 +207,8 @@ label-mode-padding = 2
 label-mode-background = #e60053
 
 label-focused-foreground = #ECEFF4
-# label-focused-background = ${colors.background-alt}
-# label-focused-underline = ${colors.foreground-alt}
+; label-focused-background = ${colors.background-alt}
+; label-focused-underline = ${colors.foreground-alt}
 label-focused-padding = 2
 
 label-unfocused-padding = 2
@@ -241,48 +227,74 @@ label-urgent-padding = 2
 ; label-separator-padding = 0
 ; label-separator-foreground = #ffb52a
 
-[module/kdeconnect]  
-type = custom/script  
-exec = ~/repos/polybar-kdeconnect/polybar-kdeconnect.sh -d
-tail = true
-click-left = ~/repos/polybar-kdeconnect/polybar-kdeconnect.sh -p
-click-right = ~/repos/polybar-kdeconnect/polybar-kdeconnect.sh -m
+[module/workspaces]
+type = internal/xworkspaces
+pin-workspaces = true
+enable-click = true
+enable-scroll = true
+format-padding = 1
+icon-default = 
+
+format = <label-state>
+format-background = ${colors.background}
+label-active = 
+label-occupied = 
+label-urgent = 
+label-empty = 
+
+label-empty-padding = 1
+label-active-padding = 1
+label-urgent-padding = 1
+label-occupied-padding = 1
+
+label-empty-foreground = ${colors.foreground}
+label-active-foreground = ${colors.foreground-alt}
+label-urgent-foreground = ${colors.alert}
+label-occupied-foreground = ${colors.background}
+
+[module/brightness]
+type = internal/backlight
+card = intel_backlight
+format = <ramp><label>
+label = %percentage%%
+ramp-0 = 🌑
+ramp-1 = 🌒
+ramp-2 = 🌓
+ramp-3 = 🌔
+ramp-4 = 🌕
 
 [module/filesystem]
 type = internal/fs
-; Mountpoints to display
 mount-0 = /
-; Seconds to sleep between updates
-; Default: 30
-interval = 10
-; Display fixed precision values
-; Default: false
+mount-1 = /mnt/hdd
+mount-2 = /mnt/ext
+interval = 30
 fixed-values = true
-; Spacing between entries
-; Default: 2
-spacing = 4
+spacing = 2
+label-mounted = %mountpoint%:%percentage_free%%
+format-unmounted =
 
 [module/cpu]
 type = internal/cpu
 interval = 2
-label = 💻 %percentage: 2%%
+label = 💻%percentage: 2%%
 
 [module/memory]
 type = internal/memory
 interval = 2
-label =   %percentage_used:2%%
+label =  %percentage_used:2%%
 
 [module/wlan0]
 type = internal/network
-interface = wlan0
+interface = wlp8s0
 interval = 5.0
 
-format-connected = " 直  <label-connected>"
+format-connected = "直 <label-connected>"
 label-connected = %essid%
 format-connected-underline = ${colors.green}
 format-connected-foreground = ${colors.green}
 
-label-disconnected = " 睊 "
+label-disconnected = "睊 "
 format-disconnected-foreground = ${colors.red}
 format-disconnected-underline = ${colors.red}
 
@@ -294,14 +306,14 @@ ramp-signal-4 = 🌣
 
 [module/eth0]
 type = internal/network
-interface = eth0
+interface = enp9s0
 interval = 3.0
 
-format-connected = "  "
+format-connected = ""
 format-connected-underline = ${colors.green}
 format-connected-foreground = ${colors.green}
 
-format-disconnected = "  "
+format-disconnected = ""
 format-disconnected-foreground = ${colors.red}
 format-disconnected-underline = ${colors.red}
 
@@ -342,26 +354,15 @@ ramp-capacity-7 = 
 ramp-capacity-8 = 
 ramp-capacity-9 = 
 ramp-capacity-10 = 
-# ramp-capacity-0 = 
-# ramp-capacity-1 = 
-# ramp-capacity-2 = 
-# ramp-capacity-3 = 
-# ramp-capacity-4 = 
 ramp-capacity-foreground = ${colors.foreground-alt}
 
 label-charging = ⚡ %percentage%%
 label-discharging =  %percentage%%
 label-full = " ☀ "
 
-[module/hackspeed]
+[module/optimus]
 type = custom/script
-exec = ~/repos/polybar-scripts/polybar-scripts/info-hackspeed/info-hackspeed.sh
-tail = true
-
-[module/softwarecounter]
-type = custom/script
-exec = ~/repos/polybar-scripts/polybar-scripts/info-softwarecounter/info-softwarecounter.py
-interval = 10
+exec = optimus-manager --status | awk '/^Current/ {print substr($5,1,1)}'
 
 [settings]
 screenchange-reload = true

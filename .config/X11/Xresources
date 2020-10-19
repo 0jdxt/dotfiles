@@ -45,3 +45,24 @@
 *.color13: nord15
 *.color14: nord7
 *.color15: nord6
+
+Xft.dpi: 96
+Xft.antialias: true
+Xft.hinting: true
+Xft.rgba: rgb
+Xft.autohint: true
+Xft.hintstyle: hintfull
+Xft.lcdfilter: lcdfilter
+
+XTerm*renderFont: true
+XTerm*faceName: xft: Blex Mono Nerd Font:antialias=true
+XTerm*faceSize: 11
+XTerm*utf8: 2
+XTerm*locale: true
+XTerm.vt100.saveLines: 4096
+XTerm.vt100.scrollBar: false
+XTerm*loginShell: true
+XTerm*termName: xterm-256color
+
+UXTerm*faceName: xft: Blex Mono Nerd Font:antialias=true
+UXTerm*faceSize: 11

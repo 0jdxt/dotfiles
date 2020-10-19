@@ -1,5 +1,40 @@
 {
-    "eslint.autoFixOnSave": true,
     "rust-analyzer.cargo-watch.command": "clippy",
-    "yaml.format.enable":true
+    "eslint.autoFixOnSave": true,
+    "rust-analyzer.serverPath": "/bin/rust-analyzer",
+    "yaml.format.enable": true,
+    "languageserver": {
+        "ccls": {
+            "command": "ccls",
+            "args": ["--log-file=/tmp/ccls.log", "-v=1"],
+            "filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"],
+            "rootPatterns": [".ccls", "compile_commands.json"],
+            "initializationOptions": {
+                "cache": { "directory": "/tmp/ccls" },
+                "client": { "snippetSupport" : true }
+            }
+        }
+    },
+    "explorer.quitOnOpen": true,
+    "explorer.icon.enableNerdfont": true,
+    "explorer.file.showHiddenFiles": true,
+    "explorer.width": 30,
+    "explorer.contentWidthType": "win-width",
+    "explorer.floating.width": 100,
+    "explorer.position": "floating",
+    "explorer.sources": [
+        {
+            "name": "bookmark",
+            "expand": true
+        },
+        {
+            "name": "buffer",
+            "expand": true
+        },
+        {
+            "name": "file",
+            "expand": true
+        }
+    ],
+    "explorer.file.column.indent.indentLine": true
 }

@@ -1,27 +1,22 @@
-#!/usr/bin/env bash
+#!/usr/bin/bash
 
-###########
-# ALIASES #
-###########
-alias ls="lsd --group-dirs first"
-alias la="ls -a"
-alias la="ls -l"
+alias l="lsd --group-dirs first"
+alias ls="l -al"
+alias la="l -a"
+alias ll="l -l"
+
 alias cat="bat"
-alias ping="prettyping --nolegend"
-alias top="doas -- htop"
-alias fd="fdfind"
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
-alias help="tldr"
-alias apt="doas -- apt"
-alias aptitude="doas -- aptitude"
 alias mkd="mkdir -pv"
+alias ping="prettyping --nolegend"
+alias unp="unp -U"
 alias yt="youtube-dl --add-metadata -ic"
 alias yta="youtube-dl --add-metadata -xic"
-alias snap="doas -- snap"
-alias unp="unp -U"
-alias netbeans="netbeans --user-dir=$HOME/.config/netbeans"
 
+alias snap="sudo snap"
+alias top="sudo htop"
+
+alias dotfiles="git --git-dir=\$HOME/dotfiles --work-tree=\$HOME"
 alias refr="source ~/.config/zsh/.zshrc"
-alias vim=nvim
-alias dotfiles='git --git-dir=/home/jay/dotfiles --work-tree=/home/jay'
 
+alias btsport1='acestream-launcher -p vlc acestream://fa6a2e693b70e230276843043b5d0fb8b8e42998'

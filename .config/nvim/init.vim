@@ -1,6 +1,3 @@
-set nocompatible
-filetype off
-
 call plug#begin(stdpath('data') . '/plugged')
 
 " Load plugins
@@ -33,12 +30,13 @@ Plug 'stephpy/vim-yaml'
 Plug 'rust-lang/rust.vim'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
+Plug 'ron-rs/ron.vim'
 "Plug 'vim-syntastic/syntastic'
 Plug 'mboughaba/i3config.vim'
 Plug 'leafgarland/typescript-vim'
-Plug 'dense-analysis/ale'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'sheerun/vim-polyglot'
+Plug 'rhysd/vim-clang-format'
 
 " useful things
 Plug 'tpope/vim-surround'
@@ -65,6 +63,11 @@ if (match($TERM, "-256color") != -1) && (match($TERM, "screen-256color") == -1)
   set termguicolors
 endif
 
+set nocompatible
+set title
+filetype off
+
+
 " Get syntax
 syntax on
 
@@ -86,10 +89,10 @@ set number
 set relativenumber
 set cursorline
 
+set termguicolors
 colorscheme nord
 let g:nord_italic = 1
 let g:nord_underline = 1
-let g:nord_cursor_line_number_background = 1
 
 let g:lightline = {
     \ 'colorscheme': 'nord',
@@ -212,7 +215,6 @@ set softtabstop=4
 set tabstop=4
 set expandtab
 
-
 nnoremap ; :
 nnoremap j gj
 nnoremap k gk
@@ -225,12 +227,15 @@ set inccommand=nosplit
 noremap <C-q> :confirm qall<CR>
 
 autocmd StdinReadPre * let s:std_in=1
-map <C-n> :NERDTreeToggle<CR>
 
+:nmap <C-n> :CocCommand explorer<CR>
 let g:NERDTreeDirArrowExpandable = ''
 let g:NERDTreeDirArrowCollapsible = ''
+let g:NERDTreeIgnore=['^node_modules$[[dir]]']
 
 autocmd FileType typescript setlocal formatprg=prettier\ --parser\ typescript
+
+autocmd BufNewFile,BufRead *.tera set syntax=jinja2
 
 " folding
 set foldmethod=indent
@@ -262,6 +267,17 @@ let g:startify_session_before_save = [
     \ 'silent! NERDTreeTabsClose'
     \ ]
 let g:startify_change_to_vcs_root = 1
+let g:startify_bookmarks = [
+            \ {'a': '~/.config/alacritty/alacritty.yml' },
+            \ {'b': '~/.config/bspwm/bspwmrc' },
+            \ {'d': '/usr/local/etc/doas.conf' },
+            \ {'i': '~/.config/i3/config' },
+            \ {'p': '~/.config/polybar/config' },
+            \ {'s': '~/.config/sxhkd/sxhkdrc' },
+            \ {'v': '~/.config/nvim/init.vim' },
+            \ {'x': '~/.config/X11/Xresources' },
+            \ {'z': '~/.config/zsh/.zshrc' }
+            \ ]
 
 
 function! StartifyEntryFormat()
@@ -271,3 +287,37 @@ endfunction
 nnoremap <leader>l :ls<CR>:b<space>
 
 let g:closetag_filetypes = "html,php"
+set guifont=Code\ New\ Roman\ Nerd\ Font:h14
+let g:neovide_transparency = 1.0
+let g:neovide_cursor_animation_length=0.1
+set background=dark
+
+let g:clang_format#auto_format = 1
+
+let g:NERDTreeGitStatusIndicatorMapCustom = {
+    \ "Modified"  : "",
+    \ "Staged"    : "",
+    \ "Untracked" : "",
+    \ "Renamed"   : "",
+    \ "Unmerged"  : "",
+    \ "Deleted"   : "",
+    \ "Dirty"     : "*",
+    \ "Clean"     : "",
+    \ 'Ignored'   : "",
+    \ "Unknown"   : ""
+    \ }
+
+let g:coc_global_extensions = [
+  \ "coc-eslint",
+  \ "coc-explorer",
+  \ "coc-floatinput",
+  \ "coc-json",
+  \ "coc-html",
+  \ "coc-yaml",
+  \ "coc-python",
+  \ "coc-java",
+  \ "coc-prettier",
+  \ "coc-rust-analyzer",
+  \ "coc-toml",
+  \ "coc-tsserver",
+  \ ]
