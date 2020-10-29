@@ -18,5 +18,6 @@ if [ "$curr_mode" = "nvidia" ]; then
 fi
 
 MONITOR=$screen polybar --reload main >>/tmp/main.log 2>&1 &
+MONITOR=$screen polybar --reload extras >>/tmp/extras.log 2>&1 &
 MONITOR=$ext polybar --reload top_screen >>/tmp/top_screen.log 2>&1 &
 

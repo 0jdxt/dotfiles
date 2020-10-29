@@ -1,0 +1,67 @@
+#!/bin/bash
+
+function usage() {
+    cat << EOF
+spotifyctl v0.0.2
+
+Usage:
+    spotifyctl <COMMAND>
+
+    Commands only work when spotify is running. Apart from this help message :).
+
+    COMMAND:
+        play        Play current song.
+        pause       Pause current song.
+        playpause   Toggle play/pause.
+        next        Skip forwards.
+        prev        Skip backwards.
+        polybar     Print polybar output.
+EOF
+}
+
+# help message
+[ "$1" = "-h" ] || [ "$1" = "--help" ] && usage && exit
+
+# If spotify is not running, leave polybar input empty and print message.
+if ! pgrep -ix spotify >/dev/null; then
+    # echo
+    # echo "Spotify not running. See \`spotifyctl --help\` for help."
+    exit 1
+fi
+
+# execute dbus commands and hide stderr from polybar
+dbus_str="qdbus org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player";
+function sp() {
+    if [ -n "$1" ]; then
+        eval "$dbus_str.$1" 2>&1
+    else
+        echo "usage: sp CMD" && exit 1
+    fi
+}
+
+function extract_meta() {
+    # usage: extract_meta DATA FIELD
+    echo "$1" | grep "$2" | head -n 1 | awk '{$1=""; print}' | xargs
+}
+
+case "$1" in
+    "play") sp Play;;
+    "pause") sp Pause;;
+    "playpause") sp PlayPause;;
+    "prev") sp Previous;;
+    "next") sp Next;;
+    "polybar");;
+    *) usage && exit 1;;
+esac
+
+symbol=""
+[ "$(sp PlaybackStatus)" = "Playing" ] && symbol=""
+
+data=$(sp Metadata)
+artist=$(extract_meta "$data" artist)
+album=$(extract_meta "$data" album)
+title=$(extract_meta "$data" title)
+
+# make sure metadata has loaded otherwise, do not print
+[ -n "$artist$album$title" ] && echo "$symbol  $artist - $title ($album)"
+

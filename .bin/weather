@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+#
+# weather - curls v2.wttr.in to get brief weather data
+#
+# shellcheck disable=SC2154
+
+url="wttr.in/$location"
+
+# polybar click
+# (( BLOCK_BUTTON == 1 )) && exo-open "https://$url"
+
+data=$(curl -Ss "https://v2.$url" | grep Weather | cut -d" " -f3- )
+
+declare -A icons
+icons=(
+    [clear]=
+    [sunny]=
+    [fog]=
+    [cloudy]=
+    [partly cloudy]=
+    [very cloudy]=
+    [heavy rain]=
+    [heavy showers]=" "
+    [heavy snow]=" "
+    [heavy snow showers]=" "
+    [light rain]=
+    [light showers]=
+    [light sleet]=
+    [light sleet showers]=" "
+    [light snow]=
+    [light snow showers]=" "
+    [thundery heavy rain]=" "
+    [thundery showers]=" "
+    [thundery snow showers]=" "
+    [overcast]=
+    [rain]=
+)
+
+condition=$(echo "$data" | cut -d, -f1)
+icon=${icons[${condition,,}]}
+
+echo "${icon:-} $data" | sed "s/, / /g" # | awk '{printf "%s\n%s\n",$0,$0}'
+

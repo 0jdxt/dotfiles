@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# helper to count lines
+function lc {
+    "$@" 2>/dev/null | wc -l
+}
+
+updates_arch=$(lc checkupdates)
+updates_aur=$(lc yay -Qum --devel)
+
+updates=$(( updates_arch + updates_aur ))
+(( updates > 0 )) && echo "📦 $updates"
+

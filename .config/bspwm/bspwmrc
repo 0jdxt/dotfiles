@@ -1,41 +1,30 @@
 #!/bin/bash
 
 ###
-# MONITORS
-monitors="$(bspc query --monitors --names)"
-n_monitors="$(echo "$monitors" | wc -l)"
-if (( n_monitors == 2 )); then
-    hdmi=$(grep HDMI <<< "$monitors")
-    main=$(grep eDP <<< "$monitors")
-
-    xrandr --output "$hdmi" --auto --above "$main"
-    
-    bspc monitor "$main"  -d VI VII VIII IX X
-    bspc monitor "$hdmi" -d I II III IV V
-
-    bspc desktop -f 1
-else
-    bspc monitor -d I II III IV V VI VII VIII IX X
-fi
-
-###
 # BSPC
 bspc config border_width 0
-bspc config window_gap   10
+bspc config window_gap  2
+bspc config top_padding 33
+bspc config bottom_padding 33
+bspc config left_padding -1
+bspc config right_padding -1
 
 # Multihead behavior
 bspc config remove_disabled_monitors  true
 bspc config remove_unplugged_monitors true
 
-bspc config split_ratio             0.5
+bspc config split_ratio             0.45
 bspc config borderless_monocle      true
 bspc config gapless_monocle         true
-bspc config automatic_scheme        spiral
+bspc config automatic_scheme        alternate
 bspc config pointer_follows_focus   true
+bspc config removal_adjustment      true
 bspc config pointer_modifier        mod1
 bspc config pointer_action1         move
 bspc config pointer_action2         resize_corner
 
+###
+# BSPC RULES
 bspc rule -a Zathura state=tiled
 function float { bspc rule -a "$1" state=floating; }
 float jetbrains-toolbox
@@ -44,6 +33,28 @@ float Steam
 float DiscordCanary
 float discord
 float vlc
+
+###
+# MONITORS
+monitors="$(bspc query --monitors --names)"
+n_monitors="$(echo "$monitors" | wc -l)"
+main=$(grep eDP <<< "$monitors")
+bspc monitor "$main" -n main
+if (( n_monitors == 2 )); then
+    hdmi=$(grep HDMI <<< "$monitors")
+
+    xrandr --output "$hdmi" --auto --above "$main"
+    
+    bspc monitor "$hdmi" -n hdmi
+
+    bspc monitor main -d I II III IV V
+    bspc monitor hdmi -d VI VII VIII IX X
+
+    bspc monitor main -s hdmi
+else
+    bspc monitor -d I II III IV V VI VII VIII IX X
+fi
+
 
 ###
 # init programs

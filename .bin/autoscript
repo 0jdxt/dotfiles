@@ -1,0 +1,15 @@
+#!/bin/bash
+
+SCRIPT_FOLDER="$HOME/.bin"
+SCRIPT_FILE="$SCRIPT_FOLDER/$1"
+
+[ -f "$SCRIPT_FILE" ] && echo file already exists && exit 1
+
+echo '#!/bin/bash' > "$SCRIPT_FILE"
+figlet "$1" | awk '{print "# " $0}' >> "$SCRIPT_FILE"
+echo "##" >> "$SCRIPT_FILE"
+
+chmod a+x "$SCRIPT_FILE"
+$EDITOR "$SCRIPT_FILE"
+
+

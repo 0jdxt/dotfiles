@@ -4,6 +4,7 @@ alias l="lsd --group-dirs first"
 alias ls="l -al"
 alias la="l -a"
 alias ll="l -l"
+alias lt="lsd --tree"
 
 alias cat="bat"
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"

@@ -5,6 +5,8 @@
 # terminal emulator
 super + Return
 	tabbed -kc -p -1 -r 2 alacritty --embed ''
+super + shift + Return
+	tabbed -kc -p -1 -r 2 st -w '' -t st -e zsh --login
 
 # program launcher
 super + space

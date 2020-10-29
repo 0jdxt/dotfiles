@@ -1,0 +1,19 @@
+#!/bin/sh
+
+case "$1" in
+    --toggle)
+        if pgrep -x picom >/dev/null; then
+            pkill -x picom
+        else
+            picom -bc --experimental-backends
+        fi;;
+esac
+
+sleep 0.05 # give time for picom to be killed/started
+if pgrep -x picom >/dev/null; then
+    echo " "
+else
+    echo " "
+fi
+
+

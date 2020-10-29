@@ -11,7 +11,9 @@
             "rootPatterns": [".ccls", "compile_commands.json"],
             "initializationOptions": {
                 "cache": { "directory": "/tmp/ccls" },
-                "client": { "snippetSupport" : true }
+                "client": { "snippetSupport" : true },
+                "index": { "onChange": true },
+                "highlight": { "lsRanges": true }
             }
         }
     },

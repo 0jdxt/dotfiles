@@ -46,16 +46,15 @@ foreground = ${colors.foreground}
 
 border-size = 0
 line-size = 1
-padding = 2
+padding = 1
 module-margin = 1
 
-font-0 = "Caskaydia Cove Nerd Font:size=10;1"
-# font-0 = "Code New Roman Nerd Font:size=10;1"
+font-0 = "Blex Mono Nerd Font:size=10.5;1"
 font-1 = "Noto Color Emoji:scale=11;1"
  
 modules-left = powermenu workspaces xwindow spotify 
 modules-center = date 
-modules-right = updates eth0 wlan0 optimus filesystem kde brightness pulseaudio-control cpu memory battery picom
+modules-right = updates brightness pulseaudio-control cpu memory battery
 
 tray-position = none
 tray-padding = 0
@@ -64,7 +63,22 @@ tray-scale = 1
 override-direct = false
 wm-restack = bspwm
 offset-x = 5%
-offset-y = 0px
+offset-y = 0
+
+[bar/extras]
+inherit = bar/main
+monitor-strict = true
+modules-left = eth0 wlan0 filesystem optimus kde
+modules-center =
+modules-right =
+bottom = false
+top = true
+offset-x = -10
+offset-y = 5
+height = 25
+width = 17%
+radius = 10
+padding-left = 3
 
 [bar/top_screen]
 inherit = bar/main
@@ -180,13 +194,13 @@ tail = true
 label=%output%
 ; format-underline = ${colors.cyan}
 
-exec = ~/repos/polybar-pulseaudio-control/pulseaudio-control.bash --listen
+exec = pulseaudio-control --icons-volume "🔈 ,🔉 ,🔊 " --icon-muted 🔇 --sink-nickname "alsa_output.pci-0000_00_1f.3.analog-stereo: JBL" --sink-nickname "alsa_output.usb-Native_Instruments_Komplete_Audio_6_5B51A0EC-00.analog-surround-21:蓼KA6" listen
 click-right = exec pavucontrol &
-click-left = ~/repos/polybar-pulseaudio-control/pulseaudio-control.bash --togmute
-click-middle = ~/repos/polybar-pulseaudio-control/pulseaudio-control.bash --change
-scroll-up = ~/repos/polybar-pulseaudio-control/pulseaudio-control.bash --up
-scroll-down = ~/repos/polybar-pulseaudio-control/pulseaudio-control.bash --down
-label-padding = 2
+click-left = pulseaudio-control togmute
+click-middle = pulseaudio-control next-sink
+scroll-up = pulseaudio-control up
+scroll-down = pulseaudio-control down
+label-padding = 1
 label-foreground = ${colors.foreground}
 
 [module/bspwm]
@@ -203,25 +217,25 @@ fuzzy-match = true
 format = <label-state> <label-mode>
 
 label-mode = %mode%
-label-mode-padding = 2
+label-mode-padding = 1
 label-mode-background = #e60053
 
 label-focused-foreground = #ECEFF4
 ; label-focused-background = ${colors.background-alt}
 ; label-focused-underline = ${colors.foreground-alt}
-label-focused-padding = 2
+label-focused-padding = 1
 
-label-unfocused-padding = 2
+label-unfocused-padding = 1
 label-unfocused-foreground = #4C566A
 label-unfocused-background = ${colors.background}
 
 label-visible-underline = #4C566A
-label-visible-padding = 2
+label-visible-padding = 1
 
 ;label-urgent = %index%
 label-urgent-foreground = ${colors.black}
 label-urgent-background = ${colors.red}
-label-urgent-padding = 2
+label-urgent-padding = 1
 
 ; label-separator = |
 ; label-separator-padding = 0
@@ -255,7 +269,7 @@ label-occupied-foreground = ${colors.background}
 [module/brightness]
 type = internal/backlight
 card = intel_backlight
-format = <ramp><label>
+format = <ramp> <label>
 label = %percentage%%
 ramp-0 = 🌑
 ramp-1 = 🌒
@@ -270,7 +284,7 @@ mount-1 = /mnt/hdd
 mount-2 = /mnt/ext
 interval = 30
 fixed-values = true
-spacing = 2
+spacing = 1
 label-mounted = %mountpoint%:%percentage_free%%
 format-unmounted =
 
@@ -362,7 +376,7 @@ label-full = " ☀ "
 
 [module/optimus]
 type = custom/script
-exec = optimus-manager --status | awk '/^Current/ {print substr($5,1,1)}'
+exec = [ $(optimus-manager --status | awk '/^Current/ {print $5}') = nvidia ] && echo " "  || echo ""
 
 [settings]
 screenchange-reload = true
