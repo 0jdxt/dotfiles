@@ -2,7 +2,6 @@
 
 env:
   TERM: alacritty
-  # WINIT_X11_SCALE_FACTOR: "1.0"
 
 window:
   # Specified in number of columns/lines, not pixels. If both are `0`, this setting is ignored.
