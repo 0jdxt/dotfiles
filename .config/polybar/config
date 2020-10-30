@@ -186,7 +186,7 @@ interval = 1800
 format = <label>
 exec = ~/.bin/polybar-updates
 format-underline = ${colors.red}
-click-left = exec alacritty -e zsh -c "yay -Syu --devel"
+click-left = exec alacritty -e zsh -c topgrade
 
 [module/pulseaudio-control]
 type = custom/script
@@ -194,7 +194,7 @@ tail = true
 label=%output%
 ; format-underline = ${colors.cyan}
 
-exec = pulseaudio-control --icons-volume "🔈 ,🔉 ,🔊 " --icon-muted 🔇 --sink-nickname "alsa_output.pci-0000_00_1f.3.analog-stereo: JBL" --sink-nickname "alsa_output.usb-Native_Instruments_Komplete_Audio_6_5B51A0EC-00.analog-surround-21:蓼KA6" listen
+exec = pulseaudio-control --icons-volume "🔈 ,🔉 ,🔊 " --icon-muted 🔇 --sink-nickname "alsa_output.pci-0000_00_1f.3.analog-stereo: JBL" --sink-nickname "alsa_output.usb-Native_Instruments_Komplete_Audio_6_5B51A0EC-00.analog-surround-21:蓼 KA6" listen
 click-right = exec pavucontrol &
 click-left = pulseaudio-control togmute
 click-middle = pulseaudio-control next-sink

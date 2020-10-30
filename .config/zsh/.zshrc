@@ -19,7 +19,7 @@ setopt hist_ignore_dups
 setopt hist_ignore_space
 setopt hist_verify
 setopt share_history
-setopt completealiases
+unsetopt complete_aliases
 
 ## autocomplete
 fpath=(~/.config/zsh/comp $fpath)

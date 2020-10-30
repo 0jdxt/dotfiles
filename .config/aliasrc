@@ -14,10 +14,8 @@ alias unp="unp -U"
 alias yt="youtube-dl --add-metadata -ic"
 alias yta="youtube-dl --add-metadata -xic"
 
-alias snap="sudo snap"
 alias top="sudo htop"
 
 alias dotfiles="git --git-dir=\$HOME/dotfiles --work-tree=\$HOME"
 alias refr="source ~/.config/zsh/.zshrc"
 
-alias btsport1='acestream-launcher -p vlc acestream://fa6a2e693b70e230276843043b5d0fb8b8e42998'

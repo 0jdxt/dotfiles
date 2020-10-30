@@ -36,25 +36,23 @@ float vlc
 
 ###
 # MONITORS
-monitors="$(bspc query --monitors --names)"
+monitors="$(xrandr -q | grep connected | cut -f1 -d" ")"
 n_monitors="$(echo "$monitors" | wc -l)"
 main=$(grep eDP <<< "$monitors")
-bspc monitor "$main" -n main
+
 if (( n_monitors == 2 )); then
     hdmi=$(grep HDMI <<< "$monitors")
 
     xrandr --output "$hdmi" --auto --above "$main"
-    
-    bspc monitor "$hdmi" -n hdmi
 
-    bspc monitor main -d I II III IV V
-    bspc monitor hdmi -d VI VII VIII IX X
+    bspc monitor "$main" -d I II III IV V
+    bspc monitor "$hdmi" -d VI VII VIII IX X
 
-    bspc monitor main -s hdmi
+    bspc monitor "$main" -s "$hdmi"
 else
+    xrandr --auto
     bspc monitor -d I II III IV V VI VII VIII IX X
 fi
-
 
 ###
 # init programs

@@ -49,8 +49,6 @@ scrolling:
 font:
   size: 11
   normal:
-    # family: Code New Roman Nerd Font
-    # family: Caskaydia Cove Nerd Font
     family: Blex Mono Nerd Font
     style: Regular
   bold:
