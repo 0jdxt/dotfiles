@@ -12,4 +12,3 @@ echo "##" >> "$SCRIPT_FILE"
 chmod a+x "$SCRIPT_FILE"
 $EDITOR "$SCRIPT_FILE"
 
-
