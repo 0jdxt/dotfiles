@@ -1,13 +1,20 @@
 #!/bin/bash
 
-# helper to count lines
+# helper to count lines of a command's output
 function lc {
     "$@" 2>/dev/null | wc -l
 }
 
 updates_arch=$(lc checkupdates)
 updates_aur=$(lc yay -Qum --devel)
-
 updates=$(( updates_arch + updates_aur ))
-(( updates > 0 )) && echo "📦 $updates"
+
+if [ -n "$1" ] && [ -n "$2" ]; then
+    colour=$2
+    (( updates > 0 )) && colour=$1
+
+    echo "%{o$colour}%{+o} 📦 $updates %{o-}"
+else
+    echo "📦 $updates"
+fi
 

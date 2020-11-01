@@ -1,4 +1,4 @@
---color=always
+-f
 --pager="less -RF"
 --italic-text=always
 --tabs=2

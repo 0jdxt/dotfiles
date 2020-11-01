@@ -24,8 +24,7 @@ EOF
 
 # If spotify is not running, leave polybar input empty and print message.
 if ! pgrep -ix spotify >/dev/null; then
-    # echo
-    # echo "Spotify not running. See \`spotifyctl --help\` for help."
+    echo "spotify not running"
     exit 1
 fi
 
@@ -54,14 +53,23 @@ case "$1" in
     *) usage && exit 1;;
 esac
 
-symbol=""
-[ "$(sp PlaybackStatus)" = "Playing" ] && symbol=""
 
-data=$(sp Metadata)
-artist=$(extract_meta "$data" artist)
-album=$(extract_meta "$data" album)
-title=$(extract_meta "$data" title)
+if read -r pb_status <<< "$(sp PlaybackStatus)"; then
+    symbol=""
+    [ "$pb_status" = "Playing" ] && symbol=""
 
-# make sure metadata has loaded otherwise, do not print
-[ -n "$artist$album$title" ] && echo "$symbol  $artist - $title ($album)"
+    data=$(sp Metadata)
+    artist=$(extract_meta "$data" artist)
+    album=$(extract_meta "$data" album)
+    title=$(extract_meta "$data" title)
+
+    # make sure metadata has loaded otherwise, do not print
+    if [ -n "$artist$album$title" ]; then
+        echo "$symbol  $artist - $title ($album)"
+    else
+        echo "no metadata"
+    fi
+else
+    echo "spotify not running"
+fi
 

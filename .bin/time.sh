@@ -41,5 +41,5 @@ read -r hour mins secs nanos date <<< "$(date "+%-H %-M %-S %N %a, %d %b")"
 clock="$(( mins>29 )),$(( hour%12 ))"
 
 ## output
-printf "$date %02d:%02d:%02d ${clocks[$clock]}" $hour "$mins" "$secs"
+printf "$date %02d:%02d:%02d ${clocks[$clock]}\n" $hour "$mins" "$secs"
 

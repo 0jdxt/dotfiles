@@ -20,5 +20,8 @@ export PERL_LOCAL_LIB_ROOT="$HOME/.config/perl5"
 export PERL_MB_OPT="--install_base $HOME/.config/perl5"
 export PERL_MM_OPT="INSTALL_BASE=$HOME/.config/perl5"
 
+dc=~/.config/dir_colors
+[ -f $dc ] && eval "$(dircolors $dc)"
+
 # echo "SOURCED AS $0"
 

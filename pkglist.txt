@@ -15,6 +15,7 @@ amp
 apparmor
 aqemu
 arandr
+arch-install-scripts
 ardour
 aria2
 authy-snap
@@ -28,6 +29,7 @@ bandwhich
 bash
 bear
 betterlockscreen-git
+bind
 binutils
 bison
 blueman
@@ -46,11 +48,13 @@ ccls-git
 checkupdates+aur
 ckb-next-git
 clang
+cling-bin
 clipit
 conky
 context-minimals-git
 coreutils
 cowsay
+cpanminus
 cppcheck
 cpupower
 crda
@@ -82,7 +86,7 @@ dunst-git
 e2fsprogs
 ecryptfs-utils
 efibootmgr
-epdfview
+efibootmgr-gui-git
 etcher-bin
 exercism-bin
 exfat-utils
@@ -148,6 +152,7 @@ hexyl
 htop
 hub
 i-nex
+id3
 inetutils
 inkscape
 inotify-tools
@@ -170,6 +175,7 @@ kvantum-manjaro
 lab
 lastpass
 lastpass-cli
+lbry-app-bin
 lemonbar-xft-git
 less
 lf
@@ -184,6 +190,7 @@ libhandy1
 libreoffice-still
 libsoundio-git
 libtool
+libxft-bgra-git
 licenses
 lightdm-settings
 lightdm-slick-greeter
@@ -194,6 +201,9 @@ linux54-nvidia-450xx
 linux58
 linux58-bbswitch
 linux58-nvidia-450xx
+linux59
+linux59-bbswitch
+linux59-nvidia-450xx
 lldb
 logrotate
 lolcat
@@ -228,7 +238,6 @@ memtest86+
 mesa-demos
 mhwd
 mhwd-db
-min
 minecraft
 mkinitcpio-openswap
 mlocate
@@ -236,14 +245,16 @@ mobile-broadband-provider-info
 modemmanager
 most
 mousepad
+mp3info
 multimc5
 mypaint
 mypaint-brushes
 nano
 ncdu
+needrestart-git
 neofetch-git
 neovide-git
-neovim-git
+neovim
 nerd-fonts-bitstream-vera-mono
 nerd-fonts-fira-code
 nerd-fonts-fira-mono
@@ -260,6 +271,7 @@ networkmanager-vpnc
 nfs-utils
 ninja
 nitrogen-git
+nnn
 nodejs
 noise-suppression-for-voice
 nordic-polar-theme-git
@@ -305,7 +317,7 @@ perl-file-mimeinfo
 pfetch-git
 picom-git
 pkgconf
-playonlinux
+playerctl
 plymouth
 polkit-gnome
 polybar-git
@@ -319,6 +331,7 @@ progress
 protonmail-bridge
 psmisc
 pulseaudio
+pulseaudio-control
 pulseaudio-ctl
 pulsemixer
 pygtk
@@ -329,9 +342,10 @@ qt5-styleplugins
 qt5ct
 qutebrowser-git
 ranger
-refind-theme-minimal-git
+rclone
 reiserfsprogs
 ripgrep-git
+rofi
 rsync
 rust
 rust-analyzer-git
@@ -346,11 +360,11 @@ shadow
 shellcheck
 skopeo
 smartgit
-snapd
 spectre-meltdown-checker
 speedtest-cli
 spicetify-cli
 spotify
+sshfs
 stacer
 stalonetray
 steam-manjaro
@@ -363,8 +377,8 @@ systemd
 systemd-fsck-silent
 systemd-sysvcompat
 tar
-telegram-desktop-bin
 terminus-font
+terminus-font-ttf
 termius
 tesseract-data-eng
 texinfo
@@ -398,7 +412,6 @@ util-linux
 vertex-maia-themes
 vi
 vibrancy-icons-teal
-viewnior
 vifm
 virtualgl
 vkd3d
@@ -410,12 +423,10 @@ w3m
 wallpapers-juhraya
 wget
 which
-wine
 wireguard-tools
 wmctrl
 wmctrl-python3-git
 wmutils
-woeusb-git
 wpa_supplicant
 xarchiver
 xautolock
@@ -453,7 +464,6 @@ xterm
 xwinfo-git
 xz
 yabar-git
-yarn
 yay
 youtube-dl
 ytop-git
@@ -465,4 +475,5 @@ zathura-ps
 zensu
 zentile-git
 zoom
+zscroll-git
 zsh

@@ -1,7 +1,7 @@
 {
-    "rust-analyzer.cargo-watch.command": "clippy",
     "eslint.autoFixOnSave": true,
-    "rust-analyzer.serverPath": "/bin/rust-analyzer",
+    "rust-analyzer.serverPath": "/usr/bin/rust-analyzer",
+    "rust-analyzer.updates.channel": "nightly",
     "yaml.format.enable": true,
     "languageserver": {
         "ccls": {
@@ -17,26 +17,24 @@
             }
         }
     },
-    "explorer.quitOnOpen": true,
     "explorer.icon.enableNerdfont": true,
     "explorer.file.showHiddenFiles": true,
+    "explorer.previewAction.onHover": true,
     "explorer.width": 30,
     "explorer.contentWidthType": "win-width",
     "explorer.floating.width": 100,
     "explorer.position": "floating",
-    "explorer.sources": [
-        {
-            "name": "bookmark",
-            "expand": true
-        },
-        {
-            "name": "buffer",
-            "expand": true
-        },
-        {
-            "name": "file",
-            "expand": true
-        }
-    ],
-    "explorer.file.column.indent.indentLine": true
+    "explorer.keyMappings.global": {
+        "v": "open:vsplit",
+        "mm": "rename",
+        "mc": "copyFile",
+        "C": "copyFile",
+        "md": "delete",
+        "D": "delete",
+        "ma": "addFile",
+        "mA": "addDirectory"
+    },
+    "explorer.buffer.root.template": "[icon & 1] OPEN BUFFERS",
+    "explorer.file.root.template": "[icon & 1] PROJECT ([root])",
+    "explorer.file.child.template": "[git | 2] [selection | clip | 1] [indent][icon | 1] [diagnosticError & 1][filename omitCenter 1][modified][readonly] [linkIcon & 1][link growRight 1 omitCenter 5]"
 }

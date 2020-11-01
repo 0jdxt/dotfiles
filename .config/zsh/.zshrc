@@ -29,8 +29,6 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
 ## environment stuff
-dc=~/.config/dir_colors
-[ -f $dc ] && eval $(dircolors $dc)
 src ~/.config/aliasrc
 src ~/.fzf.zsh
 

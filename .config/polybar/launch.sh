@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
 # Terminate already running bar instances
-killall -q polybar
+# killall -q polybar
+pkill polybar
 
 # Wait until the processes have been shut down
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
-echo "---" | tee -a /tmp/main.log /tmp/top_screen.log
+echo "---" | tee -a /tmp/polybar/*.log
 
 screen=eDP-1
 ext=HDMI-1
@@ -17,7 +18,12 @@ if [ "$curr_mode" = "nvidia" ]; then
     ext="$ext-1"
 fi
 
-MONITOR=$screen polybar --reload main >>/tmp/main.log 2>&1 &
-MONITOR=$screen polybar --reload extras >>/tmp/extras.log 2>&1 &
-MONITOR=$ext polybar --reload top_screen >>/tmp/top_screen.log 2>&1 &
+mkdir /tmp/polybar
+pb() {
+    MONITOR=$1 polybar --reload "$2" >>"/tmp/polybar/$2.log" 2>&1 &
+}
+pb $screen main
+pb $screen extras
+pb $screen music
+pb $ext top_screen
 
