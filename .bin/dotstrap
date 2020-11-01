@@ -1,19 +1,18 @@
 #!/bin/bash
-#      _       _       _                   
-#   __| | ___ | |_ ___| |_ _ __ __ _ _ __  
-#  / _` |/ _ \| __/ __| __| '__/ _` | '_ \ 
+#      _       _       _
+#   __| | ___ | |_ ___| |_ _ __ __ _ _ __
+#  / _` |/ _ \| __/ __| __| '__/ _` | '_ \
 # | (_| | (_) | |_\__ \ |_| | | (_| | |_) |
-#  \__,_|\___/ \__|___/\__|_|  \__,_| .__/ 
-#                                   |_|    
+#  \__,_|\___/ \__|___/\__|_|  \__,_| .__/
+#                                   |_|
 ##
 
 set -Eeo
 
-cd ~
+# shellcheck source=/home/jay/.zshenv
+source "$HOME/.zshenv"
 
-source .zshenv
-
-if [ ! -f pkglist.txt ]; then
+if [ ! -f "$HOME/pkglist.txt" ]; then
     echo "pkglist.txt not found"
     exit 1
 fi
@@ -21,15 +20,13 @@ fi
 # install yay, to enable installing AUR packages as well as official ones
 sudo pacman -Sy --needed git base-devel
 git clone https://aur.archlinux.org/yay.git
-cd yay
-makepkg -si
-cd ~
+(cd yay; makepkg -si)
 rm -rf yay
 
 # install packages
-sudo pacman -S --needed - < pkglist.txt
+yay -S --needed - < pkglist.txt
 
-sudo chsh $(which zsh)
+sudo chsh "$(which zsh)"
 
 # TODO:
 # - cargo/rustup

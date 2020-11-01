@@ -160,6 +160,7 @@ intel-ucode
 inxi
 iproute2
 iputils
+iucode-tool
 j4-dmenu-desktop-git
 java-openjfx
 jdk-openjdk

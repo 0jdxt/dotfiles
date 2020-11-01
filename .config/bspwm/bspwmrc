@@ -56,7 +56,7 @@ fi
 
 ###
 # init programs
-function run { pgrep -x "$1" || "$@" & }
+function run { pgrep "$1" || "$@" & }
 run sxhkd
 run /home/jay/.config/polybar/launch.sh
 run picom -bc --experimental-backends
