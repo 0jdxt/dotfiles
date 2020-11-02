@@ -13,7 +13,7 @@ echo "changing to $HOME"
 pushd "$HOME"
 
 DO=1
-[ "$1" = "--dry-run" ] && DO=0
+[ "${1:-}" = "--dry-run" ] && DO=0
 
 echo "looking for .zshenv"
 if [ ! -s .zshenv ]; then
@@ -46,7 +46,7 @@ if ((DO)); then
 
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o "$HOME/rustup-init.sh"
     sh rustup-init.sh --default-toolchain stable --profile default --no-modify-path -y && rm rustup-init.sh
-    cargo install topgrade
+    cargo install topgrade zr lsd bat
     topgrade
 EOF
 else
