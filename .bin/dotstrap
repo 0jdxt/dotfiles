@@ -7,28 +7,54 @@
 #                                   |_|
 ##
 
-set -Eeo
+set -Eeuo pipefail
 
-# shellcheck source=/home/jay/.zshenv
-source "$HOME/.zshenv"
+echo "changing to $HOME"
+pushd "$HOME"
 
-if [ ! -f "$HOME/pkglist.txt" ]; then
+DO=1
+[ "$1" = "--dry-run" ] && DO=0
+
+echo "looking for .zshenv"
+if [ ! -s .zshenv ]; then
+    echo "linking .zshenv -> .profile"
+    ((DO)) && ln -s "$HOME/.profile" "$HOME/.zshenv"
+fi
+
+if [ ! -f pkglist.txt ]; then
     echo "pkglist.txt not found"
     exit 1
 fi
 
 # install yay, to enable installing AUR packages as well as official ones
-sudo pacman -Sy --needed git base-devel
-git clone https://aur.archlinux.org/yay.git
-(cd yay; makepkg -si)
-rm -rf yay
+echo "Installing yay..."
+if ((DO)); then
+    sudo pacman -Sy --needed git base-devel
+    git clone https://aur.archlinux.org/yay.git
+    (cd yay; makepkg -si) && rm -rf yay
+fi
 
 # install packages
-yay -S --needed - < pkglist.txt
+echo "installing packages from pkglist.txt"
 
-sudo chsh "$(which zsh)"
+((DO)) && yay -S --needed - < pkglist.txt
 
-# TODO:
-# - cargo/rustup
-# - topgrade
+if ((DO)); then
+    cat <<-EOF | zsh
+    # shellcheck source=/home/jay/.zshenv
+    source .zshenv
+
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o "$HOME/rustup-init.sh"
+    sh rustup-init.sh --default-toolchain stable --profile default --no-modify-path -y && rm rustup-init.sh
+    cargo install topgrade
+    topgrade
+EOF
+else
+    cat <<-EOF | zsh
+    echo "loaded zsh:"
+EOF
+fi
+
+echo "setting shell to zsh"
+((DO)) && sudo chsh "$(which zsh)"
 

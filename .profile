@@ -1,10 +1,11 @@
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 
-export EDITOR=nvim
 export BROWSER=brave
+export EDITOR=nvim
 export PAGER=most
 export TERM=xterm-256color
+export WM=bspwm
 
 export ZDOTDIR="$HOME/.config/zsh"
 export CARGO_HOME="$HOME/.config/cargo"

@@ -13,3 +13,5 @@ let g:syntastic_cpp_cpplint_args = ['--verbose=1']
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 
+let g:syntastic_sh_shellcheck_args = ['-x']
+
