@@ -24,5 +24,8 @@ export PERL_MM_OPT="INSTALL_BASE=$HOME/.config/perl5"
 dc=~/.config/dir_colors
 [ -f $dc ] && eval "$(dircolors $dc)"
 
+# auto start tbsm after login on first two VTs
+[ "$XDG_VTNR" -le 2 ] && tbsm
+
 # echo "SOURCED AS $0"
 

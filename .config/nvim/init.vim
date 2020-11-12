@@ -5,17 +5,21 @@
 " |___|_| |_|_|\__(_)_/ |_|_| |_| |_|
 ""
 
+" load plugins
 source $HOME/.config/nvim/plugins/.plugins.vim
 
+" vi settings and key mappings
 source $HOME/.config/nvim/general/settings.vim
 source $HOME/.config/nvim/general/mappings.vim
 
+" plugin options
 source $HOME/.config/nvim/plugins/vim-devicons.vim
 source $HOME/.config/nvim/plugins/lightline.vim
 source $HOME/.config/nvim/plugins/startify.vim
 source $HOME/.config/nvim/plugins/coc.vim
 source $HOME/.config/nvim/plugins/syntastic.vim
 
+" enable theme
 source $HOME/.config/nvim/themes/nord.vim
 
 " misc plugin stuff

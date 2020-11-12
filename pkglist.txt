@@ -13,7 +13,6 @@ alsa-utils
 alsamixergui
 amp
 apparmor
-aqemu
 arandr
 arch-install-scripts
 ardour
@@ -35,7 +34,6 @@ bison
 blueman
 bluez-utils
 bmenu
-brasero
 brave-beta
 bspwm-git
 btrfs-progs
@@ -121,9 +119,7 @@ gnome-alsamixer
 gnome-disk-utility-git
 gnome-keyring
 gnome-themes-extra
-go
 gparted
-gradle
 grc
 grep
 grub
@@ -164,7 +160,6 @@ iucode-tool
 j4-dmenu-desktop-git
 java-openjfx
 jdk-openjdk
-jetbrains-toolbox
 jfsutils
 jq
 kakoune
@@ -172,6 +167,7 @@ kakoune-extra-filetypes-git
 kdeconnect
 keybase-bin
 keybase-zsh-completion-git
+kubectl
 kvantum-manjaro
 lab
 lastpass
@@ -188,6 +184,7 @@ libcpuid
 libdvdcss
 libgpod
 libhandy1
+libnfs
 libreoffice-still
 libsoundio-git
 libtool
@@ -195,19 +192,18 @@ libxft-bgra-git
 licenses
 lightdm-settings
 lightdm-slick-greeter
-lightdm-webkit-theme-aether
+lightdm-webkit-theme-aether-git
 linux54
 linux54-bbswitch
 linux54-nvidia-450xx
-linux58
-linux58-bbswitch
-linux58-nvidia-450xx
 linux59
 linux59-bbswitch
 linux59-nvidia-450xx
 lldb
 logrotate
 lolcat
+lostfiles
+lsd-git
 luarocks
 lvm2
 lxappearance
@@ -294,7 +290,7 @@ open-fuse-iso
 openbox
 openresolv
 openssh
-optimus-manager
+optimus-manager-git
 optimus-manager-qt-git
 oracle-java-extras
 orage
@@ -307,6 +303,7 @@ pacman
 pamac-gtk
 pandoc
 papirus-folders-nordic
+paru-git
 patch
 patchutils
 pavucontrol
@@ -359,6 +356,7 @@ sed
 semver
 shadow
 shellcheck
+skim-git
 skopeo
 smartgit
 spectre-meltdown-checker
@@ -378,11 +376,14 @@ systemd
 systemd-fsck-silent
 systemd-sysvcompat
 tar
+tbsm
 terminus-font
 terminus-font-ttf
 termius
 tesseract-data-eng
 texinfo
+thunderbird-i18n-en-gb
+timeshift
 tint2
 tk
 tlp
@@ -403,6 +404,7 @@ ttf-indic-otf
 ttf-liberation
 ttf-ms-fonts
 ttf-symbola
+tulizu
 umbrello
 unetbootin
 unp
@@ -462,6 +464,7 @@ xorg-xprop
 xsel
 xsv-git
 xterm
+xtitle
 xwinfo-git
 xz
 yabar-git
@@ -474,7 +477,6 @@ zathura-djvu
 zathura-pdf-mupdf
 zathura-ps
 zensu
-zentile-git
 zoom
 zscroll-git
 zsh

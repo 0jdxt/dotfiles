@@ -29,9 +29,11 @@ declare -A clocks=(
 ## read in vars
 # - unpadded time parts
 # - date together
-read -r hour mins secs nanos date <<< "$(date "+%-H %-M %-S %N %a, %d %b")"
+read -r hour mins secs nanos date <<< "$(date "+%-H %-M %-S %N %A, %-d %B %Y")"
 
 ## parse nanos and increment secs if past .5s mark, cascading to hours
+# note: in theory, this script could be called with a, say 0.9s, delay and
+#       without processing would display %S instead of %S+1
 (( ${nanos:0:1} > 4 )) && ((\
     secs++, secs==60)) && ((secs=0,\
     mins++, mins==60)) && ((mins=0,\
