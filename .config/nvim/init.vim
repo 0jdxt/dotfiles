@@ -23,8 +23,8 @@ source $HOME/.config/nvim/plugins/syntastic.vim
 source $HOME/.config/nvim/themes/nord.vim
 
 " misc plugin stuff
-let g:vim_markdown_new_list_item_indent = 0
-let g:vim_markdown_auto_insert_bullets = 0
+let g:vim_markdown_new_list_item_indent = 1
+let g:vim_markdown_auto_insert_bullets = 1
 let g:vim_markdown_frontmatter = 1
 let g:rustfmt_autosave = 1
 let g:rustfmt_emit_files = 1

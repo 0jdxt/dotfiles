@@ -11,5 +11,6 @@ let g:coc_global_extensions = [
   \ "coc-rust-analyzer",
   \ "coc-toml",
   \ "coc-tsserver",
+  \ "coc-markdownlint",
   \ "coc-marketplace",
   \ ]
