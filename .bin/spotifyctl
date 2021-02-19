@@ -23,13 +23,13 @@ EOF
 [ "$1" = "-h" ] || [ "$1" = "--help" ] && usage && exit
 
 # If spotify is not running, leave polybar input empty and print message.
-if ! pgrep -ix spotify >/dev/null; then
-    echo "spotify not running"
+if ! pgrep -ix spotifyd >/dev/null; then
+    echo "spotifyd not running"
     exit 1
 fi
 
 # execute dbus commands and hide stderr from polybar
-dbus_str="qdbus org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player";
+dbus_str="qdbus org.mpris.MediaPlayer2.spotifyd /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player";
 function sp() {
     if [ -n "$1" ]; then
         eval "$dbus_str.$1" 2>&1
@@ -40,7 +40,7 @@ function sp() {
 
 function extract_meta() {
     # usage: extract_meta DATA FIELD
-    echo "$1" | grep "$2" | head -n 1 | awk '{$1=""; print}' | xargs
+    echo "$1" | grep "$2" | head -n 1 | awk -F: '{print $3}' | xargs -0
 }
 
 case "$1" in
@@ -70,6 +70,6 @@ if read -r pb_status <<< "$(sp PlaybackStatus)"; then
         echo "no metadata"
     fi
 else
-    echo "spotify not running"
+    echo "spotifyd not running"
 fi
 

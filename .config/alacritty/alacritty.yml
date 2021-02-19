@@ -28,7 +28,7 @@ window:
   #   - Windowed
   #   - Maximized
   #   - Fullscreen
-  startup_mode: Fullscreen
+  startup_mode: Maximized
   title: Alacritty
   class: Alacritty
   gtk_theme_variant: None
@@ -177,7 +177,7 @@ mouse:
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>"
   # When set to `true`, selected text will be copied to the primary clipboard.
-  save_to_clipboard: false
+  save_to_clipboard: true
 
 cursor:
   # Cursor style: ▇ Block,  _ Underline, | Beam
@@ -205,7 +205,7 @@ shell:
 #
 # Directory the shell is started in. If this is unset, or `None`, the working
 # directory of the parent process will be used.
-working_directory: None
+working_directory: /home/jay
 
 # Send ESC (\x1b) before characters when alt is pressed.
 alt_send_esc: true
@@ -319,7 +319,7 @@ key_bindings:
   - { key: C,        mods: Alt,       action: Copy             }
   - { key: Key0,     mods: Alt,       action: ResetFontSize    }
   - { key: Equals,   mods: Alt,       action: IncreaseFontSize }
-  - { key: Add,      mods: Alt,       action: IncreaseFontSize }
-  - { key: Subtract, mods: Alt,       action: DecreaseFontSize }
+  - { key: NumpadAdd,      mods: Alt,       action: IncreaseFontSize }
+  - { key: NumpadSubtract, mods: Alt,       action: DecreaseFontSize }
   - { key: Minus,    mods: Alt,       action: DecreaseFontSize }
 

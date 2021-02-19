@@ -56,17 +56,21 @@ fi
 
 ###
 # init programs
-function run { pgrep "$1" || "$@" & }
+function run { pgrep "$1$" || "$@" & }
 run sxhkd
+run nitrogen --restore
+run spotifyd
 run /home/jay/.config/polybar/launch.sh
 run picom -bc --experimental-backends
-run nitrogen --restore
-run ckb-next -b
 run lxpolkit
 run xbanish
 run bluetooth off
 run wifi off
 run cleanfullscreen
+run ckb-next -b
+run protonvpn-tray
+run protonmail-bridge
+run playerctld daemon
 
 # focus 2nd desktop
 bspc desktop -f II

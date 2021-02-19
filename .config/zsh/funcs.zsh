@@ -4,24 +4,36 @@
 # prints custom zsh functions
 # Args: none
 function funcs {
-    grep -E -A3 '^## [A-Z\.]{2,}' $ZDOTDIR/funcs.zsh
+    grep -E -A2 '^## [A-Z\.]{2,}' $ZDOTDIR/funcs.zsh
+}
+
+## PARU
+# wrapper for paru - sets `--devel` for updates
+# Args: inherited
+# function paru {
+#     (($# == 0)) && set -- "-Syu" "--devel"
+#     command paru $@
+# }
+
+## SUDOEDIT
+# sudoedit wrapper to get syntax highlighting in vim
+# Args: inherited
+function sudoedit {
+    SUDO_COMMAND="sudoedit $@" command sudoedit "$@"
 }
 
 ## FUCK
 # shortcut for `$ sudo !!`
 # Args: none
 function fuck {
-    cmd="sudo $(fc -ln -1)"
-    echo $cmd
-    eval $cmd
-}
-
+     sudo $(fc -ln -1)
+ }
 
 ## CD
 # run ls after cd
 # Args: path?
 function cd {
-    builtin cd $1 && l
+    builtin cd $1 && lsd --group-dirs first
 }
 
 
@@ -72,6 +84,18 @@ function _ank {
 }
 compdef _ank ank
 
+function _unp {
+    exts=($(unp -s 2>/dev/null | tail -n +2 | awk -F: '{print $1}' | tr ',' '\n'))
+    files=($(for ext in ${exts[@]}; do
+        for file in *.$ext; do
+            echo $file;
+        done
+    done))
+    compset -P '*'
+    compadd -a files
+}
+compdef _unp unp
+
 
 ## SCR
 # close terminal then take screenshot after 3s delay
@@ -82,7 +106,7 @@ function scr {
     for i in $(seq 3 -1 1); do
         notify-send scr "taking shot in $i..." -t 900
         sleep 1
-    done & disown 
+    done & disown
 
     exit
 }

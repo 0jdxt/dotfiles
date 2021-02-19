@@ -34,3 +34,21 @@ let g:codestats_api_key = 'SFMyNTY.YW1SNGRBPT0jI05Ua3pOUT09.PPy-4F3qHwT8VKZqO2-n
 let g:closetag_filetypes = "html,php"
 let g:clang_format#auto_format = 1
 
+function! s:SudoEditInit() abort
+  let files = split($SUDO_COMMAND, ' ')[1:-1]
+  if len(files) ==# argc()
+    for i in range(argc())
+      execute 'autocmd BufEnter' fnameescape(argv(i))
+            \ 'if empty(&filetype) || &filetype ==# "conf"'
+            \ '|doautocmd filetypedetect BufReadPost '.fnameescape(files[i])
+            \ '|endif'
+    endfor
+  endif
+endfunction
+if $SUDO_COMMAND =~# '^sudoedit '
+  call s:SudoEditInit()
+endif
+
+" fix sizing bug in alacritty for 'alacritty -e nvim %F'
+autocmd VimEnter * :silent exec "!kill -s SIGWINCH $PPID"
+

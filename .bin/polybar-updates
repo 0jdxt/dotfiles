@@ -1,20 +1,32 @@
 #!/bin/bash
 
+FILE=/tmp/polybarupdates
+
 # helper to count lines of a command's output
 function lc {
     "$@" 2>/dev/null | wc -l
 }
 
-updates_arch=$(lc checkupdates)
-updates_aur=$(lc yay -Qum --devel)
-updates=$(( updates_arch + updates_aur ))
+# count updates
+function fetch_updates {
+    updates_arch=$(lc checkupdates)
+    updates_aur=$(lc paru -Qum --devel)
+    echo "📦 $(( updates_arch + updates_aur ))" > $FILE
+}
 
-if [ -n "$1" ] && [ -n "$2" ]; then
-    colour=$2
-    (( updates > 0 )) && colour=$1
+spinner=(⡀ ⡄ ⡔ ⡜ ⠝ ⠛ ⠫ ⢣ ⢢ ⢠ ⢀ "⠀" "⠀" "⠀")
+while true; do
+    for c in "${spinner[@]}"; do
+        echo "📦 $c"
+        sleep 0.1
+    done
+done &
+loop=$!
 
-    echo "%{o$colour}%{+o} 📦 $updates %{o-}"
-else
-    echo "📦 $updates"
-fi
+fetch_updates &
+fetch=$!
+
+wait $fetch
+kill $loop
+cat $FILE
 

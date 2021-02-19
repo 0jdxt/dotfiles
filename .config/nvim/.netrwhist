@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =3
+let g:netrw_dirhist_3='/home/jay/.config/transmission-daemon'
+let g:netrw_dirhist_2='/home/jay/repos/polybar-kdeconnect'
+let g:netrw_dirhist_1='/home/jay/dox/lang_proc/turtle-interpreter-exercise'
+let g:netrw_dirhist_0='/home/jay/repos/lsd/src'
+let g:netrw_dirhist_9='/home/jay/dox/cpp/in2029-portfolio-0jdxt/coursework'
+let g:netrw_dirhist_8='/home/jay/repos/lsd/src/meta'
+let g:netrw_dirhist_7='/home/jay/repos/polybar-kdeconnect'
+let g:netrw_dirhist_6='/home/jay/dl/bundle'
+let g:netrw_dirhist_5='/home/jay/dox/rust_stuff/fpl/cache'
+let g:netrw_dirhist_4='/home/jay/repos/polybar-spotify'

@@ -1,14 +1,16 @@
-## SRC
-# sources files if they exist
-# Args: file
-function src { [ -f $1 ] && source $1 }
-
 ## basic zsh options
 autoload -U colors && colors
 setopt autocd
 zle && { zle reset-prompt; zle -R }
 
-## history
+zc() {
+    ([ ! -f "$1.zwc" ] || [ $1 -nt "$1.zwc" ]) && zcompile $1
+}
+zc $ZDOTDIR/.zshrc
+zc $ZDOTDIR/funcs.zsh
+zc $ZDOTDIR/zr.zsh
+
+# history
 HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE=~/.cache/zsh/history
@@ -25,20 +27,27 @@ unsetopt complete_aliases
 fpath=(~/.config/zsh/comp $fpath)
 zmodload zsh/complist
 _comp_options+=(globdots)
-zstyle ':completion:*' menu select
+zstyle ':completion:*' menu select=2
+zstyle ':completion:*' rehash true
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
 ## environment stuff
-src ~/.config/aliasrc
-src ~/.fzf.zsh
+source ~/.config/aliasrc
+source ~/.fzf.zsh
 
 ## functions & completions
 autoload -Uz compinit
-compinit
+compdump="$ZDOTDIR/.zcompdump"
+if [[ -n "$compdump" ]]; then
+  compinit -i "$compdump"
+else
+  compinit -C "$compdump"
+fi
 # NB: load after compinit for completions
-src ~/.config/zsh/funcs.zsh
-# load aws completions
-src /usr/bin/aws_zsh_completer.sh
+source ~/.config/zsh/funcs.zsh
+# load aws completions - only thing that needs bashcompinit
+autoload bashcompinit && bashcompinit
+complete -C '/usr/bin/aws_completer' aws
 
 ## vi mode, modified from LukeSmithxyz
 bindkey -v
@@ -59,9 +68,8 @@ bindkey "^[[B" history-beginning-search-forward-end
 
 ## clear bind
 function clear-scrollback {
-    printf "\ec\e[3J"
+    echo -en "\ec\e[3J"
     pfetch
-    echo -n "\033[F" # move cursor up a line
     zle reset-prompt
     zle zle-line-init
 }
@@ -69,18 +77,17 @@ zle -N clear-scrollback
 bindkey '^L' clear-scrollback
 
 ## plugins
-zr=~/.config/zsh/zr.zsh
-if [[ ! -f $zr ]] || [ ~/.config/zsh/.zshrc -nt $zr ]; then
+export _ZR=$ZDOTDIR/zr.zsh
+if [[ ! -f $_ZR ]] || [ $ZDOTDIR/.zshrc -nt $_ZR ]; then
     zr \
-        agkozak/polyglot \
         hlissner/zsh-autopair \
         zpm-zsh/colorize \
         twang817/zsh-clipboard \
         rapgenic/zsh-git-complete-urls \
-    > $zr
+        zdharma/fast-syntax-highlighting \
+    > $_ZR
 fi
-# TODO: use zr for dl and update, make own sourcer/parser
-src $zr
+source $_ZR
 
 ## prompt
 # NB: must go after plugins
@@ -105,7 +112,6 @@ function zle-line-init {
 }
 zle -N zle-line-init
 
-# load highlighting last
-zr zdharma/fast-syntax-highlighting > "${zr}2"
-src "${zr}2"
+eval $(starship init zsh)
+
 

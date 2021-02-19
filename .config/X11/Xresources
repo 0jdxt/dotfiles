@@ -56,7 +56,7 @@ Xft.lcdfilter: lcdfilter
 
 XTerm*renderFont: true
 XTerm*faceName: xft: Blex Mono Nerd Font:antialias=true
-XTerm*faceSize: 11
+XTerm*faceSize: 10
 XTerm*utf8: 2
 XTerm*locale: true
 XTerm.vt100.saveLines: 4096
@@ -65,4 +65,4 @@ XTerm*loginShell: true
 XTerm*termName: xterm-256color
 
 UXTerm*faceName: xft: Blex Mono Nerd Font:antialias=true
-UXTerm*faceSize: 11
+UXTerm*faceSize: 10
