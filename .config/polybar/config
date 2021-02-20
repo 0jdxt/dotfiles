@@ -155,13 +155,12 @@ exec = ~/repos/weather/weather
 [module/mpris]
 type = custom/script
 tail = true
-exec = ~/repos/polybar-mpris/scroll_status.sh
+exec = ~/repos/polybar-mpris/scroll_status.sh music
 format-underline = ${colors.green}
 
 [module/mpris-prev]
 type = custom/script
 exec = echo "玲"
-format = <label>
 click-left = playerctl previous
 
 [module/mpris-play-pause]
@@ -174,7 +173,6 @@ click-left = playerctl play-pause
 [module/mpris-next]
 type = custom/script
 exec = echo "怜"
-format = <label>
 click-left = playerctl next
 
 [module/picom]

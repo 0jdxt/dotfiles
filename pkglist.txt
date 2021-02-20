@@ -156,7 +156,6 @@ handbrake
 handbrake-cli
 hardinfo
 heimdall-git
-heroic-games-launcher-bin
 heroku-cli
 hexyl
 htop
@@ -300,6 +299,8 @@ obconf
 obkey-gtk3
 obmenu2-git
 obs-studio
+olive
+olive-community-effects-git
 open-fuse-iso
 openbox
 opendoas
@@ -372,6 +373,7 @@ sed
 semver
 shadow
 shellcheck
+silentcast
 skim-git
 skopeo
 spectre-meltdown-checker

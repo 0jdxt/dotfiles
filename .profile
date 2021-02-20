@@ -6,7 +6,8 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 export BROWSER=brave
 export EDITOR=nvim
 export PAGER=most
-export TERM=xterm-256color
+# export TERM=xterm-256color
+export TERM=alacritty
 export WM=bspwm
 
 export ZDOTDIR="$HOME/.config/zsh"

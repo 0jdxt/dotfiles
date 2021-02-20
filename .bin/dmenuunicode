@@ -5,7 +5,7 @@
 # Must have xclip installed to even show menu.
 xclip -h 2>/dev/null || exit
 
-chosen=$(grep -v "#" ~/.bin/emoji | dmenu -i -g 3 -l 20 -p "Select a character:")
+chosen=$(grep -v "#" ~/.bin/emoji | dmenu -z 600 -i -g 3 -l 20 -p "Select a character:")
 
 [ "$chosen" != "" ] || exit
 
