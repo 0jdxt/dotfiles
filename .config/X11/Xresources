@@ -53,6 +53,7 @@ Xft.rgba: rgb
 Xft.autohint: true
 Xft.hintstyle: hintfull
 Xft.lcdfilter: lcdfilter
+Xcursor.theme: oreo_nord_snow_1_cursors
 
 XTerm*renderFont: true
 XTerm*faceName: xft: Blex Mono Nerd Font:antialias=true

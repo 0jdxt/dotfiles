@@ -114,4 +114,3 @@ zle -N zle-line-init
 
 eval $(starship init zsh)
 
-

@@ -5,12 +5,10 @@
 # terminal emulator
 super + Return
 	tabbed -kc -p -1 -r 2 alacritty --embed ''
-super + shift + Return
-	tabbed -kc -p -1 -r 2 st -w '' -t st -e zsh --login
 
 # program launcher
 super + space
-	dmenu_run -z 350 -g 2 -i -p "run: "
+	dmenu_run -z 500 -g 2 -i -p "run: "
 
 # browser
 super + b
@@ -20,14 +18,22 @@ super + b
 super + u
 	dmenuunicode
 
+# tmenu
+super + t
+	tmenu || torr
+
+# torr
+super + shift + t
+	torr
+
 # make sxhkd reload its configuration files:
 super + Escape
 	pkill -INT sxhkd && sxhkd &; notify-send "sxhkd reloaded"
 
 XF86AudioRaiseVolume
-	/home/jay/.bin/volumectl up
+	volumectl up
 XF86AudioLowerVolume
-	/home/jay/.bin/volumectl down
+	volumectl down
 
 XF86MonBrightnessUp
 	xbacklight -inc 10 -steps 10
@@ -58,7 +64,7 @@ super + {_,shift + }q
 
 # lockscreen
 super + shift + x
-	betterlockscreen -l dimblur
+	light-locker-command -l
 
 # alternate between the tiled and monocle layout
 super + m

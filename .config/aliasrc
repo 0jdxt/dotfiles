@@ -15,10 +15,11 @@ alias yt="youtube-dl --add-metadata -ic"
 alias yta="youtube-dl --add-metadata -xic"
 alias tsm="transmission-remote"
 alias top="sudo htop"
+alias tmon="watch -d -n 1 transmission-remote -l"
+alias who="grc who -a"
 
 alias dotfiles="git --git-dir=\$HOME/dotfiles --work-tree=\$HOME"
 alias refr="source ~/.config/zsh/.zshrc"
 alias todo="grep -nrEe 'TODO|FIXME' ."
 alias npm="npm --prefix=\$HOME/.config/npm"
 
-alias tmon="watch -d -n 1 transmission-remote -l"

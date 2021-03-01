@@ -1,0 +1,51 @@
+#!/bin/bash
+#  _ __   ___ | |_   _| |__   __ _ _ __     | |_ ___ _ __ ___       | |__   __ _ _ __
+# | '_ \ / _ \| | | | | '_ \ / _` | '__|____| __/ __| '_ ` _ \ _____| '_ \ / _` | '__|
+# | |_) | (_) | | |_| | |_) | (_| | | |_____| |_\__ \ | | | | |_____| |_) | (_| | |
+# | .__/ \___/|_|\__, |_.__/ \__,_|_|        \__|___/_| |_| |_|     |_.__/ \__,_|_|
+# |_|            |___/
+##
+
+icons=(
+  "⠄    "
+  "⠆    "
+  "⠦    "
+  "⠶    "
+  "⠶⠄   "
+  "⠶⠆   "
+  "⠶⠦   "
+  "⠶⠶   "
+  "⠶⠶⠄  "
+  "⠶⠶⠆  "
+  "⠶⠶⠦  "
+  "⠶⠶⠶  "
+  "⠶⠶⠶⠄ "
+  "⠶⠶⠶⠆ "
+  "⠶⠶⠶⠦ "
+  "⠶⠶⠶⠶ "
+  "⠶⠶⠶⠶⠄"
+  "⠶⠶⠶⠶⠆"
+  "⠶⠶⠶⠶⠦"
+  "⠶⠶⠶⠶⠶"
+)
+
+function quit {
+    echo "ﲐ 😴"
+    rm -f "$tmp"
+    exit 0
+}
+
+tmp="/tmp/tsm-bar"
+list=$(transmission-remote -l | tail -n+2)
+biggest="$(echo "$list" | head -n-1 | grep -vE "100\%|None|Idle" | awk '{print $2}' | sort -rn | head -n1 | cut -d'%' -f1)"
+[ -z "$biggest" ] && quit
+
+echo "$list" | tail -n-1 | awk '{print $5}' >> "$tmp"
+(( $(wc -l "$tmp" | cut -d' ' -f1) > 5 )) && sed -i 1d "$tmp"
+
+speed="$(jq -s add/length "$tmp" | cut -d'.' -f1)"
+(( speed == 0 )) && quit
+
+{ (( biggest < 5 )) && icon="     "; } || icon="${icons[$(((biggest-5)/5))]}"
+echo "ﲐ $(numfmt --from iec-i --to iec "${speed}Ki") [$icon] $biggest%"
+

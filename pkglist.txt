@@ -5,10 +5,12 @@ acpi
 acpid
 acpilight
 adapta-maia-theme
+advcpmv
 adwaita-qt
 alacritty
 alsa-firmware
 alsa-plugins
+alsa-tools
 alsa-utils
 alsamixergui
 amfora
@@ -17,6 +19,7 @@ android-udev
 apparmor
 arandr
 arch-install-scripts
+archiver
 archlinux-artwork
 ardour
 aria2
@@ -31,7 +34,6 @@ b43-fwcutter
 bandwhich
 bash
 bear
-betterlockscreen-git
 bind
 binutils
 bison
@@ -65,6 +67,7 @@ crda
 cronie
 cryptsetup
 ctags
+dconf-editor
 deluge
 device-mapper
 dfc
@@ -75,7 +78,7 @@ dict-freedict-fra-eng
 dict-moby-thesaurus
 dict-wikt-en-all
 diffutils
-discord-canary
+discord_arch_electron
 dmidecode
 dmraid
 dnsmasq
@@ -90,6 +93,7 @@ ebtables
 ecryptfs-utils
 efibootmgr
 efibootmgr-gui-git
+enhanced-ctorrent
 etcher-bin
 exercism-bin
 exfatprogs
@@ -136,12 +140,14 @@ grep
 grub
 grub-theme-manjaro-dev
 gsimplecal
+gsound
 gst-libav
 gst-plugins-bad
 gst-plugins-base
 gst-plugins-good
 gst-plugins-ugly
 gstreamer
+gtk-engine-murrine
 gtk4
 gtksourceview-pkgbuild
 gucharmap
@@ -174,6 +180,8 @@ j4-dmenu-desktop-git
 java-openjfx
 javacc
 jdk-openjdk
+jellyfin-server-bin
+jellyfin-web-bin
 jfsutils
 jq
 kakoune
@@ -181,9 +189,9 @@ kakoune-extra-filetypes-git
 kdeconnect
 keybase-bin
 keybase-zsh-completion-git
+kodi
 kubectl
 kvantum-manjaro
-lab
 lastpass
 lastpass-cli
 lbry-app-bin
@@ -197,6 +205,7 @@ libappindicator-gtk3
 libcpuid
 libdvdcss
 libgpod
+libiconv
 libnfs
 libreoffice-still
 libsoundio-git
@@ -204,8 +213,10 @@ libtool
 libxft-bgra-git
 libxp
 licenses
+light-locker
 lightdm
 lightdm-gtk-greeter
+lightdm-mini-greeter-git
 lightdm-webkit2-theme-alter-git
 lightdm-webkit2-theme-glorious
 linux510
@@ -236,7 +247,7 @@ manjaro-browser-settings
 manjaro-firmware
 manjaro-hello
 manjaro-hotfixes
-manjaro-printer
+manjaro-pulse
 manjaro-ranger-settings
 manjaro-release
 manjaro-settings-manager-notifier
@@ -255,7 +266,6 @@ mkinitcpio-openswap
 mlocate
 mobile-broadband-provider-info
 modemmanager
-most
 mousepad
 mp3info
 mpv
@@ -281,7 +291,7 @@ nfs-utils
 ninja
 nitrogen-git
 nmap
-nnn
+nnn-nerd
 nodejs
 noise-suppression-for-voice
 nordic-darker-standard-buttons-theme
@@ -307,12 +317,13 @@ opendoas
 openresolv
 openssh
 optimus-manager-git
-optimus-manager-qt-git
+optimus-manager-qt
 oracle-java-extras
 oreo-cursors-git
 oreo-nord-cursors-git
 os-prober
 oxygen-icons
+oxygen-sounds
 p7zip
 pacman
 pamac-gtk
@@ -321,6 +332,7 @@ papirus-folders-nordic
 paru-git
 patch
 patchutils
+pavolume-git
 pavucontrol
 pciutils
 pcmanfm
@@ -338,6 +350,7 @@ popcorntime-git
 poppler-data
 powershell-bin
 powertop
+preload
 prettyping
 procps-ng
 progress
@@ -352,13 +365,15 @@ pygtk
 python-cpplint
 python-passlib
 python2-pip
-qemu
 qt5-styleplugins
 qt5ct
 qutebrowser
 ranger
+rar
 rclone
+recode
 reiserfsprogs
+ripcord
 ripgrep-git
 rofi
 rsync
@@ -371,11 +386,14 @@ screenfetch
 scrot
 sed
 semver
+sfeed-curses
+sfeed-git
 shadow
 shellcheck
 silentcast
 skim-git
 skopeo
+sound-theme-smooth
 spectre-meltdown-checker
 speedtest-cli
 spicetify-cli
@@ -412,8 +430,10 @@ tint2
 tk
 tlp
 tmux
+toastify
 tor
 torbrowser-launcher
+traceroute
 transmission-cli
 transmission-gtk
 trash-cli
@@ -426,8 +446,10 @@ ttf-font-icons
 ttf-inconsolata
 ttf-indic-otf
 ttf-liberation
+ttf-mizutama-emoji
 ttf-ms-fonts
 ttf-symbola
+ttf-twemoji-color
 tulizu
 umbrello
 unetbootin-git
@@ -442,7 +464,6 @@ valgrind
 vi
 vibrancy-icons-teal
 vifm
-virt-manager
 virtualgl
 vkd3d
 vlc
@@ -470,7 +491,8 @@ xdg-su
 xdg-user-dirs
 xdg-utils-handlr
 xdo-git
-xdotool
+xdotool-git
+xdotool-gui
 xf86-input-elographics
 xf86-input-evdev
 xf86-input-libinput
@@ -490,6 +512,8 @@ xorg-xhost
 xorg-xinit
 xorg-xkill
 xorg-xprop
+xorg-xsetroot
+xorg-xwininfo
 xsel
 xsv-bin
 xterm
