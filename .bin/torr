@@ -6,42 +6,53 @@
 #  \__\___/|_|  |_|
 #
 ##
-# - search tpb for torrents using jq and dmenu
+# - search tpb for torrents using jq and dmenu/fzf
 ##
 
-term=${1:-$(echo -n | dmenu -z 500 -p "search for torrents:")}
-[ -z "$term" ] && exit 1
+# default to dmenu, if in terminal use fzf
+MENU=dmenu
+tty -s && MENU=fzf
+
+LINES=10
+
+function menu {
+    [ -z "$1" ] && echo "Usage: menu PROMPT" && exit 1
+    if [ $MENU = fzf ]; then
+        fzf --print-query --height $LINES --prompt "$1 "
+    else
+        dmenu -l $LINES -z 800 -p "$1"
+    fi
+}
+
+term=${1:-$(echo -n | menu "search for torrents:")}
+[ -z "$term" ] && echo "search aborted!" && exit 1
+
+function mem_icon {
+    MB=$((1024**2))
+    GB=$((1024*MB))
+    (( size >  10*GB - 1)) && echo "⣿" && exit
+    (( size >   5*GB - 1)) && echo "⣷" && exit
+    (( size >   1*GB - 1)) && echo "⣧" && exit
+    (( size > 500*MB - 1)) && echo "⣇" && exit
+    (( size > 100*MB - 1)) && echo "⡇" && exit
+    (( size >  50*MB - 1)) && echo "⡆" && exit
+    (( size >  10*MB - 1)) && echo "⡄" && exit
+    echo "⡀"
+}
 
 function show_torrents {
     # get torrents, sorted by seeds
-    api_url="https://apibay.org/q.php"
-    data="$(curl -s --data-urlencode "q=$term" "$api_url" --compressed | sed 's/`//g')"
+    data="$(curl -s --data-urlencode "q=$term" "https://apibay.org/q.php" --compressed)" # | sed 's/`//g')"
     [ -z "$data" ] && toastify send torr "no curl data!" && return 1
 
-    filter='sort_by(.seeders | tonumber) | reverse | map([.size,.seeders,.info_hash,.name] | join(" ")) | join("\n")'
     while read -r size seeds mhash name; do
-        if (( size > 10*1024**3 - 1)); then # 10G
-            icon="⣿"
-        elif (( size > 5*1024**3 - 1)); then # 5G
-            icon="⣷"
-        elif (( size > 1024**3 - 1)); then # 1GB
-            icon="⣧"
-        elif (( size > 500*1024**2 - 1)); then # 500MB
-            icon="⣇"
-        elif (( size > 100*1024**2 - 1)); then # 100MB
-            icon="⡇"
-        elif (( size > 50*1024**2 - 1 )); then # 50MB
-            icon="⡆"
-        elif (( size > 10*1024**2 - 1 )); then # 10MB
-            icon="⡄"
-        else
-            icon="⡀"
-        fi
-        printf "$icon %4s  🌱 $seeds    %-100s %s\n" "$(numfmt --to iec "$size")" "$name" "$mhash"
-    done <<< "$(echo "$data" | jq -r "$filter")"
+        printf "$(mem_icon "$size") %4s  🌱 $seeds  🧲 %-100s %s\n" "$(numfmt --to iec "$size")" "$name" "$mhash"
+    done <<< "$(echo "$data" | jq -r 'sort_by(.seeders | tonumber) | reverse | map([.size,.seeders,.info_hash,.name] | join(" ")) | join("\n")')"
 }
 
 # get torrents and display menu
-mhash="$(show_torrents | dmenu -i -z 1000 -l 20 -p "select a torrent to download:" | rev | cut -d' ' -f1 | rev)"
-[ -n "$mhash" ] && handlr open "magnet:?xt=urn:btih:$mhash&dn=$term&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.dler.org%3A6969%2Fannounce&tr=udp%3A%2F%2Fopentracker.i2p.rocks%3A6969%2Fannounce&tr=udp%3A%2F%2F47.ip-51-68-199.eu%3A6969%2Fannounce"
+selected="$(show_torrents | menu "select a torrent to download:")"
+mhash="$(echo "$selected" | rev | cut -d' ' -f1 | rev)"
+name="$(echo "$selected" | cut -d' ' -f9- | rev | cut -d' ' -f2- | rev | xargs echo | python -c "import urllib.parse;print(urllib.parse.quote(input()))")"
+[ -n "$mhash" ] && xdg-open "magnet:?xt=urn:btih:$mhash&dn=$name&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.dler.org%3A6969%2Fannounce&tr=udp%3A%2F%2Fopentracker.i2p.rocks%3A6969%2Fannounce&tr=udp%3A%2F%2F47.ip-51-68-199.eu%3A6969%2Fannounce"
 
