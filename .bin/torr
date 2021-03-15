@@ -50,9 +50,16 @@ function show_torrents {
     done <<< "$(echo "$data" | jq -r 'sort_by(.seeders | tonumber) | reverse | map([.size,.seeders,.info_hash,.name] | join(" ")) | join("\n")')"
 }
 
+function urlenc {
+    python -c "import urllib.parse.quote as q; print(q(input()))"
+}
+
 # get torrents and display menu
-selected="$(show_torrents | menu "select a torrent to download:")"
+selected="$(show_torrents | menu "select a torrent to download:" | tail -n1)"
+[ -z "$selected" ] && echo "No torrent selected." && exit 1
+
 mhash="$(echo "$selected" | rev | cut -d' ' -f1 | rev)"
-name="$(echo "$selected" | cut -d' ' -f9- | rev | cut -d' ' -f2- | rev | xargs echo | python -c "import urllib.parse;print(urllib.parse.quote(input()))")"
+name="$(echo "$selected" | cut -d' ' -f9- | rev | cut -d' ' -f2- | rev | urlenc)"
+
 [ -n "$mhash" ] && xdg-open "magnet:?xt=urn:btih:$mhash&dn=$name&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.dler.org%3A6969%2Fannounce&tr=udp%3A%2F%2Fopentracker.i2p.rocks%3A6969%2Fannounce&tr=udp%3A%2F%2F47.ip-51-68-199.eu%3A6969%2Fannounce"
 
