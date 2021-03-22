@@ -1,18 +1,18 @@
-#!/usr/bin/env sh
+#!/usr/bin/bash
+# shellcheck disable=SC2059
 
 # The famous "get a menu of emojis to copy" script.
 
-# Must have xclip installed to even show menu.
-xclip -h 2>/dev/null || exit
+# get chosen emoji or exit
+chosen=$(cut -d';' -f1 ~/.bin/emoji | dmenu -z 600 -i -g 3 -l 20 -p "Select a character:" | sed 's/ .*//')
+[ -z "$chosen" ] && exit
 
-chosen=$(grep -v "#" ~/.bin/emoji | dmenu -z 600 -i -g 3 -l 20 -p "Select a character:")
+if [ -n "$1" ]; then
+    # with arg, type
+    xdotool type "$chosen"
+else
+    # without, copy
+    printf "$chosen" | xclip -selection clipboard
+    toastify send --id 98765 --icon gtk-copy "$chosen"
+fi
 
-[ "$chosen" != "" ] || exit
-
-c=$(echo "$chosen" | sed "s/ .*//")
-echo "$c" | tr -d '\n' | xclip -selection clipboard
-notify-send "'$c' copied to clipboard." &
-
-s=$(echo "$chosen" | sed "s/.*; //" | awk '{print $1}')
-echo "$s" | tr -d '\n' | xclip
-notify-send "'$s' copied to primary." &

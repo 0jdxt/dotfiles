@@ -22,6 +22,7 @@ archiver
 archlinux-artwork
 ardour
 aria2
+aspell-en
 atomicparsley
 authy
 autoconf
@@ -86,8 +87,10 @@ discover-overlay-git
 dmidecode
 dmraid
 dnsmasq
+dolphin-emu
 dos2unix-git
 dosfstools
+dotbare
 downgrade
 dragon-drag-and-drop
 droidcam
@@ -97,6 +100,7 @@ ebtables
 ecryptfs-utils
 efibootmgr
 efibootmgr-gui-git
+element-desktop-nightly-bin
 enhanced-ctorrent
 etcher-bin
 exercism-bin
@@ -197,6 +201,7 @@ jfsutils
 jq
 kakoune
 kakoune-extra-filetypes-git
+kde-servicemenus-rootactions
 kdeconnect
 keybase-bin
 keybase-zsh-completion-git
@@ -218,6 +223,7 @@ libgpod
 libiconv
 libnfs
 libreoffice-still
+libretro-dolphin
 libsoundio-git
 libtool
 libxft-bgra-git
@@ -327,8 +333,6 @@ obconf
 obkey-gtk3
 obmenu2-git
 offlineimap3-git
-olive
-olive-community-effects-git
 open-fuse-iso
 openbox
 openbsd-netcat
@@ -383,6 +387,8 @@ python-cpplint
 python-passlib
 python-pip
 python2-pip
+qemu
+qt-virt-manager
 qt5-styleplugins
 qt5ct
 qutebrowser
@@ -415,6 +421,7 @@ silentcast
 skim-git
 skopeo
 sound-theme-smooth
+sox
 spectre-meltdown-checker
 speedtest-cli
 spicetify-cli
@@ -432,7 +439,6 @@ sudo
 superpaper
 sxhkd-git
 sxiv-git
-syncthing-gtk
 sysfsutils
 syslog-ng
 systemd
@@ -503,6 +509,7 @@ vsftpd
 vulkan-intel
 w3m
 wallpapers-juhraya
+webapp-manager
 wget
 which
 wingpanel

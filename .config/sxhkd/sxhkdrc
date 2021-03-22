@@ -4,7 +4,7 @@
 
 # terminal emulator
 super + Return
-	tabbed -kc -p -1 -r 2 alacritty --embed ''
+	tabbed -kc -r 2 alacritty --embed WID
 
 # program launcher
 super + space
@@ -26,15 +26,29 @@ super + t
 super + shift + t
 	torr
 
-# make sxhkd reload its configuration files:
+# rss
+super + r
+	alacritty -e newsboat
+
+# mail
+super + m
+	alacritty -e neomutt
+
+# reload bspwm
+super + shift + r
+	bspc wm --restart
+
+# sxhkd reload
 super + Escape
 	pkill -INT sxhkd && sxhkd &; notify-send "sxhkd reloaded"
 
+# volume keys
 XF86AudioRaiseVolume
 	volumectl up
 XF86AudioLowerVolume
 	volumectl down
 
+# brightness keys
 XF86MonBrightnessUp
 	xbacklight -inc 10 -steps 10
 XF86MonBrightnessDown
@@ -44,11 +58,11 @@ shift + XF86MonBrightnessUp
 shift + XF86MonBrightnessDown
 	xbacklight -dec 2 -steps 10
 
+# screenshots
 super + s
-	scrot -e 'mv $f ~/pix/screens/ && notify-send scrot "screen saved to ~/pix/screens/"'
-
+	screen
 @super + shift + s
-	scrot -s -e 'mv $f ~/pix/screens/ && notify-send scrot "screen saved to ~/pix/screens/"'
+	screen select
 
 #
 # bspwm hotkeys
@@ -65,10 +79,6 @@ super + {_,shift + }q
 # lockscreen
 super + shift + x
 	light-locker-command -l
-
-# alternate between the tiled and monocle layout
-super + m
-	bspc desktop -l next
 
 # send the newest marked node to the newest preselected node
 super + y

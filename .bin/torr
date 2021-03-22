@@ -22,9 +22,6 @@ function menu {
     fi
 }
 
-term=${1:-$(echo -n | menu "search for torrents:")}
-[ -z "$term" ] && echo "search aborted!" && exit 1
-
 function mem_icon {
     MB=$((1024**2))
     GB=$((1024*MB))
@@ -40,7 +37,7 @@ function mem_icon {
 
 function show_torrents {
     # get torrents, sorted by seeds
-    data="$(curl -s --data-urlencode "q=$term" "https://apibay.org/q.php" --compressed)" # | sed 's/`//g')"
+    data="$(curl -s --data-urlencode "q=$term" "https://apibay.org/q.php" --compressed | sed 's/`//g')"
     [ -z "$data" ] && toastify send torr "no curl data!" && return 1
 
     while read -r size seeds mhash name; do
@@ -52,12 +49,18 @@ function urlenc {
     python -Ic "import urllib.parse as _; print(_.quote(input()))"
 }
 
-# get torrents and display menu
-selected="$(show_torrents | menu "select a torrent to download:" | tail -n1)"
-[ -z "$selected" ] && echo "No torrent selected." && exit 1
+while true; do
+    term=${1:-$(echo -n | menu "search for torrents:")}
+    [ -n "$1" ] && shift
+    [ -z "$term" ] && exit
 
-# extract selected and open
-mhash="$(echo "$selected" | rev | cut -d' ' -f1 | rev)"
-name="$(echo "$selected" | cut -d' ' -f9- | rev | cut -d' ' -f2- | rev | urlenc)"
-[ -n "$mhash" ] && xdg-open "magnet:?xt=urn:btih:$mhash&dn=$name&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.dler.org%3A6969%2Fannounce&tr=udp%3A%2F%2Fopentracker.i2p.rocks%3A6969%2Fannounce&tr=udp%3A%2F%2F47.ip-51-68-199.eu%3A6969%2Fannounce"
+    # get torrents and display menu
+    selected="$(show_torrents | menu "select a torrent to download:" | tail -n1)"
+    [ -z "$selected" ] && continue
+
+    # extract selected and open
+    mhash="$(echo "$selected" | rev | cut -d' ' -f1 | rev)"
+    name="$(echo "$selected" | cut -d' ' -f9- | rev | cut -d' ' -f2- | rev | urlenc)"
+    [ -n "$mhash" ] && xdg-open "magnet:?xt=urn:btih:$mhash&dn=$name&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.dler.org%3A6969%2Fannounce&tr=udp%3A%2F%2Fopentracker.i2p.rocks%3A6969%2Fannounce&tr=udp%3A%2F%2F47.ip-51-68-199.eu%3A6969%2Fannounce"
+done
 

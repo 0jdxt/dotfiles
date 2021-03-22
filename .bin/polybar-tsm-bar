@@ -30,7 +30,7 @@ icons=(
 )
 
 function quit {
-    echo "ﲐ 😴"
+    echo # "ﲐ 😴"
     rm -f "$tmp"
     exit 0
 }

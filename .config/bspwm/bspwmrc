@@ -3,11 +3,11 @@
 ###
 # BSPC
 bspc config border_width 0
-bspc config window_gap  2
-bspc config top_padding 33
+bspc config window_gap 2
+bspc config top_padding 5
 bspc config bottom_padding 33
-bspc config left_padding -1
-bspc config right_padding -1
+bspc config left_padding 5
+bspc config right_padding 5
 
 # Multihead behavior
 bspc config remove_disabled_monitors  true
@@ -17,7 +17,7 @@ bspc config split_ratio             0.48
 bspc config borderless_monocle      true
 bspc config gapless_monocle         true
 bspc config automatic_scheme        spiral
-bspc config pointer_follows_focus   true
+bspc config pointer_follows_focus   false
 bspc config removal_adjustment      true
 bspc config pointer_modifier        mod1
 bspc config pointer_action1         move
@@ -30,10 +30,18 @@ bspc rule -a jetbrains-toolbox state=floating
 bspc rule -a ckb-next state=floating
 bspc rule -a "ProtonMail Bridge" state=floating
 bspc rule -a Lxappearance state=floating
+bspc rule -a Discover-overlay state=floating
+bspc rule -a "Manjaro Settings Manager" state=floating
+bspc rule -a Pcmanfm state=floating
+bspc rule -a Java state=floating
+bspc rule -a Blueman-manager state=floating
+bspc rule -a Font-manager state=floating
+bspc rule -a BAPERS state=floating
 
-bspc rule -a discord desktop=^3
+bspc rule -a lightcord desktop=^3
+bspc rule -a mpv desktop=^7
 bspc rule -a Brave-browser desktop=^6
-bspc rule -a vlc desktop=^7
+bspc rule -a "JetBrains Toolbox" manage=on monitor=^1
 
 ###
 # MONITORS
@@ -43,12 +51,9 @@ main=$(grep eDP <<< "$monitors")
 
 if (( n_monitors == 2 )); then
     hdmi=$(grep HDMI <<< "$monitors")
-
     xrandr --output "$hdmi" --auto --above "$main"
-
     bspc monitor "$main" -d I II III IV V
     bspc monitor "$hdmi" -d VI VII VIII IX X
-
     bspc monitor "$main" -s "$hdmi"
 else
     xrandr --auto
@@ -57,14 +62,16 @@ fi
 
 ###
 # init programs
-function run { pgrep "^${1:0:15}$" || "$@" & }
-xsetroot -cursor_name left_ptr
-# heavier programs
+function run { pgrep -x "${1::15}" ||eval "$@" & }
+# set cursor straight away
+run xsetroot -cursor_name left_ptr
+# heavier startup programs
 run nitrogen --restore
-run /home/jay/.config/polybar/launch.sh
+/home/jay/.config/polybar/launch.sh
 run ckb-next -b
 run protonvpn-tray
 run protonmail-bridge --no-window
+# run jetbrains-toolbox
 # daemons, settings etc
 run light-locker
 run sxhkd
@@ -75,12 +82,17 @@ run xbanish
 run bluetooth off
 run wifi off
 run numlockx on
-run picom -bc --experimental-backends
-run cleanfullscreen
 run dmenu_path
-run discord --start-minimized
+run picom -bc --experimental-backends
+run offlineimap
+run cleanfullscreen
+run optimus-manager-qt
+run blueman-tray
+# non essential startup stuff
+run lightcord --start-minimized
+run discord-rpc-extension
 
-# focus 2nd desktop
+# focus 2nd desktop and open terminal
 bspc desktop -f II
-run tabbed -kc -p -1 -r 2 alacritty --embed ''
+run tabbed -kc -r 2 alacritty --embed WID
 

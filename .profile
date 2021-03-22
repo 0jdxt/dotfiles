@@ -5,10 +5,11 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 
 export BROWSER=brave
 export EDITOR=nvim
-export PAGER=most
-# export TERM=xterm-256color
-export TERM=alacritty
+# export TERM=alacritty
+export TERM=xterm-256color
 export WM=bspwm
+export PAGER=more
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 export ZDOTDIR="$HOME/.config/zsh"
 export CARGO_HOME="$HOME/.config/cargo"
@@ -25,6 +26,10 @@ export PERL_LOCAL_LIB_ROOT="$HOME/.config/perl5"
 export PERL_MB_OPT="--install_base $HOME/.config/perl5"
 export PERL_MM_OPT="INSTALL_BASE=$HOME/.config/perl5"
 
+export POLYGLOT_PROMPT_DIRTRIM=1
+export DOTBARE_DIR="$HOME/dotfiles"
+export DOTBARE_TREE="$HOME"
+
 dc=~/.config/dir_colors
 [ -f $dc ] && eval "$(dircolors $dc)"
 
@@ -32,4 +37,5 @@ dc=~/.config/dir_colors
 # [ "$XDG_VTNR" -le 2 ] && tbsm
 
 # echo "SOURCED AS $0"
+
 

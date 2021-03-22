@@ -21,7 +21,7 @@ setopt hist_ignore_dups
 setopt hist_ignore_space
 setopt hist_verify
 setopt share_history
-unsetopt complete_aliases
+setopt complete_aliases
 
 ## autocomplete
 fpath=(~/.config/zsh/comp $fpath)
@@ -80,6 +80,7 @@ bindkey '^L' clear-scrollback
 export _ZR=$ZDOTDIR/zr.zsh
 if [[ ! -f $_ZR ]] || [ $ZDOTDIR/.zshrc -nt $_ZR ]; then
     zr \
+        agkozak/polyglot \
         hlissner/zsh-autopair \
         zpm-zsh/colorize \
         twang817/zsh-clipboard \
@@ -111,6 +112,4 @@ function zle-line-init {
     echo -ne "\e[5 q"
 }
 zle -N zle-line-init
-
-eval $(starship init zsh)
 

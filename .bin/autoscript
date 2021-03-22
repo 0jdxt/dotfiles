@@ -3,7 +3,11 @@
 SCRIPT_FOLDER="$HOME/.bin"
 SCRIPT_FILE="$SCRIPT_FOLDER/$1"
 
-[ -f "$SCRIPT_FILE" ] && echo file already exists && exit 1
+if [ -f "$SCRIPT_FILE" ]; then
+    echo file already exists
+    $EDITOR "$SCRIPT_FILE"
+    exit 1
+fi
 
 echo '#!/bin/bash' > "$SCRIPT_FILE"
 figlet "$1" | awk '{print "# " $0}' >> "$SCRIPT_FILE"

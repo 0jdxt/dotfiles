@@ -38,18 +38,27 @@ function show_files() {
 
 
 function tsm {
-    transmission-remote -t "$sel" "$@"
+    transmission-remote -t "$sel" "$@" >/dev/null
+}
+
+MENU=dmenu; tty -s && MENU=fzf
+function menu {
+    if [ "$MENU" = fzf ]; then
+        fzf --print-query --height 10 --prompt "$1 " | xargs echo
+    else
+        dmenu -i -z 1000 -p "$1"
+    fi
 }
 
 function handle_action {
-    action=$(printf " start\n stop\n remove\n remove and delete" | dmenu -z 500 -p "$name: ")
+    action=$(printf "▶ start\n⏸ stop\n✖ remove\n☠ remove and delete" | menu "$name: ")
     [ -z "$action" ] && return
 
     case $action in
-        *start)               tsm -s   >/dev/null && notif "$name started!";;
-        *stop)                tsm -S   >/dev/null && notif "$name stopped!";;
-        *remove)              tsm -r   >/dev/null && notif "$name removed!";;
-        *"remove and delete") tsm -rad >/dev/null && notif "$name deleted!";;
+        *start)               tsm -s   && notif "$name started!";;
+        *stop)                tsm -S   && notif "$name stopped!";;
+        *remove)              tsm -r   && notif "$name removed!";;
+        *"remove and delete") tsm -rad && notif "$name deleted!";;
     esac
 }
 
@@ -57,11 +66,13 @@ while true; do
     read -ra ids<<<"$(transmission-remote -l | tail -n+2 | head -n-1 | awk '{print $1}' | tr '\n' ' ')"
     [ -z "${ids[*]}" ] && notif "no torrents!" && exit 1
 
-    read -r _ sel _ _ _ _ _ name<<<"$(show_torrents | dmenu -i -z 1000 -p "torrents:")"
+    read -r _ sel _ _ _ _ _ name<<<"$(show_torrents | menu "torrents:")"
     [ -z "$sel" ] && exit
 
-    while file="$(show_files | dmenu -i -z 1000 -p "toggle file:")"; do
-        read -r state ID _ _ _ <<< "$file"
+    while true; do
+        read -r state ID _ _ _ <<< "$(show_files | menu "toggle file:")"
+        [ -z "$state" ] && break
+
         [[ "$ID" = *"manage"* ]] && handle_action && break
         { [ "$state" = $CHECK_ON ] && tsm -G "$ID"; } || tsm -g "$ID"
     done

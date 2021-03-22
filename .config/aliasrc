@@ -1,16 +1,17 @@
 #!/usr/bin/bash
 
 alias l="lsd --group-dirs first"
-alias ls="l -al"
-alias la="l -a"
+alias la="l -A"
 alias ll="l -l"
+alias ls="l -Al"
 alias lt="lsd --tree"
 
+alias s="sudo systemctl"
 alias cat="bat"
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 alias mkd="mkdir -pv"
 alias ping="prettyping --nolegend"
-alias unp="unp -U"
+alias unp="unp -vU"
 alias yt="youtube-dl --add-metadata -ic"
 alias yta="youtube-dl --add-metadata -xic"
 alias tsm="transmission-remote"

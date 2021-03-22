@@ -25,64 +25,49 @@ function play {
 	if [[ "$POP_ECHO" == "y" ]];then
 		tee "$magnet" | xsel --clipboard
 	else
-        notif "searching for files..."
         # get file list first
+        notif "searching for files..."
         files=$(peerflix "$magnet" -l | sed -r "s/\x1B\[(([0-9]{1,2})?(;)?([0-9]{1,2})?)?[m,K,H,f,J]//g" | grep -vE "Verifying|*.txt|*.srt|*.nfo|*.jpe?g")
-
-
-        port=$(shuf -i 2000-65000 -n 1)
-        cmd=("peerflix $magnet -v -q -t -r -p $port --on-listening" "bspc desktop -f ^7")
+        args=("$magnet" -k -q -t -r -p "$(shuf -i 2000-65000 -n 1)" --on-listening "bspc desktop -f ^7")
 
         # show menu if multiple files found
         if (( $(echo "$files" | wc -l) > 1 )); then
-            read -r selected _ name<<<"$(echo "$files" | dmenu -i -z 1000 -l 15 -p "select file:")"
-            notif "$name"
-
-            # play selected file
-            [ -n "$selected" ] && ${cmd[0]} "${cmd[1]}" -i "$selected"
-        else
-            # let peerflix sort it out
-            ${cmd[0]} "${cmd[1]}"
+            selected="$(echo "$files" | dmenu -i -z 1000 -l 15 -p "select file:" | cut -d' ' -f1)"
+            [ -n "$selected" ] && args+=(-i "$selected")
         fi
+
+        # run
+        peerflix "${args[@]}"
 	fi
-	exit
 }
 
 [[ "$#" -lt 1 ]] && usage
 if [[ "$1" == *"magnet:?"* ]];then
 	magnet="$1"
 	play
+    exit
 fi
+
+title=$(python -c "import urllib.parse as _;print(_.quote(\"$1\"))")
+imdbid=$(curl -s "https://www.imdb.com/find?ref_=nv_sr_fn&s=all&q=$title" | grep -io '<a href=['"'"'"][^"'"'"']*['"'"'"]' | grep "title"| head -n1 | sed -e 's/^<a href=["'"'"']//i' -e 's/["'"'"']$//i' -e 's/\/title\///' -e 's/\///g')
+! [[ "$imdbid" == *"tt"* ]] && echo -e "\n\tFilm or show not found in imdb" && exit
 
 apiurl="https://tv-v2.api-fetch.sh"
 
-title=${1// /%20}
-imdbid=$(curl -s "https://www.imdb.com/find?ref_=nv_sr_fn&s=all&q=$title" | grep -io '<a href=['"'"'"][^"'"'"']*['"'"'"]' | grep "title"| head -n1 | sed -e 's/^<a href=["'"'"']//i' -e 's/["'"'"']$//i' -e 's/\/title\///' -e 's/\///g')
-
-if ! [[ "$imdbid" == *"tt"* ]];then
-	echo -e "\n\tFilm or show not found in imdb"
-	exit
-fi
-
 # Film ( name [resolution] )
-if [[ "$#" -eq 1 ]] || [[ "$#" -eq 2 ]];then
-	if [[ "$#" -eq 1 ]];then
+if [[ "$#" -eq 1 ]] ;then
 		magnet=$(curl -s "$apiurl/movie/$imdbid" | jq -r ' .torrents | .[] | [.[]] | sort_by(.seed) | reverse | .[0] | .url ' 2>/dev/null)
-	else
-		! [[ "$2" =~ ^[0-9]+$ ]] && usage
-		magnet=$(curl -s "$apiurl/movie/$imdbid" | jq -r " .torrents | .[] | .\"$2p\" | .url " 2>/dev/null)
-	fi
-	play
-fi
+elif [[ "$#" -eq 2 ]]; then
+    ! [[ "$2" =~ ^[0-9]+$ ]] && usage
+    magnet=$(curl -s "$apiurl/movie/$imdbid" | jq -r " .torrents | .[] | .\"$2p\" | .url " 2>/dev/null)
 
 # TV Show ( name season episode [resolution] )
-[[ "$#" -ne 3 ]] && [[ "$#" -ne 4 ]] && usage
-! [[ "$2" =~ ^[0-9]+$ ]] || ! [[ "$3" =~ ^[0-9]+$ ]] && usage
-
-if [[ "$#" -eq 3 ]];then
+elif { [[ "$#" -ne 3 ]] && [[ "$#" -ne 4 ]]; } || ! [[ "$2" =~ ^[0-9]+$ ]] || ! [[ "$3" =~ ^[0-9]+$ ]]; then
+    usage
+elif [[ "$#" -eq 3 ]];then
 	magnet=$(curl -s "$apiurl/show/$imdbid" | jq -r ".episodes[] | select(.season==$2) | select(.episode==$3) | .torrents | [.[]] | sort_by(.seeds) | reverse | .[0] | .url " 2>/dev/null)
 else
-	! [[ "$4" =~ ^[0-9]+$ ]] && usage
+    ! [[ "$4" =~ ^[0-9]+$ ]] && usage
 	magnet=$(curl -s "$apiurl/show/$imdbid" | jq -r ".episodes[] | select(.season==$2) | select(.episode==$3) | .torrents | .\"$4p\" | .url" 2>/dev/null)
 fi
 

@@ -86,12 +86,8 @@ compdef _ank ank
 
 function _unp {
     exts=($(unp -s 2>/dev/null | tail -n +2 | awk -F: '{print $1}' | tr ',' '\n'))
-    IFS= read -rA files <<< "$(for ext in ${exts[@]}; do
-        for file in *.$ext; do
-            echo "$file";
-        done
-    done)"
-    compset -P '*'
+    files=("${(@f)$(for ext in ${exts[@]}; do find . -maxdepth 1 -name "*.$ext" | cut -c3-; done)}")
+    compset -P '* '
     compadd -a files
 }
 compdef _unp unp

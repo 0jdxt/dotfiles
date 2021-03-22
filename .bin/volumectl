@@ -9,19 +9,15 @@
 # - controls volume with pulsemixer and sends a notification
 ##
 
-# generate id for notification
-[ ! -f /tmp/volctlnotid ] && shuf -i 0-9999 -n 1 > /tmp/volctlnotid
-ID=$(cat /tmp/volctlnotid)
-
 # update notif
 function notif {
-    toastify send -t 5000 -i multimedia-volume-control --id "$ID" volumectl "$1"
+    toastify send -t 5000 --id 3027 "$@"
 }
 
 case "$1" in
     "togmute")
         pulsemixer --toggle-mute
-        (($(pulsemixer --get-mute))) && notif "muted" && exit 0 ;;
+        (($(pulsemixer --get-mute))) && notif -i audio-volume-muted volumectl muted && exit 0 ;;
     "up") pulsemixer --change-volume +5 ;;
     "down") pulsemixer --change-volume -5 ;;
     "next") pulseaudio-control next-sink ;;
@@ -29,5 +25,5 @@ esac
 
 # show volume level
 volume="$(pulsemixer --get-volume | awk '{print $1}')"
-notif "$volume%"
+notif -i multimedia-volume-control volumectl "$volume%"
 
