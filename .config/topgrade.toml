@@ -4,10 +4,11 @@ ignore_failures = ["git_repos"]
 #only = ["system", "emacs"]
 #no_retry = true
 #run_in_tmux = true
-remote_topgrades = ["root@cabin", "termux"]
-# ssh_arguments = "-o ConnectTimeout=2"
+remote_topgrades = ["cabin", "starship", "termux"]
+ssh_arguments = "-o ConnectTimeout=2"
+
 remote_topgrade_path = ".config/cargo/bin/topgrade"
-#tmux_arguments = "-S /var/tmux.sock"
+# tmux_arguments = "-S /var/tmux.sock"
 set_title = true
 cleanup = true
 
@@ -27,7 +28,7 @@ self_update = true
 [commands]
 
 [linux]
-yay_arguments = "--devel"
+# yay_arguments = "--devel"
 #enable_tlmgr = true
 #emerge_sync_flags = "-q"
 #emerge_update_flags = "-uDNa --with-bdeps=y world"

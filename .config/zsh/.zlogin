@@ -1,4 +1,5 @@
-## Shell start
+#!/usr/bin/zsh
+# .zlogin
 
 pfetch
 echo -n "\033[F" # move cursor up a line

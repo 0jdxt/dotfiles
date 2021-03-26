@@ -1,10 +1,10 @@
 #!/usr/bin/bash
 
-alias l="lsd --group-dirs first"
+alias l="lsd --group-dirs first --date relative"
 alias la="l -A"
 alias ll="l -l"
 alias ls="l -Al"
-alias lt="lsd --tree"
+alias lt="l --tree"
 
 alias s="sudo systemctl"
 alias cat="bat"

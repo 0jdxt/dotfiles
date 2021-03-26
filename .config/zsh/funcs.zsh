@@ -1,3 +1,5 @@
+#!/usr/bin/zsh
+
 ## Functions for zsh
 
 ## FUNCS

@@ -1,3 +1,5 @@
+#!/usr/bin/zsh
+
 ## basic zsh options
 autoload -U colors && colors
 setopt autocd
@@ -8,7 +10,6 @@ zc() {
 }
 zc $ZDOTDIR/.zshrc
 zc $ZDOTDIR/funcs.zsh
-zc $ZDOTDIR/zr.zsh
 
 # history
 HISTSIZE=10000
@@ -77,18 +78,13 @@ zle -N clear-scrollback
 bindkey '^L' clear-scrollback
 
 ## plugins
-export _ZR=$ZDOTDIR/zr.zsh
-if [[ ! -f $_ZR ]] || [ $ZDOTDIR/.zshrc -nt $_ZR ]; then
-    zr \
+source <(zr \
         agkozak/polyglot \
         hlissner/zsh-autopair \
         zpm-zsh/colorize \
         twang817/zsh-clipboard \
         rapgenic/zsh-git-complete-urls \
-        zdharma/fast-syntax-highlighting \
-    > $_ZR
-fi
-source $_ZR
+        zdharma/fast-syntax-highlighting)
 
 ## prompt
 # NB: must go after plugins
@@ -106,6 +102,7 @@ function zle-keymap-select {
     zle -R
 }
 zle -N zle-keymap-select
+
 # init cursor in insert mode
 function zle-line-init {
     zle -K viins

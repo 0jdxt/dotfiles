@@ -8,7 +8,7 @@ super + Return
 
 # program launcher
 super + space
-	dmenu_run -z 500 -g 2 -i -p "run: "
+	dmenu_run_i -z 500 -g 2 -i -p "run: "
 
 # browser
 super + b

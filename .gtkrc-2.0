@@ -3,9 +3,9 @@
 
 include "/home/jay/.gtkrc-2.0.mine"
 gtk-theme-name="Nordic-darker"
-gtk-icon-theme-name="Papirus-Dark-nordic-folders"
+gtk-icon-theme-name="Papirus-Dark"
 gtk-font-name="CodeNewRoman 10"
-gtk-cursor-theme-name="oreo_nord_snow_1_cursors"
+gtk-cursor-theme-name="oreo_nord_snow_3_cursors"
 gtk-cursor-theme-size=0
 gtk-toolbar-style=GTK_TOOLBAR_BOTH
 gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR

@@ -91,6 +91,8 @@ run blueman-tray
 # non essential startup stuff
 run lightcord --start-minimized
 run discord-rpc-extension
+run element-desktop-nightly --hidden
+run run_keybase -a
 
 # focus 2nd desktop and open terminal
 bspc desktop -f II
