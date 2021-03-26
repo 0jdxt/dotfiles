@@ -1,15 +1,10 @@
 #!/bin/bash
-export QT_QPA_PLATFORMTHEME="qt5ct"
-export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
-export _JAVA_AWT_WM_NONREPARENTING=1
-
 export BROWSER=brave
 export EDITOR=nvim
-# export TERM=alacritty
-export TERM=xterm-256color
+export TERM=xterm-256color # for 💯 compatibility 🙏
 export WM=bspwm
-export PAGER=more
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+export PAGER="more -n 20"
+export MANPAGER="sh -c 'col -bx | bat -pl man'"
 
 export ZDOTDIR="$HOME/.config/zsh"
 export CARGO_HOME="$HOME/.config/cargo"
@@ -21,20 +16,24 @@ PATH="$HOME/.gem/ruby/2.7.0/bin:$PATH"
 PATH="$CARGO_HOME/bin:$PATH"
 export PATH="$HOME/.config/npm/bin:$PATH"
 
+# misc
+export POLYGLOT_PROMPT_DIRTRIM=1
+
+export QT_QPA_PLATFORMTHEME="qt5ct"
+export GTK2_RC_FILES="$HOME/.config/gtkrc-2.0"
+export _JAVA_AWT_WM_NONREPARENTING=1
+
+# tidy up perl
 export PERL5LIB="$HOME/perl5/lib/perl5"
 export PERL_LOCAL_LIB_ROOT="$HOME/.config/perl5"
 export PERL_MB_OPT="--install_base $HOME/.config/perl5"
 export PERL_MM_OPT="INSTALL_BASE=$HOME/.config/perl5"
 
-export POLYGLOT_PROMPT_DIRTRIM=1
-export DOTBARE_DIR="$HOME/dotfiles"
-export DOTBARE_TREE="$HOME"
-
-dc=~/.config/dir_colors
-[ -f $dc ] && eval "$(dircolors $dc)"
+# dircolors
+[ -f ~/.config/dir_colors ] && eval "$(dircolors ~/.config/dir_colors)"
 
 # auto start tbsm after login on first two VTs
-# [ "$XDG_VTNR" -le 2 ] && tbsm
+[ "$XDG_VTNR" -le 2 ] && tbsm
 
 # echo "SOURCED AS $0"
 

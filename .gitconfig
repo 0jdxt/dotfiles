@@ -11,3 +11,11 @@
 	process = git-lfs filter-process
 [pull]
 	rebase = true
+[alias]
+	s = status
+	f = fetch
+	st = stash
+	p = push
+	pl = pull
+	d = diff
+	a = add

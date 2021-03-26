@@ -18,6 +18,7 @@ arch-install-scripts
 archiver
 archlinux-artwork
 aria2
+asp-git
 aspell-en
 authy
 autoconf
@@ -80,7 +81,6 @@ dmraid
 dnsmasq
 dos2unix-git
 dosfstools
-dotbare
 dragon-drag-and-drop
 droidcam
 dunst-git
@@ -107,6 +107,7 @@ flac
 flamegraph
 font-manager
 fpc
+fzf
 gambas3-gb-db-mysql
 gamemode
 gawk
@@ -316,9 +317,9 @@ oxygen-icons
 oxygen-sounds
 p7zip
 pacman
+pam-gnupg
 pandoc
 papirus-folders-nordic
-paru-git
 patch
 patchutils
 pavucontrol
@@ -416,7 +417,6 @@ texlive-local-draftwatermark
 texlive-local-stix
 texlive-localmanager-git
 texlive-science
-thunderbird-i18n-en-gb
 time
 timeshift
 tk
