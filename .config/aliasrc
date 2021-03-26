@@ -7,7 +7,7 @@ alias ls="l -Al"
 alias lt="l --tree"
 
 alias s="sudo systemctl"
-alias cat="bat"
+alias cat="bat -p"
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 alias mkd="mkdir -pv"
 alias ping="prettyping --nolegend"

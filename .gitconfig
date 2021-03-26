@@ -19,3 +19,4 @@
 	pl = pull
 	d = diff
 	a = add
+	c = commit

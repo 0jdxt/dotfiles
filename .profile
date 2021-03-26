@@ -20,7 +20,7 @@ export PATH="$HOME/.config/npm/bin:$PATH"
 export POLYGLOT_PROMPT_DIRTRIM=1
 
 export QT_QPA_PLATFORMTHEME="qt5ct"
-export GTK2_RC_FILES="$HOME/.config/gtkrc-2.0"
+export GTK2_RC_FILES="$HOME/.config/gtk-2.0/gtkrc"
 export _JAVA_AWT_WM_NONREPARENTING=1
 
 # tidy up perl
