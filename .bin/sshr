@@ -1,0 +1,15 @@
+#!/bin/bash
+#          _
+#  ___ ___| |__  _ __
+# / __/ __| '_ \| '__|
+# \__ \__ \ | | | |
+# |___/___/_| |_|_|
+#
+##
+
+
+sel=$(grep -E "^Host [^\*]+" .ssh/config  | awk '{print $2}' | dmenu -z 300)
+[ -z "$sel" ] && exit
+
+tabbed -kc -r 2 alacritty --embed WID -t "$sel" -o env.TERM=xterm-256color -e ssh "$sel"
+
