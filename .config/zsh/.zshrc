@@ -22,7 +22,6 @@ setopt hist_ignore_dups
 setopt hist_ignore_space
 setopt hist_verify
 setopt share_history
-setopt complete_aliases
 
 ## autocomplete
 fpath=(~/.config/zsh/comp $fpath)
@@ -31,6 +30,7 @@ _comp_options+=(globdots)
 zstyle ':completion:*' menu select=2
 zstyle ':completion:*' rehash true
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+unset complete_aliases
 
 ## environment stuff
 source ~/.config/aliasrc

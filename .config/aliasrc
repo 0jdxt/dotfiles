@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-alias l="lsd --group-dirs first --date relative"
+alias l="lsd --group-dirs first --date relative --size short"
 alias la="l -A"
 alias ll="l -l"
 alias ls="l -Al"

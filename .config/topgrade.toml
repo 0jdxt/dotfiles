@@ -11,6 +11,7 @@ remote_topgrade_path = ".config/cargo/bin/topgrade"
 # tmux_arguments = "-S /var/tmux.sock"
 set_title = true
 cleanup = true
+notify_each_step = true
 
 [git]
 max_concurrency = 5
@@ -28,7 +29,7 @@ self_update = true
 [commands]
 
 [linux]
-# yay_arguments = "--devel"
+yay_arguments = "--devel"
 #enable_tlmgr = true
 #emerge_sync_flags = "-q"
 #emerge_update_flags = "-uDNa --with-bdeps=y world"

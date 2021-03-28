@@ -3,11 +3,11 @@
 ###
 # BSPC
 bspc config border_width 0
-bspc config window_gap 2
-bspc config top_padding 5
+bspc config window_gap 10
+bspc config top_padding 0
 bspc config bottom_padding 33
-bspc config left_padding 5
-bspc config right_padding 5
+bspc config left_padding 0
+bspc config right_padding 0
 
 # Multihead behavior
 bspc config remove_disabled_monitors  true
@@ -37,6 +37,9 @@ bspc rule -a Java state=floating
 bspc rule -a Blueman-manager state=floating
 bspc rule -a Font-manager state=floating
 bspc rule -a BAPERS state=floating
+bspc rule -a Xfce4-power-manager-settings state=floating
+bspc rule -a Element-Nightly state=floating
+bspc rule -a Seahorse state=floating
 
 bspc rule -a lightcord desktop=^3
 bspc rule -a mpv desktop=^7
@@ -46,7 +49,7 @@ bspc rule -a "JetBrains Toolbox" manage=on monitor=^1
 ###
 # MONITORS
 monitors="$(xrandr -q | grep connected | cut -f1 -d" ")"
-n_monitors="$(echo "$monitors" | wc -l)"
+n_monitors="$(wc -l <<< "$monitors")"
 main=$(grep eDP <<< "$monitors")
 
 if (( n_monitors == 2 )); then
@@ -65,29 +68,28 @@ fi
 function run { pgrep -x "${1::15}" ||eval "$@" & }
 # set cursor straight away
 run xsetroot -cursor_name left_ptr
-# heavier startup programs
-run nitrogen --restore
-/home/jay/.config/polybar/launch.sh
-run ckb-next -b
-run protonvpn-tray
+# first startup programs
+run dmenu_path
 run protonmail-bridge --no-window
-# run jetbrains-toolbox
+run ckb-next -b
+# visual
+run nitrogen --restore
+run picom -bc --experimental-backends
+/home/jay/.config/polybar/launch.sh
 # daemons, settings etc
+run optimus-manager-qt
+run blueman-tray
 run light-locker
 run sxhkd
-run spotifyd
-run playerctld daemon
+# run offlineimap
 run lxpolkit
 run xbanish
 run bluetooth off
 run wifi off
 run numlockx on
-run dmenu_path
-run picom -bc --experimental-backends
-run offlineimap
+run playerctld daemon
+run spotifyd
 run cleanfullscreen
-run optimus-manager-qt
-run blueman-tray
 # non essential startup stuff
 run lightcord --start-minimized
 run discord-rpc-extension

@@ -50,4 +50,6 @@ endif
 
 " fix sizing bug in alacritty for 'alacritty -e nvim %F'
 autocmd VimEnter * :silent exec "!kill -s SIGWINCH $PPID"
+" set width for emails
+au BufRead /tmp/mutt-* set tw=72
 
