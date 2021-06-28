@@ -3,5 +3,5 @@ Description=Mailbox synchronization service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/mbsync -Va
+ExecStart=/usr/bin/ping 1.1.1.1 -c 1 && /usr/bin/pgrep proton-bridge && /usr/bin/mbsync -Va
 ExecStartPost=/home/jay/.bin/mailhook

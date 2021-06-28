@@ -1,9 +1,9 @@
-#!/usr/bin/zsh
+#!/usr/bin/sh
 # .zlogin
 
-pfetch
+echo
+pfetch | sed 's/^/  /'
 echo -n "\033[F" # move cursor up a line
-~/repos/shell-color-scripts/colorscripts/panes
-echo -n "\033[0m" # clear styles
-source ~/repos/hacker-quotes/hacker-quotes.plugin.zsh | fold -sw 60
+colorscript exec zwaves | sed 's/^/          /'
+source ~/repos/hacker-quotes/hacker-quotes.plugin.zsh | fold -sw 60 | sed 's/^/  /'
 

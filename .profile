@@ -4,8 +4,8 @@ export EDITOR=nvim
 export TERM=xterm-256color # for 💯 compatibility 🙏
 export WM=bspwm
 export PAGER="more -n 30"
-export BAT_PAGER="more"
-export MANPAGER="sh -c 'col -bx | bat -pl man'"
+# export BAT_PAGER="more"
+export MANPAGER="sh -c 'col -bx | bat -l man'"
 
 export ZDOTDIR="$HOME/.config/zsh"
 export CARGO_HOME="$HOME/.config/cargo"
@@ -21,7 +21,11 @@ export PATH="$HOME/.config/npm/bin:$PATH"
 export POLYGLOT_PROMPT_DIRTRIM=1
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export GTK2_RC_FILES="$HOME/.config/gtk-2.0/gtkrc"
+export GTK_THEME=Nordic:darker
 export _JAVA_AWT_WM_NONREPARENTING=1
+
+export NNN_FIFO=/tmp/nnn.fifo
+export NNN_PLUG='p:preview-tabbed'
 
 # tidy up perl
 export PERL5LIB="$HOME/perl5/lib/perl5"
@@ -36,6 +40,7 @@ export PERL_MM_OPT="INSTALL_BASE=$HOME/.config/perl5"
 [ -n "$XDG_VTNR" ] && (( XDG_VTNR < 2 )) && tbsm
 
 # set BW_SESSION, uses gnome keyring
-BW_SESSION=$(secret-tool lookup bw password)
-export BW_SESSION
+export BW_SESSION=$(secret-tool lookup bw password)
+# use bw to get other passwords
+export VULTR_API_KEY=$(bw get password "vultr api")
 

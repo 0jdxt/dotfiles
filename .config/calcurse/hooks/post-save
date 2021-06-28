@@ -1,0 +1,3 @@
+#!/bin/sh
+CALCURSE_CALDAV_PASSWORD=$(bw get password nextcloud) calcurse-caldav
+

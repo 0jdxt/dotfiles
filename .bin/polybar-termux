@@ -1,0 +1,58 @@
+#!/bin/sh
+#              _       _                     _
+#  _ __   ___ | |_   _| |__   __ _ _ __     | |_ ___ _ __ _ __ ___  _   ___  __
+# | '_ \ / _ \| | | | | '_ \ / _` | '__|____| __/ _ \ '__| '_ ` _ \| | | \ \/ /
+# | |_) | (_) | | |_| | |_) | (_| | | |_____| ||  __/ |  | | | | | | |_| |>  <
+# | .__/ \___/|_|\__, |_.__/ \__,_|_|        \__\___|_|  |_| |_| |_|\__,_/_/\_\
+# |_|            |___/
+##
+
+# Color Settings of Icon shown in Polybar
+COLOR_BATTERY_90='#88C0D0'         # Battery >= 90
+COLOR_BATTERY_80='#81A1C1'         # Battery >= 80
+COLOR_BATTERY_70='#5E81AC'         # Battery >= 70
+COLOR_BATTERY_60='#EBCB8B'         # Battery >= 60
+COLOR_BATTERY_50='#D08770'         # Battery >= 50
+COLOR_BATTERY_LOW='#BF616A'        # Battery <  50
+COLOR_DISCONNECTED='#434C5E'       # Device Disconnected
+COLOR_NEWDEVICE='#8FBCBB'          # New Device
+
+# Icons shown in Polybar
+ICON_SMARTPHONE=''
+ICON_TABLET='臨'
+SEPERATOR=' '
+
+get_icon () {
+    icon=$ICON_SMARTPHONE
+    [ "$2" = "tablet" ] && icon=$ICON_TABLET
+
+    case $1 in
+        "-1")   colour="$COLOR_DISCONNECTED" ;;
+        "-2")   colour="$COLOR_NEWDEVICE" ;;
+        3*)     colour="$COLOR_BATTERY_50" ;;
+        4*)     colour="$COLOR_BATTERY_60" ;;
+        5*)     colour="$COLOR_BATTERY_70" ;;
+        6*)     colour="$COLOR_BATTERY_80" ;;
+        7*|8*|9*|100)
+                colour="$COLOR_BATTERY_90" ;;
+        *)      colour="$COLOR_BATTERY_LOW" ;;
+    esac
+
+    if [ "$1" -gt 0 ]; then
+        printf "%%{F$colour}$icon $1%%"
+    else
+        printf "%%{F$colour}$icon"
+    fi
+}
+
+cmd() { ssh -o ConnectTimeout=2 termux "$@" 2>/dev/null || exit $?; }
+
+case $1 in
+    battery)
+        b=$(cmd termux-battery-status | jq -r '.percentage')
+        [ -z "$b" ] && exit 1
+        get_icon "$b"
+        ;;
+    *) echo "unknown command" && exit 1;;
+esac
+

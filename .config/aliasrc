@@ -1,13 +1,13 @@
-#!/usr/bin/bash
-
-alias l="lsd --group-dirs first --date relative --size short"
+# vim:ft=zsh
+alias l="lsd"
 alias la="l -A"
 alias ll="l -l"
 alias ls="l -Al"
 alias lt="l --tree"
 
 alias s="sudo systemctl"
-alias cat="bat -p"
+alias us="systemctl --user"
+alias cat="bat"
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 alias mkd="mkdir -pv"
 alias ping="prettyping --nolegend"
@@ -18,9 +18,13 @@ alias tsm="transmission-remote"
 alias top="sudo htop"
 alias tmon="watch -d -n 1 transmission-remote -l"
 alias who="grc who -a"
+alias fuck='sudo $(fc -ln -1)'
+alias z="zoxide"
 
 alias dotfiles="git --git-dir=\$HOME/dotfiles --work-tree=\$HOME"
-alias refr="source ~/.config/zsh/.zshrc"
+alias refr="source \$ZDOTDIR/.zshrc"
 alias todo="grep -nrEe 'TODO|FIXME' ."
 alias npm="npm --prefix=\$HOME/.config/npm"
 
+alias termux="ssh termux"
+alias morsephone="termux morsephone"

@@ -1,3 +1,4 @@
+;
 ;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
 ;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
 ;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
@@ -5,7 +6,13 @@
 ;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
 ;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
 ;
-;
+
+[global/wm]
+margin-top = 0
+margin-bottom = 0
+
+[settings]
+screenchange-reload = true
 
 [colors]
 ; INFO: C8 transparency - aarrggbb
@@ -47,15 +54,15 @@ line-size = 1
 padding = 1
 module-margin = 1
 
-font-0 = "Blex Mono Nerd Font:size=11;1"
+font-0 = "Victor Mono Nerd Font:size=11;1"
 font-1 = "Mutant Standard Emoji:size=11:scale=2;5"
 font-2 = "Noto Color Emoji:scale=10;1"
 # fallback (usually DejaVu Sans)
 font-3 = ":scale=11;1"
 
-modules-left = workspaces wlan0 filesystem kde tsm-bar pvpn
+modules-left = workspaces wlan0 filesystem termux tsm-bar pvpn mpris
 modules-center = date
-modules-right = email updates brightness pulseaudio-control cpu memory battery
+modules-right = email updates brightness pulseaudio-control cpu battery picom
 
 tray-position = right
 override-direct = true
@@ -71,18 +78,20 @@ width = 20%
 offset-x = 40%
 tray-position = none
 
-[global/wm]
-margin-top = 0
-margin-bottom = 0
-
 [module/email]
 type = custom/script
-exec = polybar-mail
+exec = echo 📬 $(notmuch count tag:unread folder:INBOX)
+exec-if = [ $(notmuch count tag:unread folder:INBOX) -gt 0 ]
 
 [module/kde]
 type = custom/script
 exec = ~/repos/polybar-kdeconnect/polybar-kdeconnect.sh -d
 tail = true
+
+[module/termux]
+type = custom/script
+exec = polybar-termux battery
+interval = 60
 
 [module/weather]
 type = custom/script
@@ -117,8 +126,10 @@ click-left = playerctl next -p playerctld
 type = custom/ipc
 hook-0 = ~/.bin/polybar-picom
 hook-1 = ~/.bin/polybar-picom --toggle
+hook-2 = ~/.bin/polybar-picom --restart
 initial = 1
 click-left = polybar-msg -p %pid% hook picom 2
+click-right = polybar-msg -p %pid% hook picom 3
 
 [module/xwindow]
 type = internal/xwindow
@@ -240,7 +251,7 @@ interval = 0.5
 ;   %percentage-sum% - Cumulative load on all cores
 ;   %percentage-cores% - load percentage for each core
 ;   %percentage-core[1-9]% - load percentage for specific core
-label = 💻 %percentage%%
+label = 💻 %percentage:2%%
 format-underline = ${colors.blue}
 
 [module/memory]
@@ -256,14 +267,14 @@ ramp-used-5 = ▆
 ramp-used-6 = ▇
 ramp-used-7 = █
 label = %percentage_used:2%%
-format = <ramp-used>
+format = <label>
 format-underline = ${colors.blue}
 
 [module/wlan0]
 type = internal/network
 interface = wlp8s0
 interval = 5.0
-format-connected = "直 <label-connected>"
+format-connected = "直"
 label-connected = %essid%
 format-connected-overline = ${colors.green}
 format-connected-foreground = ${colors.green}
@@ -287,12 +298,10 @@ format-disconnected =
 type = custom/script
 exec = ~/.bin/time.sh
 interval = 1
-
 format = <label>
 format-prefix-foreground = ${colors.foreground}
 format-underline = ${colors.foreground}
 format-overline = ${colors.foreground}
-
 click-left = gsimplecal
 
 [module/battery]
@@ -300,13 +309,10 @@ type = internal/battery
 battery = BAT0
 adapter = AC
 full-at = 98
-
 format-charging = <label-charging>
 format-charging-underline = ${colors.cyan}
-
 format-discharging = <ramp-capacity> <label-discharging>
 format-discharging-underline = ${self.format-charging-underline}
-
 ramp-capacity-0 = 
 ramp-capacity-1 = 
 ramp-capacity-2 = 
@@ -319,13 +325,8 @@ ramp-capacity-8 = 
 ramp-capacity-9 = 
 ramp-capacity-10 = 
 ramp-capacity-foreground = ${colors.foreground-alt}
-
 label-charging = ⚡ %percentage%%
-mpris =  %percentage%%
 label-full = ""
-
-[settings]
-screenchange-reload = true
 
 [module/tsm-bar]
 type = custom/script

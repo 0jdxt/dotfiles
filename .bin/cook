@@ -1,0 +1,22 @@
+#!/bin/sh
+#                  _
+#   ___ ___   ___ | | __
+#  / __/ _ \ / _ \| |/ /
+# | (_| (_) | (_) |   <
+#  \___\___/ \___/|_|\_\
+#
+##
+
+src="https://raw.githubusercontent.com/LukeSmithxyz/based.cooking/master/src"
+[ -n "$1" ] && curl "$src/$1.md" && exit
+
+while true; do
+    category=$(curl -sSL based.cooking | grep -oE "href=\"@[^\.]+" | cut -d'"' -f2 | fzf)
+    [ -z "$category" ] && exit
+
+    recipe=$(curl -sSL "based.cooking/${category}.html" | grep -oE "\".+html" | cut -c2- | cut -d'.' -f1 | fzf --preview "curl -s '$src/{}.md' | bat -pPl md")
+    [ -n "$recipe" ] && break
+done
+
+curl -s "$src/$recipe.md" | bat -pPl md
+

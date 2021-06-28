@@ -1,0 +1,171 @@
+#!/bin/bash
+#                  _   _  __                   _   _  __
+#  ___ _ __   ___ | |_(_)/ _|_   _ _ __   ___ | |_(_)/ _|
+# / __| '_ \ / _ \| __| | |_| | | | '_ \ / _ \| __| | |_
+# \__ \ |_) | (_) | |_| |  _| |_| | | | | (_) | |_| |  _|
+# |___/ .__/ \___/ \__|_|_|  \__, |_| |_|\___/ \__|_|_|
+#     |_|                    |___/
+##
+# - called by spotifyd, gets currently playing and sends notification
+##
+
+trap 'exit' EXIT
+trap 'exit' INT
+
+client_id="a843dc3a18694318aaa25bb8792ed26e"
+client_secret="1216ecb03d3546d9a50b7979eb0aaf62"
+basic_auth="$(echo "$client_id:$client_secret" | base64 -w0 - | cut -c-87)="
+
+function authorise {
+    # open spotify permission authorisation in browser
+    mkdir -p ~/.config/spotifynotif
+    $BROWSER "https://accounts.spotify.com/authorize?client_id=$client_id&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8888%2Fcallback&scope=user-read-playback-state" >/dev/null
+
+    netcat -Nlp 8888 <<EOF | grep callback | cut -d' ' -f2 | cut -d'=' -f2 | tee ~/.config/spotifynotif/auth_token
+HTTP/1.1 200 OK
+Server: netcat
+Content-Type: text/plain
+Connection: close
+
+connected to spotifynotif!
+EOF
+}
+
+function get_access_token {
+    # check authorisation
+    if [ -f ~/.config/spotifynotif/auth_token ]; then
+        code=$(cat ~/.config/spotifynotif/auth_token)
+    else
+        # no auth token, fetch new one
+        code=$(authorise)
+        # if denied, exit
+        if [[ $code = *"access_denied"* ]]; then
+            notif spotifyd "access denied?!"
+            exit 1
+        fi
+    fi
+
+    if [ ! -f ~/.config/spotifynotif/token.json ]; then
+         # no access token, fetch new one
+        json=$(curl -s -X POST -H "Authorization: Basic $basic_auth" -d "grant_type=authorization_code" -d "code=$code" -d "redirect_uri=http%3A%2F%2Flocalhost%3A8888%2Fcallback" https://accounts.spotify.com/api/token)
+        err=$(echo "$json" | jq -r '.error_description')
+
+        if [[ "$err" =~ ^(.+expired|Invalid.+)$ ]]; then
+            # access token expired, fetch new one with refresh token
+            get_new_token
+        else
+            # we were given a valid access token
+            echo "$json" > ~/.config/spotifynotif/token.json
+        fi
+    fi
+
+    jq -r '.access_token' ~/.config/spotifynotif/token.json
+}
+
+function get_new_token {
+    refresh_token=$(jq -r '.refresh_token' ~/.config/spotifynotif/token.json)
+    new_token=$(curl -s -X POST -H "Authorization: Basic $basic_auth" -d "grant_type=refresh_token" -d "refresh_token=$refresh_token" https://accounts.spotify.com/api/token | jq -r '.access_token')
+    jq -r "setpath([\"access_token\"]; \"$new_token\")" ~/.config/spotifynotif/token.json > ~/.config/spotifynotif/token.json.new
+    mv ~/.config/spotifynotif/token.json{.new,}
+}
+
+function get_now_playing {
+    file=~/.config/spotifynotif/current.json
+    curl -s -H "Authorization: Bearer $(get_access_token)" https://api.spotify.com/v1/me/player -o $file
+    [ ! -s $file ] && echo "empty reply!" && return 1 # empty reply, no status
+
+    # fetch error, assume access token has expired
+    if [ "$(jq -r '.error' $file)" != "null" ]; then
+        get_new_token
+        get_now_playing
+        return
+    fi
+
+    declare -A states
+    n=0;
+    while read -r line ; do
+        states[$n]="$line"
+        ((n++))
+    done<<< "$(jq -r '.is_playing, .shuffle_state, .repeat_state, .progress_ms, .item.duration_ms' $file)"
+
+    playing=""
+    [ "${states[0]}" = "true" ] && playing=""
+
+    shuffle=""
+    [ "${states[1]}" = "true" ] && shuffle="列"
+
+    case ${states[2]} in
+        context) repeat="凌";;
+        track) repeat="綾";;
+        off) repeat="";;
+    esac
+
+    duration_ts=$(( "${states[4]}" / 1000 ))
+    dur_m=$((duration_ts / 60))
+    dur_s=$((duration_ts % 60))
+
+    progress_ts=$(( "${states[3]}" / 1000 ))
+    prog_m=$((progress_ts / 60))
+    prog_s=$((progress_ts % 60))
+
+    declare -A info
+    n=0;
+    while read -r line; do
+        info[$n]="$line"
+        ((n++))
+    done <<< "$( jq -r '.item | .name, .album.name, ([.artists[].name] | join(", ")), (.album.images[] | .url)' $file)"
+
+    title=${info[0]}
+    album=${info[1]}
+    artist=${info[2]}
+
+    img=~/.config/spotifynotif/spotifynotif
+    # if [ "$(modified ${img}.jpg)" -lt "$(modified $file)" ]; then
+    #     modified ${img}.jpg
+    #     modified $file
+    #     echo dl
+    #     curl -s "${info[4]}" -o ${img}.jpg
+    #     curl -s "${info[3]}" -o ${img}-full.jpg
+    # fi
+    curl -s "${info[4]}" -o ${img}.jpg
+}
+
+function modified { stat -c %Y "$1"; }
+
+function notif {
+    dunstify -i ${img}.jpg -r 4587 \
+        -h "string:fgcolor:#1DB954" \
+        -h "string:bgcolor:#191414" \
+        -h "string:frcolor:#1DB954" \
+        "$@"
+}
+
+function show_current {
+    get_now_playing || exit
+    body="<span foreground=\"#ffffff\">$playing  <b>$title</b><br>$artist<br><i>$album</i><br>$prog_m:$(printf "%02d" $prog_s) / $dur_m:$(printf "%02d" $dur_s)</span><br>$shuffle $repeat"
+    title=" $(jq -r '.device.name' $file)"
+    notif "$@" "$title" "$body"
+}
+
+[ "$(pgrep -xc spotifynotif)" -gt 1 ] && pkill -ox -int spotifynotif
+case $PLAYER_EVENT in
+    change) ;&
+    start) ;&
+    load) ;&
+    endoftrack) ;&
+    unavailable) ;&
+    play)
+        for _ in $(seq 20); do
+            show_current -t 1000 &
+            sleep 0.5
+        done
+        show_current -t 800
+        ;;
+    pause) show_current -t 3000 ;;
+    volumeset) notif "spotifyd" "volume $((VOLUME*100/65535))%" ;;
+    # do nothing
+    preload) ;;
+    # unhandled
+    *) notif "spotifyd unhandled" "$PLAYER_EVENT"
+esac
+

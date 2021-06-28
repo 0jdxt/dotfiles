@@ -1,15 +1,27 @@
-#!/bin/bash
+#!/bin/sh
 
 # start spinner in background
-spinner=(⡀ ⡄ ⡔ ⡜ ⠝ ⠛ ⠫ ⢣ ⢢ ⢠ ⢀ "⠀" "⠀" "⠀")
-while true; do for c in "${spinner[@]}"; do echo "📦 $c" && sleep 0.1; done; done &
+spinner="⡀ ⡄ ⡔ ⡜ ⠝ ⠛ ⠫ ⢣ ⢢ ⢠ ⢀"
+mkfifo /tmp/spinner
+while true; do
+    for c in $spinner; do
+        echo "📦 $c" >> /tmp/spinner && sleep 0.1
+    done
+    echo "📦  " >> /tmp/spinner && sleep 0.2
+done &
 loop=$!
 
-# only show if updates > 0
-aur="$(paru -Qum --devel 2>/dev/null | wc -l)"
-pacman="$(checkupdates 2>/dev/null | wc -l)"
+tail -f /tmp/spinner &
+spin=$!
+
+aur=$(paru -Qum --devel 2>/dev/null | wc -l)
+pacman=$(checkupdates 2>/dev/null | wc -l)
 updates=$(( aur + pacman ))
+
+kill $spin
 kill $loop
-echo
-(( updates > 0 )) && echo "📦 $updates"
+
+# only show if updates > 0
+{ [ $updates -gt 0 ] && echo "📦 $updates"; } || echo
+rm /tmp/spinner
 

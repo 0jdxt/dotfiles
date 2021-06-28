@@ -1,19 +1,24 @@
 #!/bin/sh
+#              _       _                           _
+#  _ __   ___ | |_   _| |__   __ _ _ __      _ __ (_) ___ ___  _ __ ___
+# | '_ \ / _ \| | | | | '_ \ / _` | '__|____| '_ \| |/ __/ _ \| '_ ` _ \
+# | |_) | (_) | | |_| | |_) | (_| | | |_____| |_) | | (_| (_) | | | | | |
+# | .__/ \___/|_|\__, |_.__/ \__,_|_|       | .__/|_|\___\___/|_| |_| |_|
+# |_|            |___/                      |_|
+##
+# toggle picom
+
+start_picom() { picom -bc --experimental-backends; }
+is_running()  { pgrep -x picom >/dev/null; }
+status() { { is_running && echo " "; } || echo " "; }
 
 case "$1" in
-    --toggle)
-        if pgrep -x picom >/dev/null; then
-            pkill -x picom
-        else
-            picom -bc --experimental-backends
-        fi;;
+    --toggle) SIGNAL=int;;
+    --restart) SIGNAL=usr1;;
+    *) status && exit;;
 esac
 
+{ is_running && pkill -x -$SIGNAL picom; } || start_picom
 sleep 0.05 # give time for picom to be killed/started
-if pgrep -x picom >/dev/null; then
-    echo " "
-else
-    echo " "
-fi
-
+status
 

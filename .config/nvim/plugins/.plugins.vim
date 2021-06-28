@@ -7,6 +7,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'ryanoasis/vim-devicons'
     Plug 'mhinz/vim-startify'
     Plug 'alvan/vim-closetag'
+    Plug 'liuchengxu/vim-which-key'
     " UI enhancements
     Plug 'itchyny/lightline.vim'
     Plug 'machakann/vim-highlightedyank'
@@ -21,13 +22,13 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'godlygeek/tabular'
     Plug 'plasticboy/vim-markdown'
     Plug 'ron-rs/ron.vim'
-    Plug 'mboughaba/i3config.vim'
     Plug 'leafgarland/typescript-vim'
     Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
     Plug 'sheerun/vim-polyglot'
     Plug 'rhysd/vim-clang-format'
     Plug 'jackguo380/vim-lsp-cxx-highlight'
     Plug 'https://tildegit.org/sloum/gemini-vim-syntax'
+    Plug 'udalov/kotlin-vim'
     " useful things
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-commentary'
@@ -37,10 +38,9 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'mattn/emmet-vim'
     Plug 'kovetskiy/sxhkd-vim'
     Plug 'tpope/vim-fugitive'
-    Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
+    Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': { -> fzf#install() }}
     Plug 'fszymanski/fzf-gitignore', {'do': ':UpdateRemotePlugins'}
     Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
-    Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
 call plug#end()
 
 " Automatically install missing plugins on startup

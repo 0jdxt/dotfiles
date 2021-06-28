@@ -1,15 +1,17 @@
 #!/usr/bin/zsh
 
 ## basic zsh options
-autoload -U colors && colors
-setopt autocd
 zle && { zle reset-prompt; zle -R }
+autoload -U colors && colors
+setopt autocd autopushd pushdignoredups
 
+# compile stuff
 zc() {
-    ([ ! -f "$1.zwc" ] || [ $1 -nt "$1.zwc" ]) && zcompile $1
+    { [ ! -f $ZDOTDIR/$1.zwc ] || [ $ZDOTDIR/$1 -nt $ZDOTDIR/$1.zwc ] } && zcompile $ZDOTDIR/$1
 }
-zc $ZDOTDIR/.zshrc
-zc $ZDOTDIR/funcs.zsh
+zc .zshrc
+zc zr.zsh
+zc funcs.zsh
 
 # history
 HISTSIZE=10000
@@ -24,13 +26,13 @@ setopt hist_verify
 setopt share_history
 
 ## autocomplete
-fpath=(~/.config/zsh/comp $fpath)
+fpath+=($ZDOTDIR/comp)
 zmodload zsh/complist
 _comp_options+=(globdots)
 zstyle ':completion:*' menu select=2
 zstyle ':completion:*' rehash true
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-unset complete_aliases
+unsetopt complete_aliases
 
 ## environment stuff
 source ~/.config/aliasrc
@@ -46,9 +48,6 @@ else
 fi
 # NB: load after compinit for completions
 source ~/.config/zsh/funcs.zsh
-# load aws completions - only thing that needs bashcompinit
-autoload bashcompinit && bashcompinit
-complete -C '/usr/bin/aws_completer' aws
 
 ## vi mode, modified from LukeSmithxyz
 bindkey -v
@@ -78,13 +77,17 @@ zle -N clear-scrollback
 bindkey '^L' clear-scrollback
 
 ## plugins
-source <(zr \
+if [[ ! -f $ZDOTDIR/zr.zsh ]] || [[ $ZDOTDIR/.zshrc -nt $ZDOTDIR/zr.zsh ]]; then
+     zr \
         agkozak/polyglot \
         hlissner/zsh-autopair \
         zpm-zsh/colorize \
         twang817/zsh-clipboard \
         rapgenic/zsh-git-complete-urls \
-        zdharma/fast-syntax-highlighting)
+        zdharma/fast-syntax-highlighting \
+    > $ZDOTDIR/zr.zsh
+fi
+source $ZDOTDIR/zr.zsh
 
 ## prompt
 # NB: must go after plugins
@@ -110,3 +113,26 @@ function zle-line-init {
 }
 zle -N zle-line-init
 
+## change title
+case "$TERM" in
+    xterm*|rxvt*)
+        function xtitle () {
+            builtin print -n -- "\e]0;$@\a"
+        }
+        ;;
+    screen)
+        function xtitle () {
+            builtin print -n -- "\ek$@\e\\"
+        }
+        ;;
+    *)
+        function xtitle () {
+        }
+esac
+
+function precmd () {
+    xtitle "$(print -P $HOST: zsh '(%~)')"
+}
+ function preexec () {
+    xtitle "zsh: $1"
+}

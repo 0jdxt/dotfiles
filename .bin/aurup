@@ -1,0 +1,20 @@
+#!/bin/bash
+#
+#   __ _ _   _ _ __ _   _ _ __
+#  / _` | | | | '__| | | | '_ \
+# | (_| | |_| | |  | |_| | |_) |
+#  \__,_|\__,_|_|   \__,_| .__/
+#                        |_|
+##
+
+DIR=/tmp/aurup
+
+trap 'rm -rf $DIR && exit' SIGINT
+trap 'rm -rf $DIR && exit' EXIT
+
+cd $DIR
+git clone aur@aur.archlinux.org:rust-analyzer-nightly-bin
+cd $DIR/rust-analyzer-nightly-bin
+
+
+

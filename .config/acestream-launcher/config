@@ -1,0 +1,4 @@
+[DEFAULT]
+player = mpv
+verbose = true
+timeout = 60

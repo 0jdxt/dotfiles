@@ -1,0 +1,22 @@
+#!/bin/sh
+#
+#  ___  ___ _ __ ___  ___ _ __
+# / __|/ __| '__/ _ \/ _ \ '_ \
+# \__ \ (__| | |  __/  __/ | | |
+# |___/\___|_|  \___|\___|_| |_|
+#
+##
+# helper for scrot
+
+case $1 in
+    select) cmd="scrot -s";;
+    *) cmd="scrot";;
+esac
+
+$cmd -e "$(cat <<'EOF'
+    play ~/.bin/shutter.mp3 &
+    mv -n $f ~/pix/screens/
+    toastify send --icon camera 'scrot' 'saved to ~/pix/screens/'
+    sxiv ~/pix/screens/$f
+EOF
+)"

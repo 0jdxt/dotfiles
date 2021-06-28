@@ -1,0 +1,18 @@
+#!/bin/sh
+#           _ _           _
+#  ___  ___(_) |__  _   _| |__
+# / __|/ __| | '_ \| | | | '_ \
+# \__ \ (__| | | | | |_| | |_) |
+# |___/\___|_|_| |_|\__,_|_.__/
+#
+##
+# fetches paper from sci-hub
+##
+
+domain="sci-hub.do"
+[ -z "$1" ] && echo "Usage: $(basename "$0") <url>" && exit 1
+pdf=$(curl -sSL "https://$domain/$1" | grep -oE "https?.+\.pdf" | head -n1)
+[ -z "$pdf" ] && echo "Article not found!" && exit 1
+toastify send --icon report "scihub" "Found ${pdf##*/}"
+devour.sh zathura "$pdf"
+

@@ -1,5 +1,5 @@
 set encoding=utf-8
-set path=.,**                            " enable globbing for find
+set path+=**                            " enable globbing for find
 set pumheight=10                        " coc completion popup height
 set iskeyword+=-                      	" treat dash separated words as a word text object"
 set formatoptions-=cro                  " Stop newline continution of comments
@@ -7,7 +7,7 @@ set t_Co=256                            " deal with colors
 set termguicolors                       " \
 syntax enable                           " enable syntax highlighting
 set hidden                              " multiple buffers
-set nowrap                              " dipslay long lines
+set wrap                              " dipslay long lines
 set linebreak                           " break on word when wrapping
 set showbreak=>\ \ \                    " show ">  " on line breaks
 set title                               " set window title

@@ -5,7 +5,7 @@
 bspc config border_width 0
 bspc config window_gap 10
 bspc config top_padding 0
-bspc config bottom_padding 33
+bspc config bottom_padding 30
 bspc config left_padding 0
 bspc config right_padding 0
 
@@ -29,6 +29,7 @@ bspc rule -a Zathura state=tiled
 bspc rule -a jetbrains-toolbox state=floating
 bspc rule -a ckb-next state=floating
 bspc rule -a "ProtonMail Bridge" state=floating
+bspc rule -a Protonvpn state=floating
 bspc rule -a Lxappearance state=floating
 bspc rule -a Discover-overlay state=floating
 bspc rule -a "Manjaro Settings Manager" state=floating
@@ -40,63 +41,66 @@ bspc rule -a BAPERS state=floating
 bspc rule -a Xfce4-power-manager-settings state=floating
 bspc rule -a Element-Nightly state=floating
 bspc rule -a Seahorse state=floating
+bspc rule -a Nitrogen state=floating
+bspc rule -a Arandr state=floating
 
-bspc rule -a lightcord desktop=^3
+bspc rule -a discord desktop=^3
 bspc rule -a mpv desktop=^7
-bspc rule -a Brave-browser desktop=^6
-bspc rule -a "JetBrains Toolbox" manage=on monitor=^1
+bspc rule -a vlc desktop=^7
 
 ###
 # MONITORS
-monitors="$(xrandr -q | grep connected | cut -f1 -d" ")"
-n_monitors="$(wc -l <<< "$monitors")"
-main=$(grep eDP <<< "$monitors")
+mapfile -s 1 -t monitors < <(xrandr --listactivemonitors | awk '{print $4}')
+if (( ${#monitors[@]} == 2 )); then
+    main="${monitors[0]}"
+    hdmi="${monitors[1]}"
 
-if (( n_monitors == 2 )); then
-    hdmi=$(grep HDMI <<< "$monitors")
     xrandr --output "$hdmi" --auto --above "$main"
     bspc monitor "$main" -d I II III IV V
     bspc monitor "$hdmi" -d VI VII VIII IX X
     bspc monitor "$main" -s "$hdmi"
 else
-    xrandr --auto
-    bspc monitor -d I II III IV V VI VII VIII IX X
+  bspc monitor -d I II III IV V VI VII VIII IX X
 fi
 
 ###
-# init programs
-function run { pgrep -x "${1::15}" ||eval "$@" & }
-# set cursor straight away
-run xsetroot -cursor_name left_ptr
+# INIT programs
+function run { pgrep -f "$1" || eval "$@" & }
 # first startup programs
+run ckb-next -b
+run xsetroot -cursor_name left_ptr
 run dmenu_path
 run protonmail-bridge --no-window
-run ckb-next -b
+
 # visual
 run nitrogen --restore
 run picom -bc --experimental-backends
 /home/jay/.config/polybar/launch.sh
+
 # daemons, settings etc
 run optimus-manager-qt
 run blueman-tray
 run light-locker
 run sxhkd
-# run offlineimap
+run clipmenud
+run playerctld daemon
 run lxpolkit
 run xbanish
 run bluetooth off
-run wifi off
 run numlockx on
 run playerctld daemon
-run spotifyd
 run cleanfullscreen
+run protonvpn-applet
+
 # non essential startup stuff
-run lightcord --start-minimized
+run discord --start-minimized
 run discord-rpc-extension
 run element-desktop-nightly --hidden
 run run_keybase -a
+run nextcloud
 
-# focus 2nd desktop and open terminal
-bspc desktop -f II
-run tabbed -kc -r 2 alacritty --embed WID
+# if eth connected, turn off wifi
+[ "$(cat /sys/class/net/enp9s0/operstate)" = "up" ] && sudo wifi off
+# open up terminal
+xdotool key "super+Return"
 

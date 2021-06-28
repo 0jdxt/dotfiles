@@ -1,0 +1,31 @@
+# classic: false
+blocks:
+  - permission
+  - user
+    # - group
+  - size
+  - date
+  - name
+# color:
+#   when: auto
+date: relative
+# dereference: false
+icons:
+#   when: auto
+#   theme: fancy
+   separator: ' '
+# ignore-globs:
+#   - .git
+# indicators: false
+# layout: grid
+# recursion:
+#   enabled: false
+#   depth: 3
+size: short
+sorting:
+  dir-grouping: first
+#  column: name
+#  reverse: false
+# no-symlink: false
+# total-size: false
+# symlink-arrow: ⇒

@@ -2,73 +2,75 @@
 # wm independent hotkeys
 #
 
-# terminal emulator
-super + Return
-	tabbed -kc -r 2 alacritty --embed WID
+# alacritty / xterm (tabbed)
+super + {_, shift +} Return
+	tabbed -kc{r 2 alacritty --embed WID, xterm -into}
 
-# program launcher
+# dmenu_run
 super + space
-	dmenu_run_i -z 500 -g 2 -i -p "run: "
+	dmenu_run_i -z 1000 -l 1 -g 6 -i -p "run: "
 
 # browser
 super + b
 	brave
 
-# emoji menu
-super + u
-	dmenuunicode
+# emoji menu / mount menu
+super + {_, shift + }u
+	dmenu{unicode,mount}
 
-# tmenu
-super + t
-	tmenu || torr
+# tmenu / torr
+super + {_, shift + }t
+	{tmenu ||, } torr
 
-# torr
-super + shift + t
-	torr
-
-# rss
-super + r
-	alacritty -e newsboat
-
-# mail
+# arandr
 super + m
-	alacritty -e neomutt
+	arandr
+
+# open: rss / mail / nnn / spt
+super + o ; {r,m,n,s}
+	alacritty -e {newsboat,neomutt,nnn,spt}
+# open: pcmanfm
+super + o ; p
+	pcmanfm
+
+# media play / shift player
+super + {_,shift +} p
+	mediactl {t,s}
+# media seek ±10
+super + bracket{left,right}
+	mediactl {b,f}
+# media prev / next
+super + shift + bracket{left,right}
+	mediactl {p,n}
 
 # reload bspwm
 super + shift + r
 	bspc wm --restart
 
-# sxhkd reload
+# reload sxhkd
 super + Escape
-	pkill -INT sxhkd && sxhkd &; notify-send "sxhkd reloaded"
+	pkill -usr1 sxhkd && notify-send -t 1000 "sxhkd" "reloaded config"
 
-# volume keys
-XF86AudioRaiseVolume
-	volumectl up
-XF86AudioLowerVolume
-	volumectl down
+# volume up / down
+XF86Audio{Raise,Lower}Volume
+	volumectl {up,down}
 
-# brightness keys
-XF86MonBrightnessUp
-	xbacklight -inc 10 -steps 10
-XF86MonBrightnessDown
-	xbacklight -dec 10 -steps 10
-shift + XF86MonBrightnessUp
-	xbacklight -inc 2 -steps 10
-shift + XF86MonBrightnessDown
-	xbacklight -dec 2 -steps 10
+# brightness ±10
+XF86MonBrightness{Up,Down}
+	xbacklight -{inc,dec} 10 -steps 10
+# brightness ±1
+shift + XF86MonBrightness{Up,Down}
+	xbacklight -{inc,dec} 1 -steps 10
 
-# screenshots
-super + s
-	screen
-@super + shift + s
-	screen select
+# screenshot full / select
+@super + {_,shift + }s
+	screen {_,select}
 
 #
 # bspwm hotkeys
 #
 
-# quit/restart bspwm
+# bspwm quit/restart
 super + shift + {e,r}
 	bspc {quit,wm -r}
 
@@ -76,35 +78,24 @@ super + shift + {e,r}
 super + {_,shift + }q
 	bspc node -{c,k}
 
+# close screen
+super + shift + c
+	sleep 0.5; xset dpms force standby
+
 # lockscreen
 super + shift + x
 	light-locker-command -l
-
-# send the newest marked node to the newest preselected node
-super + y
-	bspc node newest.marked.local -n newest.!automatic.local
-
-# swap the current node and the biggest node
-super + g
-	bspc node -s biggest
 
 #
 # state/flags
 #
 
-# set the window state
-# super + {t,shift + t,s,f}
-# 	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
 super + f
 	bspc node focused -t \~fullscreen
 
 # floating toggle
 super + shift + space
 	bspc node focused -t \~floating
-
-# set the node flags
-super + ctrl + {m,x,y,z}
-	bspc node -g {marked,locked,sticky,private}
 
 #
 # focus/swap
@@ -116,31 +107,31 @@ super + {_,shift + }{h,j,k,l}
 super + {_,shift + }{Left,Down,Up,Right}
 	bspc node -{f,s} {west,south,north,east}
 
-# focus the node for the given path jump
-super + {p,b,comma,period}
-	bspc node -f @{parent,brother,first,second}
-
 # focus the next/previous node in the current desktop
 super + {_,shift + }c
 	bspc node -f {next,prev}.local
-
-# focus the next/previous desktop in the current monitor
-super + bracket{left,right}
-	bspc desktop -f {prev,next}.local
 
 # focus the last node/desktop
 super + {grave,Tab}
 	bspc {node,desktop} -f last
 
 # focus the older or newer node in the focus history
-super + {o,i}
-	bspc wm -h off; \
-	bspc node {older,newer} -f; \
-	bspc wm -h on
+# super + {o,i}
+# 	bspc wm -h off; \
+# 	bspc node {older,newer} -f; \
+# 	bspc wm -h on
+
+# swap the current node and the biggest node
+super + g
+	bspc node -s biggest
 
 # focus or send to the given desktop
 super + {_,shift + }{1-9,0}
-	bspc {desktop -f,node -d} '^{1-9,10}'
+	bspc {desktop -f,node -d} '^{1-9,10}' --follow
+
+# Send to monitor
+super + shift + equal
+    bspc node -m last --follow
 
 #
 # preselect
@@ -156,10 +147,6 @@ super + ctrl + {1-9}
 super + ctrl + space
 	bspc node -p cancel
 
-# cancel the preselection for the focused desktop
-super + ctrl + shift + space
-	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
-
 #
 # move/resize
 #
@@ -172,3 +159,6 @@ super + alt + {h,j,k,l}
 super + alt + shift + {h,j,k,l}
 	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
+# rotate tree
+super + shift + {d,a}
+    bspc node @/ -C {forward,backward}

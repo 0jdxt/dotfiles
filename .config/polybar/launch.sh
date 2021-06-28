@@ -30,7 +30,11 @@ init_mon() {
     ((MON_COUNT++))
 }
 
-# init in order that xrandr lists them
-init_mon eDP main
-init_mon HDMI top_screen
+if [[ ${monitors[0]} =~ ^eDP ]]; then
+    # init in order that xrandr lists them
+    init_mon eDP main
+    init_mon HDMI top_screen
+else
+    init_mon HDMI main
+fi
 

@@ -1,0 +1,13 @@
+#!/bin/bash
+#  _
+# (_) ___ ___  _ __  ___
+# | |/ __/ _ \| '_ \/ __|
+# | | (_| (_) | | | \__ \
+# |_|\___\___/|_| |_|___/
+#
+##
+# - show all papirus icon names in dmenu
+##
+
+locate -b --regex ".*\.(svg|png)" | grep -i papirus | rev | cut -d/ -f1 | rev | sort | uniq | fzf
+

@@ -13,6 +13,7 @@ let g:startify_bookmarks = [
         \ {'x': '~/.config/X11/Xresources' },
         \ {'z': '~/.config/zsh/.zshrc' }
         \ ]
+let g:startify_custom_header = 'startify#center(startify#fortune#boxed())'
 
 function! StartifyEntryFormat()
     return 'WebDevIconsGetFileTypeSymbol(absolute_path)." ".entry_path'

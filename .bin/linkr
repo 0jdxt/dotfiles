@@ -1,0 +1,41 @@
+#!/bin/sh
+#  _ _       _
+# | (_)_ __ | | ___ __
+# | | | '_ \| |/ / '__|
+# | | | | | |   <| |
+# |_|_|_| |_|_|\_\_|
+#
+##
+# tries to open web resources in non-browser apps (e.g. pdf,mpeg,etc.)
+
+for u in "$@"; do
+    mime=$(mimetype "$u" 2>/dev/null| cut -d' ' -f2- | xargs)
+
+    # no mimetype detected -> open in browser
+    if [ -z "$mime" ]; then
+        case "$u" in
+            "http"*"://"*) $BROWSER "$u";;
+            *) linkr "${u%\?*}" || toastify send --id 9999 linkr "no mimetype detected!<br>$u";;
+        esac
+        continue
+    fi
+
+    app=$(handlr get "$mime")
+
+    case "$mime" in
+        "text/html") ;;
+        "application/x-compressed-"* | "text/"* | "image/"*)
+            dl_dir="/tmp/linkr"
+            mkdir -p "$dl_dir"
+            name="${u##*/}"
+            path="$dl_dir/$name"
+
+            curl -sSLo "$path" "$u" || { toastify send --id 9999 linkr "download error!" && exit 1; }
+            toastify send --id 9999 linkr "⬇ downloaded $name to $dl_dir"
+            u="$path" # set url to local path
+    esac
+
+    toastify send --id 9999 linkr "🗃 $mime<br>👉 $app"
+    gtk-launch "$app" "$u"
+done
+

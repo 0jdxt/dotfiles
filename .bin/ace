@@ -1,0 +1,24 @@
+#!/bin/sh
+#
+#   __ _  ___ ___
+#  / _` |/ __/ _ \
+# | (_| | (_|  __/
+#  \__,_|\___\___|
+#
+##
+# uses acestreamsearch.net to find acestreams
+
+
+term=${1:-$(printf "" | dmenu -z 500 -p "search acestreams:")}
+[ -z "$term" ] && exit
+
+show_results() {
+    curl -sGLd "q=$term" "https://acestreamsearch.net" | grep -oE "acestream://[0-9a-f]{40}[^<]+" | sed 's/">/ /g' | \
+    while read -r link desc; do
+        printf "%-50s $link\n" "$desc"
+    done
+}
+
+selected=$(show_results | dmenu -z 500 -p "select a stream:" | rev | cut -d' ' -f1 | rev)
+[ -n "$selected" ] && xdg-open "$selected"
+

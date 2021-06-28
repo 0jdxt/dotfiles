@@ -1,0 +1,29 @@
+#!/bin/bash
+#              _       _
+#  _ __   ___ | |_   _| |__   __ _ _ __      _ ____   __
+# | '_ \ / _ \| | | | | '_ \ / _` | '__|____| '_ \ \ / /
+# | |_) | (_) | | |_| | |_) | (_| | | |_____| |_) \ V /
+# | .__/ \___/|_|\__, |_.__/ \__,_|_|       | .__/ \_/
+# |_|            |___/                      |_|
+##
+
+server=$(grep connected_server ~/.pvpn-cli/pvpn-cli.cfg | cut -d' ' -f3)
+[ -z "$server" ] && exit 1
+declare -A flags
+flags[CA]=🇨🇦
+flags[CH]=🇨🇭
+flags[DE]=🇩🇪
+flags[FR]=󾓧
+flags[HK]=🇭🇰
+flags[HU]=🇭🇺
+flags[IS]=🇮🇸
+flags[NL]=􁚑
+flags[SE]=🇸🇪
+flags[SG]=🇸🇬
+flags[UK]=󾓪
+flags[US]=󾓦
+flags[CH_UK]=👻
+
+load=$(jq -r ".LogicalServers[] | select(.Name==\"$server\").Load" ~/.pvpn-cli/serverinfo.json)
+echo "${flags[$(echo "$server" | cut -d'#' -f1)]} $load%"
+

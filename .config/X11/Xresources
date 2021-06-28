@@ -55,15 +55,21 @@ Xft.hintstyle: hintfull
 Xft.lcdfilter: lcdfilter
 Xcursor.theme: oreo_nord_snow_1_cursors
 
-XTerm*renderFont: true
-XTerm*faceName: xft: Blex Mono Nerd Font:antialias=true
-XTerm*faceSize: 10
-XTerm*utf8: 2
-XTerm*locale: true
-XTerm.vt100.saveLines: 4096
-XTerm.vt100.scrollBar: false
-XTerm*loginShell: true
-XTerm*termName: xterm-256color
+*XTerm*renderFont: true
+*XTerm*faceName: xft: VictorMono Nerd Font:antialias=true
+*XTerm*faceSize: 10
+*XTerm*utf8: 2
+*XTerm*locale: true
+*XTerm.vt100.saveLines: 4096
+*XTerm.vt100.scrollBar: false
+*XTerm*loginShell: true
 
-UXTerm*faceName: xft: Blex Mono Nerd Font:antialias=true
+UXTerm*renderFont: true
+UXTerm*faceName: xft: VictorMono Nerd Font:antialias=true
 UXTerm*faceSize: 10
+UXTerm*utf8: 2
+UXTerm*locale: true
+UXTerm.vt100.saveLines: 4096
+UXTerm.vt100.scrollBar: false
+UXTerm*loginShell: true
+

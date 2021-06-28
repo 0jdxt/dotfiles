@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #  _
 # | |_ ___  _ __ _ __
 # | __/ _ \| '__| '__|
@@ -11,9 +11,9 @@
 
 # default to dmenu, if in terminal use fzf
 MENU=dmenu; tty -s && MENU=fzf
-LINES=10
+LINES=${LINES:-10}
 
-function menu {
+menu() {
     [ -z "$1" ] && echo "Usage: menu PROMPT" && exit 1
     if [ $MENU = fzf ]; then
         fzf --print-query --height $LINES --prompt "$1 "
@@ -22,35 +22,37 @@ function menu {
     fi
 }
 
-function mem_icon {
-    MB=$((1024**2))
+mem_icon() {
+    MB=$((1024*1024))
     GB=$((1024*MB))
-    (( size >  10*GB - 1)) && echo "⣿" && exit
-    (( size >   5*GB - 1)) && echo "⣷" && exit
-    (( size >   1*GB - 1)) && echo "⣧" && exit
-    (( size > 500*MB - 1)) && echo "⣇" && exit
-    (( size > 100*MB - 1)) && echo "⡇" && exit
-    (( size >  50*MB - 1)) && echo "⡆" && exit
-    (( size >  10*MB - 1)) && echo "⡄" && exit
+    [ "$size" -gt $(( 10*GB - 1)) ] && echo "⣿" && return
+    [ "$size" -gt $((  5*GB - 1)) ] && echo "⣷" && return
+    [ "$size" -gt $((  1*GB - 1)) ] && echo "⣧" && return
+    [ "$size" -gt $((500*MB - 1)) ] && echo "⣇" && return
+    [ "$size" -gt $((100*MB - 1)) ] && echo "⡇" && return
+    [ "$size" -gt $(( 50*MB - 1)) ] && echo "⡆" && return
+    [ "$size" -gt $(( 10*MB - 1)) ] && echo "⡄" && return
     echo "⡀"
 }
 
-function show_torrents {
+show_torrents() {
     # get torrents, sorted by seeds
     data="$(curl -s --data-urlencode "q=$term" "https://apibay.org/q.php" --compressed | sed 's/`//g')"
     [ -z "$data" ] && toastify send torr "no curl data!" && return 1
 
+     echo "$data" | \
+     jq -r 'sort_by(.seeders | tonumber) | reverse | map([.size,.seeders,.info_hash,.name] | join(" ")) | join("\n")' | \
     while read -r size seeds mhash name; do
         printf "$(mem_icon "$size") %4s  🌱 $seeds  🧲 %-100s %s\n" "$(numfmt --to iec "$size")" "$name" "$mhash"
-    done <<< "$(echo "$data" | jq -r 'sort_by(.seeders | tonumber) | reverse | map([.size,.seeders,.info_hash,.name] | join(" ")) | join("\n")')"
+    done
 }
 
-function urlenc {
+urlenc() {
     python -Ic "import urllib.parse as _; print(_.quote(input()))"
 }
 
 while true; do
-    term=${1:-$(echo -n | menu "search for torrents:")}
+    term=${1:-$(printf "" | menu "search for torrents:")}
     [ -n "$1" ] && shift
     [ -z "$term" ] && exit
 

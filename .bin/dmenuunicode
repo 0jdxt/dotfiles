@@ -1,10 +1,8 @@
-#!/usr/bin/bash
-# shellcheck disable=SC2059
-
+#!/bin/sh
 # The famous "get a menu of emojis to copy" script.
 
 # get chosen emoji or exit
-chosen=$(cut -d';' -f1 ~/.bin/emoji | dmenu -z 600 -i -g 3 -l 20 -p "Select a character:" | sed 's/ .*//')
+chosen=$(cut -d';' -f1 ~/uoou-bin/emoji_list | dmenu -z 1000 -i -g 3 -l 20 -p "Select a character:" | sed 's/ .*//')
 [ -z "$chosen" ] && exit
 
 if [ -n "$1" ]; then
@@ -12,7 +10,7 @@ if [ -n "$1" ]; then
     xdotool type "$chosen"
 else
     # without, copy
-    printf "$chosen" | xclip -selection clipboard
+    echo "$chosen" | xclip -selection clipboard
     toastify send --id 98765 --icon gtk-copy "$chosen"
 fi
 

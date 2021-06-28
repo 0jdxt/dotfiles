@@ -2,7 +2,7 @@
     frame_width = 1
     frame_color = "#2E3440"
 
-    font = Blex Mono Nerd Font 11
+    font = VictorMono Nerd Font 10
 
     # Allow a small subset of html markup:
     #   <b>bold</b>
@@ -46,11 +46,11 @@
     # Show age of message if message is older than show_age_threshold
     # seconds.
     # Set to -1 to disable.
-    show_age_threshold = 60
+    show_age_threshold = 30
 
     # Split notifications into multiple lines if they don't fit into
     # geometry.
-    word_wrap = no
+    word_wrap = yes
 
     # Ignore newlines '\n' in notifications.
     ignore_newline = no
@@ -68,7 +68,7 @@
     # the top and down respectevly.
     # The width can be negative.  In this case the actual width is the
     # screen width minus the width defined in within the geometry option.
-    geometry = "0x4-25+25"
+    geometry = "500x4-25+25"
 
     # Shrink window if it's smaller than the width.  Will be ignored if
     # width is 0.
@@ -86,7 +86,7 @@
     idle_threshold = 120
 
     # Which monitor should the notifications be displayed on.
-    monitor = 0
+    # monitor = 0
 
     # Display notification on focused monitor.  Possible modes are:
     #   mouse: follow mouse pointer
@@ -99,7 +99,7 @@
     #
     # If this option is set to mouse or keyboard, the monitor option
     # will be ignored.
-    follow = none
+    follow = keyboard
 
     # Should a notification popped up from history be sticky or timeout
     # as if it would normally do.

@@ -23,7 +23,8 @@ function notif {
 function play {
 	[[ -z "$magnet" ]] && echo -e "\n\tNo torrent found" && exit
 	if [[ "$POP_ECHO" == "y" ]];then
-		tee "$magnet" | xsel --clipboard
+        echo "$magnet"
+        echo "$magnet" | xsel --clipboard
 	else
         # get file list first
         notif "searching for files..."

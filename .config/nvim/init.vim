@@ -44,12 +44,25 @@ function! s:SudoEditInit() abort
     endfor
   endif
 endfunction
+
 if $SUDO_COMMAND =~# '^sudoedit '
   call s:SudoEditInit()
 endif
 
 " fix sizing bug in alacritty for 'alacritty -e nvim %F'
 autocmd VimEnter * :silent exec "!kill -s SIGWINCH $PPID"
-" set width for emails
 au BufRead /tmp/mutt-* set tw=72
+
+" spelling
+set dictionary+=/usr/share/hunspell
+set complete+=k
+set spelllang=en,cjk
+set wrap
+nnoremap <silent> <F10> :set spell!<cr>
+inoremap <silent> <F10> <C-O>:set spell!<cr>
+
+autocmd VimEnter *.md :set spell
+
+sy match ipaddr "\\\d\d\d"
+hi def link ipaddr SpecialChar
 

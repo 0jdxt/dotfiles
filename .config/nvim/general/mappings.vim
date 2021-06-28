@@ -1,4 +1,5 @@
 let mapleader=" "
+nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 " Basics
 nnoremap ; :
 nnoremap j gj

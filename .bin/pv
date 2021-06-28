@@ -1,0 +1,27 @@
+#!/bin/bash
+
+
+declare -A flags
+flags[CA]=🇨🇦
+flags[CH]=🇨🇭
+flags[DE]=🇩🇪
+flags[FR]=🇫🇷
+flags[HK]=🇭🇰
+flags[HU]=🇭🇺
+flags[IS]=🇮🇸
+flags[NL]=🇳🇱
+flags[SE]=🇸🇪
+flags[SG]=🇸🇬
+flags[UK]=🇬🇧
+flags[US]=🇺🇸
+
+function get_servers {
+while read -r name load city; do
+    flag="${flags[$(echo "$name" | cut -d'#' -f1)]}"
+    printf "$flag %-8s %-2d%% $city\n" "$name" "$load"
+done<<<"$(jq -r '[.LogicalServers[] | select(.Features==4)] | sort_by(.Score)[] | [.Name, .Load, .City] | join(" ")' ~/.pvpn-cli/serverinfo.json )"
+}
+
+selected=$(get_servers | dmenu -p "select a server:" -z 500 -i)
+echo "$selected"
+

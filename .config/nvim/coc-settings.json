@@ -1,8 +1,9 @@
 {
     "eslint.autoFixOnSave": true,
-    "rust-analyzer.serverPath": "/usr/bin/rust-analyzer",
-    "rust-analyzer.diagnostics.disabled": ["unresolved-import"],
+    "rust-analyzer.server.path": "/usr/bin/rust-analyzer",
+    "rust-analyzer.diagnostics.disabled": [],
     "rust-analyzer.updates.channel": "nightly",
+    "rust-analyzer.cargo.allFeatures": true,
     "yaml.format.enable": true,
     "languageserver": {
         "ccls": {

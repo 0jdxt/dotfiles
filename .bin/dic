@@ -1,0 +1,30 @@
+#!/bin/bash
+#      _ _
+#   __| (_) ___
+#  / _` | |/ __|
+# | (_| | | (__
+#  \__,_|_|\___|
+#
+##
+# Powered by Oxford Languages
+
+(( $# == 0 )) && echo "Usage: dic [en|fr] <term>" && exit 1
+(( $# == 1 )) && lang="en-gb" && term="$1"
+(( $# == 2 )) && lang="$1" && term="$2"
+# echo "$lang $term"
+
+base_url="https://od-api.oxforddictionaries.com/api/v2"
+app_id="78d10ae4"
+app_key="cb7ba3423d5242e5427a4b4d80c3bd19"
+fields="definitions,etymologies,examples,pronunciations"
+
+function request {
+    curl -sSL "$@" -H "app_id: $app_id" -H "app_key: $app_key" "$base_url/entries/$lang/$term?fields=$fields" || echo "error" && exit 1
+}
+
+
+parse_sense="{ def: .definitions|join(\"\n\n\"), ex: .examples[].text }"
+
+request -X GET | jq -r ".results[0].lexicalEntries[0].entries[0] | [.etymologies[0], [.senses[] | $parse_sense], .pronunciations[].phoneticSpelling]"
+
+

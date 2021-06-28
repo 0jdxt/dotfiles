@@ -1,3 +1,4 @@
+-p
 -f
 --pager="less -RF"
 --italic-text=always

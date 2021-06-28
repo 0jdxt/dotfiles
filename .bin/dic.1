@@ -1,0 +1,34 @@
+#!/bin/sh
+
+server="dict.org"
+
+magenta="[35;1m"
+cyan="[36;1m"
+green="[32;1m"
+yellow="[33;1m"
+red="[31m"
+bold="[1m"
+italic="[3m"
+underline="[4m"
+nc="[m"
+esc="$(printf "\033")"
+
+dicksearch () {
+    aspell dump master | sort | fzf -q "$1" | xargs dic.1
+}
+
+if [ -z "$1" ] || [ -n "$2" ];then
+    printf "\n\t usage: %s [some single word or s to search]" "$(basename "$0")"
+    exit
+elif [ "$1" = "s" ];then
+    dicksearch
+    exit
+fi
+
+defs=$(curl "dict://$server/d:$1" 2>/dev/null)
+
+if printf "$defs" | grep "^552" 1>/dev/null 2>&1;then
+    dicksearch "$1"
+else
+    printf "$defs" | sed -n -e '/^151.*/,/^\./p' | sed -e 's/^151.*//g' -e '/^\./D' -e '/^\s*1\./i\\' -e "s/{\([^{]*\)}/${esc}$italic\1${esc}$nc/g" -e "s/^\($1\)\(\W\)/${esc}$bold${esc}$red\1${esc}$nc\2/gI" -e "s/^\(\s*\)\([0-9]\.\)/\1${esc}$cyan\2${esc}$nc/g" -e 's/--/—/g' -e 's/—\(\w\)/— \1/g'
+fi
